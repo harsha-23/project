@@ -1,0 +1,324 @@
+
+
+
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
+type="text/css" />
+<link href="/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+<link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+<link href="/plugins/bootstrap-sweetalert/sweetalert.css" rel="stylesheet" type="text/css" />
+
+<link href="/plugins/bootstrap-daterangepicker/daterangepicker.min.css" rel="stylesheet" type="text/css" />
+<link href="/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
+<!-- END GLOBAL MANDATORY STYLES -->
+<!-- BEGIN THEME GLOBAL STYLES -->
+<link href="/css/components.css" rel="stylesheet" id="style_components" />
+<link href="/css/plugins.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="/css/main-twilio.css">
+<!-- END THEME GLOBAL STYLES -->
+<!-- BEGIN THEME LAYOUT STYLES -->
+<link href="/css/layout3/layout.min.css" rel="stylesheet" type="text/css" />
+<link href="/css/layout3/default.min.css" rel="stylesheet" id="style_color" />
+<link href="/css/custom.min.css" rel="stylesheet" type="text/css" />
+<link href="/css/style.css?v=1.4" rel="stylesheet" type="text/css" />
+<link href="/plugins/metisMenu/dist/metisMenu.min.css" rel="stylesheet" type="text/css" />
+<link href="/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css" />
+<link href="/plugins/bootstrap-toggle/bootstrap-toggle.css" rel="stylesheet">
+<link href="/plugins/bootstrap-multiselect/css/bootstrap-multiselect.min.css" rel="stylesheet">
+<link href="/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet" type="text/css" />
+<link href="/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css" rel="stylesheet" type="text/css" />
+<link href="/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" type="text/css" />
+<link href="/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" type="text/css" />
+<link href="/css/intlTelInput.css" rel="stylesheet" type="text/css" />
+<link href="/css/ui-intlTelInput.css" rel="stylesheet" type="text/css" />
+
+<link rel="stylesheet" type="text/css" href="/css/tooltip/tooltipster.bundle.min.css" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,300">
+<link rel="stylesheet" href="/css/textAngular.css" type="text/css">
+
+<link rel="stylesheet" href="/css/select.css">
+<link rel="stylesheet" href="css/jquery.toast.css">
+<link rel="stylesheet" href="/css/angular-bootstrap-toggle.css">
+<link rel="stylesheet" href="/css/error.css">
+
+
+
+
+<!-- themes -->
+<!-- <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
+
+
+
+<style>
+.select2-container--bootstrap {
+    width: 100% !important;
+}
+
+.intl-tel-input {
+    width: 100%;
+}
+
+.help-block {
+    color: #e73d4a;
+}
+
+.error {
+    color: #e73d4a;
+}
+
+.select2-container .select2-choice .select2-arrow {
+    background-image: none;
+    background: none;
+    border-left: none;
+}
+
+.select2-container .select2-choice>.select2-chosen {
+    color: #555;
+}
+
+
+@media (max-width: 991px) {
+    .top-menu {
+        display: none !important;
+    }
+}
+</style>
+<style type="text/css">
+.PTable {
+    display: table;
+}
+
+.PTitle {
+    display: table-caption;
+    text-align: center;
+    font-weight: bold;
+    font-size: larger;
+}
+
+.PHeading {
+    display: table-row;
+    font-weight: bold;
+    text-align: center;
+}
+
+.PRow {
+    display: table-row;
+}
+
+.PCell {
+    display: table-cell;
+    border: solid;
+    border-width: thin;
+    padding-left: 5px;
+    padding-right: 5px;
+    line-height: 0px;
+}
+.depth-1 {
+padding-left: 0px;
+font-weight: bold;
+}
+.depth-2 {
+padding-left: 15px;
+}
+.depth-3 {
+padding-left: 30px;
+}
+
+</style>
+<style>
+
+
+.blockUI.blockMsg{top: 50%!important; left: 50%!important; transform: translate(-50%, -50%)!important; width: 90%!important; background-color: #4cbeac!important; border: none!important; padding: 10px!important; border-radius: 5px!important;}
+.blockUI.blockMsg h1{font-size: 14px!important; margin: 0px; color: #fff!important;}
+@media (min-width:769px){
+    .blockUI.blockMsg{width: inherit!important; padding: 15px!important;}
+    .blockUI.blockMsg h1{font-size: 18px!important;}
+}
+
+</style>
+<!-- END THEME LAYOUT STYLES -->
+<link rel="shortcut icon" href="/img/favicon.png" />
+
+<div class="login-box login">
+    <div class="logo">
+        <a href="/">
+            <img alt="logo" class="logo-default" style="margin-top: 10px;" src="img/logo.png">
+        </a>
+    </div>
+    <div class="content">
+        <!-- BEGIN LOGIN FORM -->
+        <form class="login-form"   novalidate id="login-form" name="loginform" >
+            <h3 class="form-title">Sign In with Email</h3>
+            <div class="alert alert-danger display-hide">
+                <button class="close" data-close="alert"></button>
+                <span> Enter any username and password. </span>
+            </div>
+
+            <div class="form-group">
+                <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                <label class="control-label visible-ie8 visible-ie9">Username</label>
+
+                <div class="input-icon">
+                    <i class="fa fa-user"></i>
+                    <input class="form-control placeholder-no-fix" ng-enter="lgc.login($event)" type="email" autocomplete="off" placeholder="Email" name="email" id="email" ng-model="lgc.email" required aria-required="true">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label visible-ie8 visible-ie9">Password</label>
+
+                <div class="input-icon">
+                    <i class="fa fa-lock"></i>
+                    <input  class="form-control placeholder-no-fix valid" type="password" ng-enter="lgc.login($event)" autocomplete="off" placeholder="Password" name="password" id="password" ng-model="lgc.password" required aria-required="true" aria-invalid="false" aria-describedby="password-error">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <label class="rememberme mt-checkbox mt-checkbox-outline">
+                    <input type="checkbox" name="remember" value="1" /> Remember me
+                    <span></span>
+                </label>
+                <button type="submit" class="btn green-haze pull-right login_btn_" ng-click="lgc.login($event)" ng-disabled="!loginform.$valid">
+                    Login <i class="m-icon-swapright m-icon-white"></i>
+                </button>
+            </div>
+            <div class="forget-password">
+                <h4>Forgot your password ?</h4>
+
+                <p>
+                    no worries, click <a href="javascript:;" id="forget-password">
+                        here </a>
+                    to reset your password.
+                </p>
+            </div>
+
+        </form>
+
+        <form class="forget-form" name="resetpasswordform" id="resetpasswordform" action="#" method="get" novalidate="novalidate" style="display: none;">
+            <h3 class="">Forget Password ?</h3>
+            <p> Enter your e-mail address below to reset your password. </p>
+            <div class="form-group">
+                <input class="form-control placeholder-no-fix" type="email" ng-model="lgc.resetemail" autocomplete="off" placeholder="Email" name="resetemail" id="resetemail" required=""> </div>
+            <div class="form-actions">
+                <button type="button" id="back-btn" class="btn green btn-outline">Back</button>
+                <button type="button" class="btn btn-success uppercase pull-right" ng-click="lgc.sendResetPassLink($event)" ng-disabled="!resetpasswordform.$valid" >Submit</button>
+            </div>
+        </form>
+        <form class="forget-form" name="otpValidation" id="otpValidation"  novalidate="novalidate" style="display: none;">
+            <h3 class="">Verify Otp</h3>
+            <p> Please enter the otp sent to registered mobile number, Please contact system admin in case, you haven't received any otp </p>
+            <div class="form-group">
+                <input class="form-control placeholder-no-fix" id="otp" type="number" ng-model="lgc.otp" autocomplete="off" placeholder="otp" name="otp" id="resetemail" required=""> </div>
+            <div class="form-actions">
+                <input type="submit" id="myBtn" style="background-color: blue;" class="btn btn-success uppercase pull-right" ng-click="lgc.validateOtp($event)" value="Submit">
+            </div>
+        </form>
+    </div>
+
+</div>
+<script>
+            /* validate the login form */
+            (function () {
+                $('#login-form').validate({
+                    errorElement: 'span', //default input error message container
+                    errorClass: 'help-block help-block-error', // default input error message class
+                    focusInvalid: false, // do not focus the last invalid input
+                    ignore: "", // validate all fields including form hidden input
+                    rules: {
+                        email: {
+                            required: true,
+                        },
+                        password: {
+                            required: true
+                        },
+                    },
+                    highlight: function (element) { // hightlight error inputs
+                        $(element)
+                                .closest('.form-group').addClass('has-error'); // set error class to the control group
+                    },
+                    unhighlight: function (element) { // revert the change done by hightlight
+                        $(element)
+                                .closest('.form-group').removeClass('has-error'); // set error class to the control group
+                    },
+                    success: function (label) {
+                        label
+                                .closest('.form-group').removeClass('has-error'); // set success class to the control group
+                    }
+                });
+                
+                $('#resetpasswordform').validate({
+                    errorElement: 'span', //default input error message container
+                    errorClass: 'help-block help-block-error', // default input error message class
+                    focusInvalid: false, // do not focus the last invalid input
+                    ignore: "", // validate all fields including form hidden input
+                    rules: {
+                        resetemail: {
+                            required: true,
+                            customEmail: true,
+                        }                        
+                    },
+                    highlight: function (element) { // hightlight error inputs
+                        $(element)
+                                .closest('.form-group').addClass('has-error'); // set error class to the control group
+                    },
+                    unhighlight: function (element) { // revert the change done by hightlight
+                        $(element)
+                                .closest('.form-group').removeClass('has-error'); // set error class to the control group
+                    },
+                    success: function (label) {
+                        label
+                                .closest('.form-group').removeClass('has-error'); // set success class to the control group
+                    }
+                });
+                $('#otpValidation').validate({
+                    errorElement: 'span', //default input error message container
+                    errorClass: 'help-block help-block-error', // default input error message class
+                    focusInvalid: false, // do not focus the last invalid input
+                    ignore: "", // validate all fields including form hidden input
+                    rules: {
+                        otp: {
+                            required: true,
+                            minlength:4,
+                            maxlength:6
+                        }                        
+                    },
+                    highlight: function (element) { // hightlight error inputs
+                        $(element)
+                                .closest('.form-group').addClass('has-error'); // set error class to the control group
+                    },
+                    unhighlight: function (element) { // revert the change done by hightlight
+                        $(element)
+                                .closest('.form-group').removeClass('has-error'); // set error class to the control group
+                    },
+                    success: function (label) {
+                        label
+                                .closest('.form-group').removeClass('has-error'); // set success class to the control group
+                    }
+                });
+
+                $("#forget-password").click(function (e) {
+                    e.preventDefault();
+                    $("#login-form").hide();
+                    $("#resetpasswordform").show();
+                });
+                
+                $("#back-btn").click(function (e) {
+                    e.preventDefault();
+                    $("#login-form").show();
+                    $("#resetpasswordform").hide();
+                });
+//                $("#fpSubmitButton").click(function (e) {
+//                    e.preventDefault();
+//                    $("#login-form").show();
+//                    $("#forget-form").hide();
+//                });
+                
+
+            })();
+
+
+</script>

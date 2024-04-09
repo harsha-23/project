@@ -1,0 +1,56 @@
+{
+    "appointment": {
+        "customer": {
+            "name": "Mahipal",
+            "mobile": "8008985678",
+            "email": "dhoma.mahipal@gmail.com",
+            "alias": "Mahipal test123",
+            "country": "1"
+        },
+        "booking": {
+            "createdby": "mahipal",
+            "cookie": "12345555",
+            "org": "",
+            "service": "1",
+            "source": "APP",
+            "user-agent": "Mozilla",
+            "channel": "B2B",
+            "override": "",
+            "location": "1",
+            "lead": "",
+            "devicetype": "APP",
+            "affiliate": "2",
+            "doctor": "1",
+            "address": "",
+            "hearabout": "Facebook",
+            "comments": "This is the basic Job Booking",
+            "sessions": {
+                "session": [    
+                    {
+                        "doctor": "1",
+                        "product": "",
+                        "sessiontype": "1",
+                        "medium": "",
+                        "scheduledate": "2017-02-25 08:30",
+                        "slot": "08:30",
+                        "slotid": "1",
+                        "duration": "30",
+                        "timezone": "IST",
+                        "type": "",
+                        "baseprice": "100",
+                        "finalprice": "100"
+                    }]
+            }
+        },
+        "payments": {
+            "payment": [
+                {                   
+                    "mode": "PAY_LATER",                 
+                    "transaction": "",
+                    "token": "",
+                    "email": "MAHIPAL@HOUSEJOY.IN"
+                }
+            ]
+        }
+    }
+}

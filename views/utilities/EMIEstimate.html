@@ -1,0 +1,1518 @@
+<style>
+    .control-label {
+        text-align: left !important;
+    }
+
+    .s2m1 {
+        width: 100%;
+    }
+    table {
+    border-collapse: collapse;
+}
+
+td {
+    padding: 20px; 
+    border: 1px solid black; 
+    text-align: center;
+}
+</style>
+<style type="text/css">
+    #blockUiBackdrop {
+        height: 100vh;
+        width: 100%;
+        z-index: 20000;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #000;
+        opacity: 0.5;
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    #blockUiDiv {
+        background-color: transparant;
+        width: 194px;
+        height: 194px;
+        position: absolute;
+        left: calc(50% - 97px);
+        top: calc(50vh - 97px);
+        z-index: 20001;
+    }
+
+    #blockUiDiv img {
+        width: 194px;
+        height: 194px;
+    }
+
+    .redtag {
+        font-weight: bold;
+        text-align: center;
+        color: black;
+        background-color: red;
+    }
+
+
+
+
+
+
+    .first-block-conversation {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .By-and-when {
+        text-align: right;
+        margin-right: 5px;
+        margin-top: 10px;
+    }
+
+    .image-block {
+        margin-top: 20px;
+        /* display: flex;
+        justify-content: space-around; */
+        /* flex-wrap: wrap; */
+    }
+
+    .image-description-container {
+        display: inline-block;
+        margin-right: 30px;
+        margin-left: 20px;
+    }
+
+    .comments-for-image {
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-bottom: 20px;
+    }
+
+    .container-for-patient {
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 20px;
+    }
+
+
+
+    /* Style the estimateAccordion estimatePanel. Note: hidden by default */
+    .estimatePanel {
+        padding: 0 18px;
+        background-color: white;
+        display: none;
+        overflow: hidden;
+    }
+
+    .form-upload {
+        width: 96%;
+    }
+</style>
+<style>
+    @media (max-width: 991px) {
+
+        .static-info .value,
+        .static-info .name {
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        .nameOnly {
+            font-weight: 600;
+        }
+
+        .quick-nav,
+        .atlwdg-trigger {
+            display: none;
+        }
+
+    }
+
+    .page-header-top,
+    .page-header .page-header-menu,
+    .page-wrapper .page-wrapper-top,
+    .atlwdg-trigger {
+        display: none;
+    }
+
+    .container {
+        width: 1340px;
+    }
+
+    .lng {
+        margin: 0px 2px;
+    }
+
+    .doctor-list tbody tr {
+        cursor: pointer;
+    }
+</style>
+
+<div ng-show="response.token==undefined" class="page-wrapper-row full-height ng-scope">
+    <div class="page-wrapper-middle">
+        <!-- BEGIN CONTAINER -->
+        <div class="page-container">
+            <!-- BEGIN CONTENT -->
+            <div class="page-content-wrapper">
+
+
+                <!-- BEGIN PAGE CONTENT BODY -->
+                <div class="page-content">
+                    <div class="container">
+
+                        <!-- BEGIN PAGE CONTENT INNER -->
+                        <div class="page-content-inner">
+                            <div class="row">
+                                <div class="col-md-12 page-404">
+                                    <div class="number font-green"> 404 </div>
+                                    <div class="details">
+                                        <h3>Oops! Record Not Found...!</h3>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END PAGE CONTENT INNER -->
+                    </div>
+                </div>
+                <!-- END PAGE CONTENT BODY -->
+                <!-- END CONTENT BODY -->
+            </div>
+            <!-- END CONTENT -->
+
+        </div>
+        <!-- END CONTAINER -->
+    </div>
+</div>
+
+<div class="row" ng-show="response.token!=undefined">
+    <div class="col-md-12 col-sm-12">
+        <div class="portlet light ">
+
+            <div class="portlet-body" style="padding: 7px 90px 15px 20px !important;">
+                <div class="tabbable-line">
+                    <button ng-if="isProgessVisible" type="button" class="btn btn-warning pull-right"
+                        ng-click="moveToInProgressEMI()">In Progress</button>
+                        <button ng-if="isOnHoldVisible" type="button" class="btn btn-warning pull-right"
+                        ng-click="moveToOnHold()">On Hold</button>
+                    <ul class="nav nav-tabs nav-tabs-lg">
+                        <li class="active">
+                            <a data-toggle="tab" onclick="return false;" href="#conversation"> Conversations</a>
+                        </li>
+                        <li onclick="return false;">
+                            <a data-toggle="tab" href="#estimate" ng-click="showEstimate()" ng-if="response.displayEMIEstimateTab"> EMI Estimate</a>
+                        </li>
+                        <li ng-click="showDoc()" >
+                            <a data-toggle="tab" href="#documents"> Documents</a>
+                        </li>
+                        <li ng-if="response.status== 'ENACH Signed'">
+                            <a data-toggle="tab" href="#disbursed"> Disbursed</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="conversation">
+
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="row" style="padding: 0px 0px 20px 0px;">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Patient Name / Reference -
+                                                    <b>{{response.patientName}} <br /> ( {{response.referenceNumber}})
+                                                    </b></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Surgery Name -
+                                                    <b>{{response.surgeryName}}</b></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Status -
+                                                    <b>{{response.status}}</b></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Vendor -
+                                                    <b>{{response.vendor}}</b></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding: 0px 0px 20px 0px;">
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Patient Mobile -
+                                                    <b ng-if="can('mobile.number.display.permission')">{{response.patientMobile}}</b> <a ng-if="isLogin" href="#"
+                                                        ng-click="actions.makeConferenceCallByMobile({mobile:response.patientMobile,leadId:response.leadId})"><i
+                                                            class="fa fa-phone"></i></a>
+                                                            <a class="btn btn-icon-only btn-circle popovers" data-toggle="popover" ng-click="actions.getMobileNumber({                                               
+                                                                lead: response.leadId,                                               
+                                                            })"
+                                                            data-container="body" data-trigger="hover" data-placement="top"
+                                                            data-content="View mobile"
+                                                            data-original-title="Verify OTP" href="#"><i
+                                                                class="icon-eye font-green-sharp"></i></a>
+                                                        </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Posted Name / Mobile -
+                                                    <b>{{response.postedName}} / <b ng-if="can('mobile.number.display.permission')"> {{response.postedMobile}}</b> </b> <a
+                                                        ng-if="isLogin" href="#"
+                                                        ng-click="actions.makeConferenceCallByMobile({mobile:response.postedMobile,leadId:response.leadId})"><i
+                                                            class="fa fa-phone"></i></a>
+                                                            <a class="btn btn-icon-only btn-circle popovers" data-toggle="popover" ng-click="actions.getMobileNumber({                                               
+                                                                lead: response.leadId,                                               
+                                                            })"
+                                                            data-container="body" data-trigger="hover" data-placement="top"
+                                                            data-content="View mobile"
+                                                            data-original-title="Verify OTP" href="#"><i
+                                                                class="icon-eye font-green-sharp"></i></a>
+                                                        </label>
+                                            </div>
+                                        </div>
+										<div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Surgery Amount - <b>{{response.surgeryAmount}}</b></label>
+                                            </div>
+                                        </div>
+
+										<div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> City - <b>{{response.city}}</b></label>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="col-sm-3" ng-if="response.displayEMIEstimateTab">
+                                        <div class="form-group">
+                                            <label for="job-comment" class="col-lg-4 control-label">Update Status</label>
+                                            <div class="col-lg-8">
+                                                <select class="form-control" name="updateStatus" ng-change="updateStatusApproveReject()" id="updateStatus" ng-model="updateStatus">
+                                                    <option value="">Please select</option>
+                                                    <option value="Approved">Request Approved </option>
+                                                    <option value="Rejected ">Request Rejected </option>
+                                                </select>
+                    
+                                            </div>
+                                        </div>
+                                        </div> -->
+                                        <div class="row" ng-if="response.vendorUTRNumber">
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-12 "> Vendor UTR - <b>{{response.vendorUTRNumber}}</b></label>
+                                                </div>
+                                            </div>
+    
+                                        </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-4 col-sm-offset-8">
+                                            <div class="form-group" style="float: right;">
+                                                <button  type="button" class="btn btn-info"
+                                                    data-toggle="modal" ng-click="openAddStatusModal()">Add
+                                                    Status</button>
+                                                <button ng-if="isCommentVisible" type="button" class="btn btn-primary"
+                                                    data-toggle="modal" ng-click="openUplodCommentsModal()">Add
+                                                    Comments</button>
+                                                <button ng-if="isCommentVisible" type="button" class="btn btn-success"
+                                                    data-toggle="modal" ng-click="openUploadDocumentModal()">Add
+                                                    Documents</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="portlet light ">
+
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="table-scrollable">
+
+
+                                                    <br>
+                                                    <div class="portlet-body" style="padding: 10px;"
+                                                        ng-show="response.conversation.length > 0">
+
+                                                        <div class="panel-group accordion" id="accordion">
+                                                            <div class="panel panel-default"
+                                                                ng-repeat="conv in response.conversation">
+                                                                <div class="panel-heading">
+                                                                    <h4 class="panel-title">
+                                                                        <a class="accordion-toggle"
+                                                                            data-toggle="collapse"
+                                                                            data-parent="#accordion"
+                                                                            href="#collapsec_{{$index}}"
+                                                                            onclick="return false">Response From
+                                                                            {{conv.direction}} at
+                                                                            {{conv.postedDate}} </a>
+                                                                    </h4>
+                                                                </div>
+                                                                <div id="collapsec_{{$index}}"
+                                                                    class="panel-collapse collapse {{$index == 0 ? 'in':'in'}}">
+                                                                    <div class="panel-body">
+                                                                        <div class="By-and-when"></div>
+                                                                        <div class="image-block" ng-if="conv.documents">
+                                                                            <div ng-repeat="img in conv.documents"
+                                                                                class="image-description-container">
+                                                                                <a ng-href="{{img.url}}"
+                                                                                    target="_blank">
+                                                                                    <img ng-src="{{img.url}}"
+                                                                                        height="100px" width="150px">
+                                                                                </a>
+                                                                                <p style="text-align: center;"><a
+                                                                                        ng-href="{{img.url}}"
+                                                                                        target="_blank"><b>{{img.type}}</b>
+                                                                                    </a><a
+                                                                                        ng-if="img.message && img.message!=''"
+                                                                                        class="btn btn-icon-only btn-circle popovers"
+                                                                                        data-toggle="popover"
+                                                                                        data-container="body"
+                                                                                        data-trigger="hover"
+                                                                                        data-placement="top"
+                                                                                        data-content="{{img.message}}"
+                                                                                        data-original-title="Document Note"
+                                                                                        href="#"><i
+                                                                                            class="icon-eye font-green-sharp"></i></a>
+                                                                                </p>
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <div ng-if="conv.message && conv.message!=''"
+                                                                            class="comments-for-image">
+                                                                            <b>Comments</b><br>
+                                                                            <span
+                                                                                ng-bind-html="conv.message.message"></span>
+                                                                        </div>
+
+                                                                        <div class="comments-for-image">
+                                                                            <b>Posted By -{{conv.postedBy}} </b> at
+                                                                            {{conv.postedDate}}
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="tab-pane" id="estimate">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="portlet light ">
+
+                                        <div class="portlet-body">
+                                            <div class="row">
+
+                                                    <div class="portlet-body" style="padding: 10px;"
+                                                        >
+                                                        <div class="row" style="padding: 0px 0px 20px 0px;">
+                                                            <div class="col-sm-3">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-12 "> Sanctioned Amount
+                                                                        <b>{{response.info.sanctionedAmount}} 
+                                                                        </b></label>
+                                                                </div>
+                                                            </div>
+                    
+                                                            <div class="col-sm-3">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-12 "> Charges-
+                                                                        <b>{{response.info.charges}}</b></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-12 "> Down Payment -
+                                                                        <b>{{response.info.downPayment}}</b></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-12 "> Down Payment Months -
+                                                                        <b>{{response.info.downPaymentMonths}}</b></label>
+                                                                </div>
+                                                            </div>
+                    
+                                                        </div>
+                                                        <div class="row" style="padding: 0px 0px 20px 0px;">
+                                                            <div class="col-sm-3">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-12 "> Emi Amount
+                                                                        <b>{{response.info.emiAmount}}
+                                                                        </b></label>
+                                                                </div>
+                                                            </div>
+                    
+                                                            <div class="col-sm-3">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-12 "> Emi Tenure -
+                                                                        <b>{{response.info.emiTenure}}</b></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-12 "> Surgery Amount -
+                                                                        <b>{{response.info.surgeryAmount}}</b></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-12"> Posted By / Posted Date-
+                                                                        <b>{{response.info.postedBy}} <br/> {{response.info.postedDate}}</b></label>
+                                                                </div>
+                                                            </div>
+                    
+                                                        </div>
+                                                        <div class="row" style="padding: 0px 0px 20px 0px;">
+                                                            <div class="col-sm-3">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-12 "> Surgery Name -
+                                                                        <b>{{response.surgeryName}}
+                                                                        </b></label>
+                                                                </div>
+                                                            </div>
+                    
+                                                            <div class="col-sm-3">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-12 "> Status -
+                                                                        <b>{{response.status}}</b></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-12 "> Vendor -
+                                                                        <b>{{response.vendor}}</b></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-12"> City -
+                                                                        <b>{{response.city}} </b></label>
+                                                                </div>
+                                                            </div>
+                    
+                                                        </div>
+                                                    </div>
+                                                
+                                            </div>
+                                        </div>
+
+                                         <!--update-->
+                            
+  <div class="modal-body">
+    <!--approved-->
+    <div class="row" >
+        <form class="form-horizontal" id="EmiFormReq">
+        <h3 class="text-center text-success text-uppercase" style="font-weight: 500;">Update EMI Request</h3>
+            <div class="modal-body" style="padding: 10px;">
+                <div class="row" style="padding: 0px 0px 20px 0px;">
+                    <div class="">
+                        <div class="col-sm-3">
+                            <div class="form-group ml-3">
+                                <label class="control-label col-sm-12 " >Status</label>
+                                <div class="col-md-12">
+                                    <select class="form-control" ng-model="status" name="status" id="status" aria-readonly="true" ng-init="status ='Approved by vendor'">
+                                        <!-- <option value="{{response.status}}">{{response.status}}</option>                                       -->
+                                        <option  value="Approved by vendor">Approved by Vendor</option>
+                                        <option value="Rejected by vendor">Rejected by vendor</option>
+                                    </select>
+                                </div>
+                            </div>                    
+                        </div>                   
+                    </div> 
+                    <div class="" >
+                        <div class="col-sm-3">
+                            <div class="form-group ml-3">
+                                <label class="control-label col-sm-12" >Comments</label>
+                                <div class="col-md-12">
+                                    <textarea  rows="1" class="form-control" name="comment12" id="comment12" style=" width: 598px; height: 34px;"></textarea>
+                                </div>
+                            </div>                    
+                        </div>                    
+                    </div> 
+                </div>
+                <div id="show" ng-hide="status!='Approved by vendor'">
+                <div class="row">
+                    <div class="">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label class="control-label col-sm-12 ">Vendor</label>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control"  name="nbfcName" id="nbfcName"  value="{{response.vendor}}"
+                                readonly />
+                                </div>
+                            </div>                    
+                        </div>                    
+                    </div>  
+
+                    <div class="">
+                        <div class="col-sm-3">
+                            <div class="form-group ml-3">
+                                <label class="control-label col-sm-12 " >Loan Receipt</label>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="loanReceipt" ng-model="loanReceipt" id="loanReceipt" value="{{response.info.loanReceipt}}" required>
+                                </div>
+                            </div>                    
+                        </div>                    
+                    </div>
+
+                    <div class="">
+                        <div class="col-sm-3">
+                            <div class="form-group ml-3">
+                                <label class="control-label col-sm-12 " >Loan Date</label>
+                                <div class="col-md-12">
+                                    <input  class="form-control" name="loanDate" ng-model="loanDate" id="loanDate" value="{{response.info.loanDate}}" required>
+                                </div>
+                            </div>                    
+                        </div>                    
+                    </div>
+
+                    <div class="">
+                        <div class="col-sm-3">
+                            <div class="form-group ml-3">
+                                <label class="control-label col-sm-12 " >Sanction Date</label>
+                                <div class="col-md-12">
+                                    <input class="form-control" name="sanctionDate" ng-model="sanctionDate" id="sanctionDate" value="{{response.info.sanctionDate}}" required>
+                                </div>
+                            </div>                    
+                        </div>                    
+                    </div>
+                </div>
+                <div class="row" style="padding: 0px 0px 20px 0px;"> 
+
+                    <div class="">
+                        <div class="col-sm-3">
+                            <div class="form-group ml-3">
+                                <label class="control-label col-sm-12 " >Sanctioned Amount</label>
+                                <div class="col-md-12">
+                                    <input type="number" class="form-control" name="sanctionedAmount" id="sanctionedAmount" ng-model="sanctionedAmount" value="{{response.info.sanctionedAmount}}" required>
+                                </div>
+                            </div>                    
+                        </div>                    
+                    </div>
+
+                    <div class="">
+                        <div class="col-sm-3">
+                            <div class="form-group ml-3">
+                                <label class="control-label col-sm-12 " > EMI Amount</label>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="emiAmount" id="emiAmount" ng-model="emiAmount" value="{{response.info.emiAmount}}" required>
+                                </div>
+                            </div>                    
+                        </div>                    
+                    </div>
+
+
+                    <div class="">
+                        <div class="col-sm-3">
+                            <div class="form-group ml-3">
+                                <label class="control-label col-sm-12 " >EMI Tenure</label>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="emiTenure" id="emiTenure" ng-model="emiTenure" value="{{response.info.emiTenure}}" required>
+                                </div>
+                            </div>                    
+                        </div>                    
+                    </div>
+
+                    <div class="">
+                        <div class="col-sm-3">
+                            <div class="form-group ml-3">
+                                <label class="control-label col-sm-12 " >Down Payment Months</label>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="downPaymentMonths" id="downPaymentMonths" ng-model="downPaymentMonths" value="{{response.info.downPaymentMonths}}" required>
+                                </div>
+                            </div>                    
+                        </div>                    
+                    </div>
+                </div>
+                <div class="row"  style="padding: 0px 0px 20px 0px;"> 
+
+                    <div class="">
+                        <div class="col-sm-3">  
+                            <div class="form-group ml-3">
+                                <label class="control-label col-sm-12 " >Down Payment Amount</label>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="downPayment" id="downPayment" ng-model="downPayment" value="{{response.info.downPayment}}" required>
+                                </div>
+                            </div>                    
+                        </div>                    
+                    </div>
+
+                    <div class="">
+                        <div class="col-sm-3">
+                            <div class="form-group ml-3">
+                                <label class="control-label col-sm-12 " >Rate of interest</label>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="roi" id="roi" ng-model="roi" value="{{response.info.roi}}" required>
+                                </div>
+                            </div>                    
+                        </div>                    
+                    </div>
+
+                    <div class="">
+                        <div class="col-sm-3">
+                            <div class="form-group ml-3">
+                                <label class="control-label col-sm-12 " >Charges</label>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="charges" id="charges" ng-model="charges" value="{{response.info.charges}}" required >
+                                </div>
+                            </div>                    
+                        </div>                    
+                    </div>
+
+                    <div class="">
+                        <div class="col-sm-3">
+                            <div class="form-group ml-3">
+                                <label class="control-label col-sm-12 " >Disbursement</label>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="disbursement" id="disbursement" ng-model="disbursement" value="{{response.info.disbursement}}" required>
+                                </div>
+                            </div>                    
+                        </div>                    
+                    </div>
+                </div>
+                <div class="row" style="padding: 0px 0px 20px 0px;"> 
+
+                    <div class="">
+                        <div class="col-sm-3">
+                            <div class="form-group ml-3">
+                                <label class="control-label col-sm-12 " >Surgery Amount</label>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="surgeryAmount" id="surgeryAmount" ng-model="surgeryAmount" value="{{response.info.surgeryAmount}}" readonly>
+                                </div>
+                            </div>                    
+                        </div>                    
+                    </div>
+
+                    <div class="">
+                        <div class="col-sm-3">
+                            <div class="form-group ml-3">
+                                <label class="control-label col-sm-12 " >City</label>
+                                <div class="col-sm-12">
+                               
+                                <input type="text" class="form-control" name="city" id="city" value="{{response.city}}"
+                                readonly />
+                                </div>
+                            </div>                    
+                        </div>  
+                                       
+                    </div>
+                    <div class="">
+                        <div class="col-sm-3">
+                            <div class="form-group ml-3">
+                                <label class="control-label col-sm-12 " >ENACH URL</label>
+                                <div class="col-sm-12">
+                               
+                                <input type="text" style="width:535px" class="form-control" name="enachSigned" id="enachSigned" ng-model="enachSigned" value="{{response.info.enachSigned}}"/>
+                                </div>
+                            </div>                    
+                        </div>  
+                                       
+                    </div>
+                </div>
+            </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-success btn-block" ng-click="status=='Approved by vendor'?updateEmi():rejectUpdateEMI()">
+                        <strong><strong>Update</strong></strong>
+                    </button>
+                    <!-- <button type="button" class="btn dark btn-outline" data-dismiss="modal">Clear</button> -->
+                </div>
+            </div>
+        </form>
+    </div>
+    
+</div>
+                            <!--update close-->
+                                    </div>
+
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="tab-pane" id="documents">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="portlet light ">
+
+                                        <div class="portlet-body">
+                                            <div class="row">
+
+                                                    <div class="portlet-body" style="padding: 10px;"
+                                                        >
+                                                        <div  style="margin-top: 8%;" >
+                                                            <div class="table-container" >
+                                                                <table class="table table-responsive table-hover table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Sr.</th>
+                                                                            <th>Type</th>
+                                                                            <th>Document Type</th>
+                                                                            <th>Posted By</th>
+                                                                            <th>Posted Date</th>
+                                                                           
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr ng-repeat="detail in EMIEstimateDocument;" >
+                                                                            <td>{{$index+1}}</td>
+                                                                            <td>{{detail.docType}}</td>
+                                                                            
+                                                                            <td>
+                                                                                <a target="_blank" href="{{detail.docURL}}">Link <br />
+                                                                                    <img src="{{detail.docURL}}" height="200px" width="200px">
+                                                                                </a>
+                                                                            </td>
+                                                                            <td>{{detail.postedBy}}</td>  
+                                                                            <td>{{detail.postedDate}}</td>  
+                                                                           
+                                                                          
+                                                                        </tr>
+                                                                        <tr ng-if="!EMIEstimateDocument.length">
+                                                                            <td colspan="6">No Data Found...!</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        
+                                                        
+                                                           
+                                                        
+                                                       
+                                                           
+                                                        
+                                                        </div>
+                                                    </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--disbused tab-->
+                        <div class="tab-pane" id="disbursed">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="portlet light ">
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                    <div class="portlet-body" style="padding: 10px;">
+                                                        <form class="form-horizontal form-bordered" id="DisbusedForm">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-sm-12 text-left">Amount Disbused To</label>
+                                                                        <div class="col-sm-12">
+                                                                            <select class="form-control" name="disbusedType" ng-change="showDisbused()" id="disbusedType" ng-model="disbusedType">
+                                                                                <option value="">Please select</option>
+                                                                                <option value="MEDFIN">MEDFIN</option>
+                                                                                <option value="HOSPITAL">HOSPITAL</option>
+                                                                                <option value="PATIENT">PATIENT</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                                <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-sm-12 text-left">UTR NO</label>
+                                                                        <div class="col-sm-12">
+                                                                            <input  type="number" class="form-control"
+                                                                            name="utr_no" id="utr_no" ng-model="utr_no">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div> 
+                                                            <div class="row tranferDate">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-sm-12 text-left">Transfer Date</label>
+                                                                        <div class="col-sm-12">
+                                                                            <input type="text" name="tranferDate" id="tranferDate" ng-model="tranferDate"
+                                                                              class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row utr_number">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-sm-12 text-left">UTR Number <mark>Medfin to Hospital</mark></label>
+                                                                        <div class="col-sm-12">
+                                                                            <input  type="number" class="form-control"
+                                                                            name="utr_number_medfin" id="utr_number_medfin" ng-model="utr_number_medfin">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                          
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-sm-12 text-left" >Amount Disbused </label>
+                                                                        <div class="col-sm-12">
+                                                                            <input type="number" name="amount" id="amount" ng-model="amount"
+                                                                              class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-sm-12 text-left">Comment</label>
+                                                                        <div class="col-sm-12">
+                                                                            <input type="text" name="comments" id="comments" ng-model="comments"
+                                                                              class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="padding-left: 34%;">
+                                                                    <div class="col-md-6">
+                                                                        <input type="button" date-exportexcel="false" data-page="1"
+                                                                            class="btn blue btn-block margin-top-20 green-haze" value="Submit"
+                                                                            ng-click="disbusedSubmit()">
+                                                                    </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--disbused end-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="uploadDocModal" role="dialog">
+    <div class="modal-dialog" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Upload Document</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="uploadDocForm">
+
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Document Type</label>
+                        <div class="col-lg-8">
+                            <select class="form-control" name="fileType" id="fileType" ng-model="fileType">
+                                <option value="">Please select</option>
+                                <option ng-repeat="data in documentTypes">{{data}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-lg-8 fileupload-buttonbar">
+                            <span class="btn green fileinput-button">
+                                <i class="fa fa-plus"></i>
+                                <span> Add files... </span>
+                                <input type="file" name="file" id="file" multiple
+                                    onchange="angular.element(this).scope().getFileDetails(this)">
+
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Event</label>
+                        <div class="col-lg-8">
+                            <select class="form-control" name="event" id="event" ng-model="eventUploadDoc">
+                                <option value="">Please Select</option>
+                                <option ng-repeat="event in eventList" value="{{event}}">
+                                    {{event}}</option>
+                               
+                            </select>
+                        </div>
+                    </div>
+
+                    <table role="presentation" class="table table-striped clearfix" ng-show="files.length>0">
+                        <tbody class="files">
+
+                            <tr class="template-upload fade in" ng-repeat="file in files">
+                                <td>
+                                    <span class="preview">
+                                        <img width="120" height="60" src="{{file.url}}">
+                                    </span>
+                                </td>
+                                <td>
+                                    <p class="name">{{file.name}}</p>
+                                    <strong class="error text-danger label label-danger"></strong>
+                                </td>
+                                <td>
+                                    <p class="size">{{file.size/1024 | bytes}} </p>
+
+                                </td>
+                                <td>
+
+                                    <button class="btn red cancel" ng-click="removeFile($index)">
+                                        <i class="fa fa-trash"></i>
+
+                                    </button> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Enter Your Comments <font color="red">*
+                            </font></label>
+                        <div class="col-lg-8">
+                            <textarea id="docComments" name="docComments" class="form-control"
+                                ng-model="docComments"></textarea>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-mdm" ng-click="uploadDocument()">
+                    <strong><strong>Add</strong></strong>
+                </button>
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="updateCommentsModalApprove" role="dialog">
+    <div class="modal-dialog" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Comments</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="updateCommentsStatusForm">
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Enter Your Comments <font color="red">*
+                            </font></label>
+                        <div class="col-lg-8">
+                            <textarea id="commentsUpload" name="commentsUpload" class="form-control"
+                                ng-model="commentsUpload"></textarea>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-mdm" ng-click="updateCommentsApproval()">
+                    <strong><strong>Add</strong></strong>
+                </button>
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="updateCommentsModal" role="dialog">
+    <div class="modal-dialog" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Comments</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="updateCommentsForm">
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Enter Your Comments <font color="red">*
+                            </font></label>
+                        <div class="col-lg-8">
+                            <textarea id="commentsUpload" name="commentsUpload" class="form-control"
+                                ng-model="commentsUpload"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Event</label>
+                        <div class="col-lg-8">
+                            <select class="form-control" name="event" id="event" ng-model="cevent">
+                                <option value="">Please Select</option>
+                                <option ng-repeat="event in eventList" value="{{event}}">
+                                    {{event}}</option>
+                               
+                            </select>
+                        </div>
+                    </div>
+                   
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-mdm" ng-click="updateComments()">
+                    <strong><strong>Add</strong></strong>
+                </button>
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addStatusCommentsModal" role="dialog">
+    <div class="modal-dialog" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Comments</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="addStatusCommentsForm">
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Enter Your Comments <font color="red">*
+                            </font></label>
+                        <div class="col-lg-8">
+                            <textarea id="commentsStatus" name="commentsStatus" class="form-control"
+                                ng-model="commentsStatus"></textarea>
+                        </div>
+                    </div>
+                   
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Status</label>
+                        <div class="col-lg-8">
+                            <select class="form-control" name="statusSelect" id="statusSelect"ng-change="showReason()" ng-model="statusSelect">
+                                <option value="">Please Select</option>
+                                <option ng-repeat="status in statusList" value="{{status}}">
+                                    {{status}}</option>
+                               
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group reason">
+                        <label for="job-comment" class="col-lg-4 control-label">Reason</label>
+                        <div class="col-lg-8">
+                            <select class="form-control" name="reasonSelect" id="reasonSelect" ng-model="reasonSelect">
+                                <option value="">Please Select</option>
+                                <option ng-repeat="reason in reasonList" value="{{reason}}">
+                                    {{reason}}</option>
+                               
+                            </select>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-mdm" ng-click="updateAddComments()">
+                    <strong><strong>Add</strong></strong>
+                </button>
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="blockUiDiv" ng-show="showBlockUI">
+</div>
+<div id="blockUiBackdrop" ng-show="showBlockUI">
+</div>
+
+<script>
+    /* validate the login form */
+    (function () {
+        applySelect2();
+        // applyDateRange();      
+
+        /* Define logic for restricting user from selecting date range more than 30 days */
+        $('#startDate,#endDate').datepicker({
+            format: "yyyy-mm-dd",
+            autoclose: true,
+        });
+
+
+        $('#startDate').on("changeDate", function () {
+            $('#endDate').val($(this).val());
+            var selected = $(this).val();
+            $('#endDate').datepicker('setStartDate', selected);
+        });
+        $('#uploadDocForm').validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block help-block-error', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "", // validate all fields including form hidden input
+            rules: {
+                fileType: {
+                    required: true
+                },
+                file: {
+                    required: true
+                },
+                docComments: {
+                    required: true
+                }
+            },
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                    .closest('.form-group').addClass(
+                        'has-error'); // set error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element)
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set error class to the control group
+            },
+            success: function (label) {
+                label
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set success class to the control group
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "mobile") {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+        $("#EmiFormReq").validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block help-block-error', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "", // validate all fields including form hidden input
+            rules: {
+                status: {
+                    required: true
+                },
+                loanReceipt: {
+                    required: true
+                },
+                emiAmount: {
+                    required: true
+                },
+                emiTenure: {
+                    required: true
+                },
+                charges: {
+                    required: true
+                },
+                disbursement: {
+                    required: true
+                },
+                roi: {
+                    required: true
+                },
+                surgeryAmount: {
+                    required: true
+                },
+                loanDate: {
+                    required: true
+                },
+                sanctionDate: {
+                    required: true
+                },
+                downPayment: {
+                    required: true
+                },
+                downPaymentMonths: {
+                    required: true
+                },
+                sanctionedAmount: {
+                    required: true
+                },
+                nbfcName: {
+                    required: true
+                }
+
+            },
+            messages: {
+                //appointmentId: "Enter valid Appointment Id.",
+                mobile: {
+                    required: "Enter valid Mobile Number.",
+                    minlength: "Mobile number should be {0} digit.",
+                    maxlength: "Mobile number should be {0} digit."
+                }
+
+            },
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                    .closest('.form-group').addClass(
+                        'has-error'); // set error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element)
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set error class to the control group
+            },
+            success: function (label) {
+                label
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set success class to the control group
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "mobile") {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+    
+        $("#updateCommentsStatusForm").validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block help-block-error', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "", // validate all fields including form hidden input
+            rules: {
+                commentsUpload: {
+                    required: true
+
+                }
+
+
+            },
+            messages: {
+                //appointmentId: "Enter valid Appointment Id.",
+                mobile: {
+                    required: "Enter valid Mobile Number.",
+                    minlength: "Mobile number should be {0} digit.",
+                    maxlength: "Mobile number should be {0} digit."
+                }
+
+            },
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                    .closest('.form-group').addClass(
+                        'has-error'); // set error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element)
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set error class to the control group
+            },
+            success: function (label) {
+                label
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set success class to the control group
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "mobile") {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+
+
+        $("#updateCommentsForm").validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block help-block-error', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "", // validate all fields including form hidden input
+            rules: {
+                commentsUpload: {
+                    required: true
+
+                }
+
+
+            },
+            messages: {
+                //appointmentId: "Enter valid Appointment Id.",
+                mobile: {
+                    required: "Enter valid Mobile Number.",
+                    minlength: "Mobile number should be {0} digit.",
+                    maxlength: "Mobile number should be {0} digit."
+                }
+
+            },
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                    .closest('.form-group').addClass(
+                        'has-error'); // set error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element)
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set error class to the control group
+            },
+            success: function (label) {
+                label
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set success class to the control group
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "mobile") {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+        $("#DisbusedForm").validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block help-block-error', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "", // validate all fields including form hidden input
+            rules: {
+                disbusedType: {
+                    required: true
+
+                },
+                utr_no: {
+                    required: true
+
+                }
+
+
+            },
+            messages: {
+                //appointmentId: "Enter valid Appointment Id.",
+                mobile: {
+                    required: "Enter valid Mobile Number.",
+                    minlength: "Mobile number should be {0} digit.",
+                    maxlength: "Mobile number should be {0} digit."
+                }
+
+            },
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                    .closest('.form-group').addClass(
+                        'has-error'); // set error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element)
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set error class to the control group
+            },
+            success: function (label) {
+                label
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set success class to the control group
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "mobile") {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+
+        $("#addStatusCommentsForm").validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block help-block-error', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "", // validate all fields including form hidden input
+            rules: {
+                commentsStatus: {
+                    required: true
+
+                }
+
+
+            },
+            messages: {
+                //appointmentId: "Enter valid Appointment Id.",
+                mobile: {
+                    required: "Enter valid Mobile Number.",
+                    minlength: "Mobile number should be {0} digit.",
+                    maxlength: "Mobile number should be {0} digit."
+                }
+
+            },
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                    .closest('.form-group').addClass(
+                        'has-error'); // set error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element)
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set error class to the control group
+            },
+            success: function (label) {
+                label
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set success class to the control group
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "mobile") {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+
+
+        $('#session-filter-form').validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block help-block-error', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "", // validate all fields including form hidden input
+            rules: {
+                startDate: {
+                    required: true
+
+                },
+                endDate: {
+                    required: true
+
+                }
+
+
+            },
+            messages: {
+                //appointmentId: "Enter valid Appointment Id.",
+                mobile: {
+                    required: "Enter valid Mobile Number.",
+                    minlength: "Mobile number should be {0} digit.",
+                    maxlength: "Mobile number should be {0} digit."
+                }
+
+            },
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                    .closest('.form-group').addClass(
+                        'has-error'); // set error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element)
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set error class to the control group
+            },
+            success: function (label) {
+                label
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set success class to the control group
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "mobile") {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+
+
+    })();
+</script>
+
+<script src="/js/internationalMobileInitiazation.js" type="text/javascript"></script>

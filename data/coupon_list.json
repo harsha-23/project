@@ -1,0 +1,49 @@
+{
+    "statusCode": 200,
+    "message": {
+        "messageDesc": "Records Sent"
+    },
+    "couponList": [
+        {
+            "id": "1",
+            "coupon_name": "coupon1",
+            "coupon_desc": "coupon1",
+            "type": "type1",
+            "status": "1",
+            "start_date": "2016/12/05",
+            "end_date": "2017/02/05"
+
+        },
+        {
+            "id": "2",
+            "coupon_name": "coupon2",
+            "coupon_desc": "coupon2",
+            "type": "type1",
+            "status": "1",
+            "start_date": "2016/12/05",
+            "end_date": "2017/02/05"
+        },
+        {
+            "id": "3",
+            "coupon_name": "coupon3",
+            "coupon_desc": "coupon3",
+            "type": "type1",
+            "status": "2",
+            "start_date": "2016/12/05",
+            "end_date": "2017/02/05"
+
+        },
+        {
+            "id": "4",
+            "coupon_name": "coupon4",
+            "coupon_desc": "coupon4",
+            "type": "type1",
+            "status": "2",
+            "start_date": "2016/12/05",
+            "end_date": "2017/02/05"
+
+        }
+
+
+    ]
+}

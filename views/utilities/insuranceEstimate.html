@@ -1,0 +1,2389 @@
+
+<style>
+    .control-label {
+        text-align: left !important;
+    }
+
+    .s2m1 {
+        width: 100%;
+    }
+    .sweet-alert{
+        width: 50% !important;
+    }
+</style>
+<style type="text/css">
+    #blockUiBackdrop {
+        height: 100vh;
+        width: 100%;
+        z-index: 20000;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #000;
+        opacity: 0.5;
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    #blockUiDiv {
+        background-color: transparant;
+        width: 194px;
+        height: 194px;
+        position: absolute;
+        left: calc(50% - 97px);
+        top: calc(50vh - 97px);
+        z-index: 20001;
+    }
+
+    #blockUiDiv img {
+        width: 194px;
+        height: 194px;
+    }
+
+    .redtag {
+        font-weight: bold;
+        text-align: center;
+        color: black;
+        background-color: red;
+    }
+
+
+
+
+
+
+    .first-block-conversation {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .By-and-when {
+        text-align: right;
+        margin-right: 5px;
+        margin-top: 10px;
+    }
+
+    .image-block {
+        margin-top: 20px;
+        /* display: flex;
+        justify-content: space-around; */
+        /* flex-wrap: wrap; */
+    }
+
+    .image-description-container {
+        display: inline-block;
+        margin-right: 30px;
+        margin-left: 20px;
+    }
+
+    .comments-for-image {
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-bottom: 20px;
+    }
+
+    .container-for-patient {
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 20px;
+    }
+
+
+
+    /* Style the estimateAccordion estimatePanel. Note: hidden by default */
+    .estimatePanel {
+        padding: 0 18px;
+        background-color: white;
+        display: none;
+        overflow: hidden;
+    }
+
+    .form-upload {
+        width: 96%;
+    }
+</style>
+<style>
+    @media (max-width: 991px) {
+
+        .static-info .value,
+        .static-info .name {
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        .nameOnly {
+            font-weight: 600;
+        }
+
+        .quick-nav,
+        .atlwdg-trigger {
+            display: none;
+        }
+
+    }
+
+    .page-header-top,
+    .page-header .page-header-menu,
+    .page-wrapper .page-wrapper-top,
+    .atlwdg-trigger {
+        display: none;
+    }
+
+    .container {
+        width: 1340px;
+    }
+
+    .lng {
+        margin: 0px 2px;
+    }
+
+    .doctor-list tbody tr {
+        cursor: pointer;
+    }
+</style>
+
+<div ng-show="response.token==undefined" class="page-wrapper-row full-height ng-scope">
+    <div class="page-wrapper-middle">
+        <!-- BEGIN CONTAINER -->
+        <div class="page-container">
+            <!-- BEGIN CONTENT -->
+            <div class="page-content-wrapper">
+
+
+                <!-- BEGIN PAGE CONTENT BODY -->
+                <div class="page-content">
+                    <div class="container">
+
+                        <!-- BEGIN PAGE CONTENT INNER -->
+                        <div class="page-content-inner">
+                            <div class="row">
+                                <div class="col-md-12 page-404">
+                                    <div class="number font-green"> 404 </div>
+                                    <div class="details">
+                                        <h3>Oops! Record Not Found...!</h3>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END PAGE CONTENT INNER -->
+                    </div>
+                </div>
+                <!-- END PAGE CONTENT BODY -->
+                <!-- END CONTENT BODY -->
+            </div>
+            <!-- END CONTENT -->
+
+        </div>
+        <!-- END CONTAINER -->
+    </div>
+</div>
+
+<div class="row" ng-show="response.token!=undefined">
+    <div class="col-md-12 col-sm-12">
+        <div class="portlet light ">
+
+            <div class="portlet-body">
+                <div class="tabbable-line">
+                    <button ng-if="isProgessVisible" type="button" class="btn btn-warning pull-right"
+                        ng-click="moveToInProgress()">In Progress</button>
+
+                    <button ng-if="isOnHoldVisible" type="button" class="btn btn-warning pull-right"
+                        ng-click="moveToOnHold()">On Hold</button>
+
+                    <ul class="nav nav-tabs nav-tabs-lg">
+                        <li class="active">
+                            <a data-toggle="tab" onclick="return false;" href="#conversation"> Conversations</a>
+                        </li>
+                        <li onclick="return false;"  ng-if="response.estimateFlag">
+                            <a data-toggle="tab" href="#estimate"> Pre Auth Details</a>
+                        </li>
+                        <li onclick="return false;" ng-if="response.preAuthSubmitFlag && response.preAuthSubmit.length>0">
+                            <a data-toggle="tab" href="#preAuthSubmitted"> PreAuth Submitted</a>
+                        </li>
+                        <li onclick="return false;" ng-if="response.eligibilityCheck && response.leadInsuranceEligibility.length>0">
+                            <a data-toggle="tab" href="#eligibilitySelect"> Eligibility</a>
+                        </li>
+                        <li>
+                            <a href="http://admin.medfin.in/session/insurance/details/{{response.leadId}}/estimate"
+                                target="_blank">Insurance Estimate</a>
+                        </li>
+                        <h4 style="float: right;
+                        margin-right: 15%; font-weight: 400;">KYP Status</h4>
+                    </ul>
+
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="conversation">
+
+                            <div class="row">
+                                <div class="col-md-8 col-sm-8">
+                                    <div class="row" style="padding: 0px 0px 20px 0px;">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Patient Name / Reference -
+                                                    <b>{{response.patientName}} <br /> ( {{response.referenceNumber}})
+                                                    </b></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Insurance -
+                                                    <b>{{response.insuranceName}}</b></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> TPA -
+                                                    <b>{{response.tpa}}</b></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Corporate Name -
+                                                    <b>{{response.corporateName}}</b></label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row" style="padding: 0px 0px 20px 0px;">
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Patient Mobile -
+                                                    <b
+                                                        ng-if="can('mobile.number.display.permission')">{{response.patientMobile}}</b>
+                                                    <a ng-if="isLogin" href="#"
+                                                        ng-click="actions.makeConferenceCallByMobile({mobile:response.patientMobile,leadId:response.leadId})"><i
+                                                            class="fa fa-phone"></i></a>
+                                                    <a class="btn btn-icon-only btn-circle popovers"
+                                                        data-toggle="popover" ng-click="actions.getMobileNumber({                                               
+                                                                lead: response.leadId,                                               
+                                                            })" data-container="body" data-trigger="hover"
+                                                        data-placement="top" data-content="View mobile"
+                                                        data-original-title="Verify OTP" href="#"><i
+                                                            class="icon-eye font-green-sharp"></i></a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Posted Name / Mobile -
+                                                    <b>{{response.postedName}} / {{response.postedMobile}} </b> <a
+                                                        ng-if="isLogin" href="#"
+                                                        ng-click="actions.makeConferenceCallByMobile({mobile:response.postedMobile,leadId:response.leadId})"><i
+                                                            class="fa fa-phone"></i></a>
+                                                    <a class="btn btn-icon-only btn-circle popovers"
+                                                        data-toggle="popover" ng-click="actions.getMobileNumber({                                               
+                                                                lead: response.leadId,                                               
+                                                            })" data-container="body" data-trigger="hover"
+                                                        data-placement="top" data-content="View mobile"
+                                                        data-original-title="Verify OTP" href="#"><i
+                                                            class="icon-eye font-green-sharp"></i></a>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 ">
+                                                    <a href="#" class="popovers" data-toggle="popover"
+                                                        data-container="body" data-trigger="hover" data-placement="top"
+                                                        data-content="<b>Insurance Type </b> - {{response.insuranceType}}<br/><b>Employee name</b> - {{response.employeeName}}<br/> <b>Employee Id</b> - {{response.employeeId}}<br/><b>Relationship</b> - {{response.relationship}}"
+                                                        data-original-title="Insurance Information">Insurance
+                                                        Information</a>
+
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Surgery Name -
+                                                    <b>{{response.surgeryName}}</b></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding: 0px 0px 20px 0px;">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Surgery Date -
+                                                    <b>{{response.surgeryDate}}</b></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Claim Type -
+                                                    <b>{{claimType}}</b></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Vendor -
+                                                    <b>{{response.vendor}}</b></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-12 "> Status -
+                                                    <b>{{response.status}}</b></label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="row col-sm-offset-4">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <button ng-if="isCommentVisible" type="button" class="btn btn-success"
+                                                    data-toggle="modal" ng-click="openUploadDocumentModal()">Add
+                                                    Documents</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3" >
+                                            <div class="form-group" >
+                                                <button ng-if="isCommentVisible" type="button" class="btn btn-primary" style="height: 99%;"
+                                                    data-toggle="modal" ng-click="openUplodCommentsModal()"> Update Status</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3" ng-if="response.eligibilityCheck && response.leadInsuranceEligibility.length==0">
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                    ng-click="openEligiblityCheckModal()">Eligibility
+                                                    Check</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3" ng-if="response.preAuthSubmitFlag && response.preAuthSubmit.length==0">
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                    ng-click="openPreAuthSubmitModal()">Pre Auth Submit
+                                                    </button>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-sm-12 col-sm-offset-4">
+                                            
+                                            <button ng-if="isCommentVisible" type="button" class="btn btn-primary"
+                                                data-toggle="modal" ng-click="openUplodCommentsModal()">Add
+                                                Comments</button>
+                                           
+                                                <button ng-if="isCommentVisible" type="button" class="btn btn-success"
+                                                    data-toggle="modal" ng-click="openUploadDocumentModal()">Add
+                                                    Documents</button>
+                                              
+                                        </div> -->
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4 col-sm-4 border-left-0">
+                                    <div class="row" style="padding: 0px 0px 20px 0px;" ng-if="documentStatusList"
+                                        ng-repeat="doc in documentStatusList">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="control-label mt-5 "> Status -
+                                                    <b>{{doc.kypStatus}}
+                                                    </b></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="control-label mt-5 "> Policy Number -
+                                                    <b>{{doc.policyNumber}}</b></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="control-label mt-5 "> Policy Id -
+                                                    <b>{{doc.policyId}}</b></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="control-label mt-5 "> Created Date Id -
+                                                    <b>{{doc.createdDate}}</b></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-7" ng-if="doc.kypDocument.length>0">
+                                            <div class="form-group">
+                                                <label class="control-label mt-5 "> KYP document -</label>
+                                                <p><a href="{{doc.kypDocument}}" target="_blank">{{doc.kypDocument}}</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group">
+                                                <label class="control-label mt-5 ">Document URL -</label>
+                                                <p><a href="{{doc.policyURL}}" target="_blank">{{doc.policyURL}}</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 col-sm-offset-4 mt-5">
+                                            <div class="form-group">
+                                                <button ng-if="isCommentVisible" type="button" class="btn btn-danger"
+                                                    data-toggle="modal" ng-click="openUploadImageModal()">
+                                                    Upload File</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row" style="padding: 0px 0px 20px 0px;"
+                                        ng-if="documentStatusList.length==0">
+                                        <div class="col-sm-12">
+                                            <div class="form-group justify-content-center">
+                                                <h4 class="text-danger font-italic">Document is not there ! please
+                                                    upload document.</h4>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-sm-offset-4 mt-5">
+                                            <div class="form-group">
+                                                <button ng-if="isCommentVisible" type="button" class="btn btn-danger"
+                                                    data-toggle="modal" ng-click="openUploadImageModal()">
+                                                    Upload File</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="portlet light ">
+
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="table-scrollable">
+
+
+                                                    <br>
+                                                    <div class="portlet-body" style="padding: 10px;"
+                                                        ng-show="response.conversation.length > 0">
+
+                                                        <div class="panel-group accordion" id="accordion">
+                                                            <div class="panel panel-default"
+                                                                ng-repeat="conv in response.conversation">
+                                                                <div class="panel-heading">
+                                                                    <h4 class="panel-title">
+                                                                        <a class="accordion-toggle"
+                                                                            data-toggle="collapse"
+                                                                            data-parent="#accordion"
+                                                                            href="#collapsec_{{$index}}"
+                                                                            onclick="return false">Response From
+                                                                            {{conv.direction}} at
+                                                                            {{conv.postedDate}} </a>
+                                                                    </h4>
+                                                                </div>
+                                                                <div id="collapsec_{{$index}}"
+                                                                    class="panel-collapse collapse {{$index == 0 ? 'in':'in'}}">
+                                                                    <div class="panel-body">
+                                                                        <div class="By-and-when"></div>
+                                                                        <div class="image-block" ng-if="conv.documents">
+                                                                            <div ng-repeat="img in conv.documents"
+                                                                                class="image-description-container">
+                                                                                <a ng-href="{{img.url}}"
+                                                                                    target="_blank">
+                                                                                    <img ng-src="{{img.url}}"
+                                                                                        height="100px" width="150px">
+                                                                                </a>
+                                                                                <p style="text-align: center;"><a
+                                                                                        ng-href="{{img.url}}"
+                                                                                        target="_blank"><b>{{img.type}}</b>
+                                                                                    </a><a
+                                                                                        ng-if="img.message && img.message!=''"
+                                                                                        class="btn btn-icon-only btn-circle popovers"
+                                                                                        data-toggle="popover"
+                                                                                        data-container="body"
+                                                                                        data-trigger="hover"
+                                                                                        data-placement="top"
+                                                                                        data-content="{{img.message}}"
+                                                                                        data-original-title="Document Note"
+                                                                                        href="#"><i
+                                                                                            class="icon-eye font-green-sharp"></i></a>
+                                                                                </p>
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <div ng-if="conv.message && conv.message!=''"
+                                                                            class="comments-for-image">
+                                                                            <b>Comments</b><br>
+                                                                            <span
+                                                                                ng-bind-html="conv.message.message"></span>
+                                                                        </div>
+                                                                        <div ng-if="conv.event!='' && conv.event.length>0"
+                                                                            class="comments-for-image">
+                                                                            <b>Event</b><br>
+                                                                            <span ng-bind-html="conv.event"></span>
+                                                                        </div>
+
+                                                                        <div class="comments-for-image">
+                                                                            <b>Posted By -{{conv.postedBy}} </b> at
+                                                                            {{conv.postedDate}}
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="estimate" >
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="portlet light ">
+
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="table-scrollable">
+
+
+                                                    <br>
+                                                    <div class="portlet-body" style="padding: 10px;"
+                                                        ng-show="response.info.length > 0">
+
+                                                        <div class="panel-group">
+                                                            <div class="panel panel-default"
+                                                                ng-repeat="info in response.info">
+                                                                <div class="panel-heading">
+                                                                    <h4 class="panel-title">
+                                                                        <a class="accordion-toggle"
+                                                                            data-toggle="collapse"
+                                                                            onclick="return false">Response From
+                                                                            {{info.doctor}} at
+                                                                            {{info.hospital}} </a>
+                                                                    </h4>
+                                                                </div>
+                                                                <div id="collapsee_{{$index}}"
+                                                                    class="panel-collapse collapse {{$index == 0 ? 'in':'in'}}">
+                                                                    <div class="panel-body">
+                                                                        <div class="form-for-hospital">
+                                                                            <!-- doc-for-each-doctor -->
+                                                                            <div class="form-display-documents">
+                                                                                <h4> Pre Auth Status -
+                                                                                    <b>{{info.doctor}} (
+                                                                                        {{info.hospital}} )</b>
+                                                                                </h4>
+                                                                                <form
+                                                                                    class="form-horizontal form-bordered"
+                                                                                    id="insuranceEstimateForm-{{$index}}">
+                                                                                    <div class="row">
+                                                                                        <div class="col-sm-4">
+                                                                                            <div class="form-group">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 ">Insurance
+                                                                                                    Status</label>
+                                                                                                <div
+                                                                                                    class="col-sm-10 container-for-error">
+                                                                                                    <select
+                                                                                                        class="form-control city"
+                                                                                                        name="eligibility"
+                                                                                                        id="eligibility"
+                                                                                                        ng-model="info.eligibility"
+                                                                                                        required>
+                                                                                                        <option
+                                                                                                            value="">
+                                                                                                            Please
+                                                                                                            select
+                                                                                                        </option>
+                                                                                                        <option
+                                                                                                            value="PreAuth Approved">
+                                                                                                            PreAuth
+                                                                                                            Approved
+                                                                                                        </option>
+                                                                                                        <option
+                                                                                                            value="PreAuth Rejected">
+                                                                                                            PreAuth
+                                                                                                            Rejected
+                                                                                                        </option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                        <div ng-if="info.eligibility=='PreAuth Rejected'"
+                                                                                            class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Comments</label>
+                                                                                                <div class="col-sm-10">
+                                                                                                    <textarea
+                                                                                                        id="comments"
+                                                                                                        name="comments"
+                                                                                                        placeholder="Not"
+                                                                                                        class="form-control"
+                                                                                                        ng-model="info.comments"
+                                                                                                        required></textarea>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div ng-if="info.eligibility=='PreAuth Approved'"
+                                                                                            class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Comments</label>
+                                                                                                <div class="col-sm-10">
+                                                                                                    <textarea
+                                                                                                        id="comments"
+                                                                                                        name="comments"
+                                                                                                        placeholder="Not"
+                                                                                                        class="form-control"
+                                                                                                        ng-model="info.comments"></textarea>
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row"
+                                                                                        ng-if="info.eligibility=='PreAuth Approved'">
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Sum
+                                                                                                    Covered</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input
+                                                                                                        id="sumCovered"
+                                                                                                        type="number"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Sum covered"
+                                                                                                        name="sumCovered"
+                                                                                                        ng-model="info.sumCovered">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Available
+                                                                                                    Sum Covered</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input
+                                                                                                        id="balanceAmount"
+                                                                                                        type="number"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Available Sum Covered"
+                                                                                                        name="balanceAmount"
+                                                                                                        ng-model="info.balanceAmount">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Room
+                                                                                                    Category</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input
+                                                                                                        id="roomCategory"
+                                                                                                        type="text"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Room Category"
+                                                                                                        name="roomCategory"
+                                                                                                        ng-model="info.roomCategory">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                    <div class="row"
+                                                                                        ng-if="info.eligibility=='PreAuth Approved'">
+
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Surgery
+                                                                                                    name</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input
+                                                                                                        id="surgeryName"
+                                                                                                        type="text"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Surgery name"
+                                                                                                        name="surgeryName"
+                                                                                                        ng-model="info.surgeryName">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Surgery
+                                                                                                    Package</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input
+                                                                                                        id="surgeryPackage"
+                                                                                                        type="number"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Surgery package"
+                                                                                                        name="surgeryPackage"
+                                                                                                        ng-model="info.surgeryPackage">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Initial
+                                                                                                    Approval</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input
+                                                                                                        id="initialApproval"
+                                                                                                        type="number"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Initial Approval"
+                                                                                                        name="initialApproval"
+                                                                                                        ng-model="info.initialApproval">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+
+
+
+                                                                                    </div>
+                                                                                    <div class="row"
+                                                                                        ng-if="info.eligibility=='PreAuth Approved'">
+
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Estimated
+                                                                                                    Final
+                                                                                                    Approval</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input
+                                                                                                        id="estimatedFinalApproval"
+                                                                                                        type="number"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Estimated Final Approval"
+                                                                                                        name="estimatedFinalApproval"
+                                                                                                        ng-model="info.estimatedFinalApproval">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Co-Pay</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input
+                                                                                                        id="copayPercentage"
+                                                                                                        type="text"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Co Pay Percentage"
+                                                                                                        name="copayPercentage"
+                                                                                                        ng-model="info.copayPercentage">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Non
+                                                                                                    Medical
+                                                                                                    Charges</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input id="nmc"
+                                                                                                        type="text"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Non Medical Charges"
+                                                                                                        name="nmc"
+                                                                                                        ng-model="info.nmc">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+
+                                                                                    </div>
+                                                                                    <div class="row"
+                                                                                        ng-if="info.eligibility=='PreAuth Approved'">
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Laser
+                                                                                                    Cost
+                                                                                                    Covered Or
+                                                                                                    Not</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <select
+                                                                                                        class="form-control"
+                                                                                                        name="laserCovered"
+                                                                                                        id="laserCovered"
+                                                                                                        ng-model="info.laserCovered">
+                                                                                                        <option
+                                                                                                            value="">
+                                                                                                            Please
+                                                                                                            select
+                                                                                                        </option>
+                                                                                                        <option
+                                                                                                            value="yes">
+                                                                                                            Yes</option>
+                                                                                                        <option
+                                                                                                            value="not">
+                                                                                                            Not</option>
+                                                                                                    </select>
+
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Implant
+                                                                                                    Cost Covered Or
+                                                                                                    Not</label>
+                                                                                                <div class="col-sm-10">
+                                                                                                    <select
+                                                                                                        class="form-control city"
+                                                                                                        name="implantCovered"
+                                                                                                        id="implantCovered"
+                                                                                                        ng-model="info.implantCovered">
+                                                                                                        <option
+                                                                                                            value="">
+                                                                                                            Please
+                                                                                                            select
+                                                                                                        </option>
+                                                                                                        <option
+                                                                                                            value="yes">
+                                                                                                            Yes</option>
+                                                                                                        <option
+                                                                                                            value="not">
+                                                                                                            Not</option>
+                                                                                                    </select>
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Claim
+                                                                                                    ID
+                                                                                                </label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input id="claimId"
+                                                                                                        type="string"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Initial Approval"
+                                                                                                        name="claimId"
+                                                                                                        ng-model="info.claimId">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                    <div class="row"
+                                                                                        ng-if="info.eligibility=='PreAuth Approved'">
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Room
+                                                                                                    Rent</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input id="roomRent"
+                                                                                                        type="text"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Room Category"
+                                                                                                        name="roomRent"
+                                                                                                        ng-model="info.roomRent">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row submit-button">
+                                                                                        <div class="col-md-12">
+                                                                                            <input
+                                                                                                ng-if="isSubmitVisible"
+                                                                                                value="Submit"
+                                                                                                type="submit"
+                                                                                                class="btn btn-danger btn-lg btn-block"
+                                                                                                href="javascript:void(0)"
+                                                                                                id="estimatedInsuranceSubmit"
+                                                                                                ng-click="submitEstimates(info,$index,response.token)">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+
+                                                                            <!-- doc for each doctor ends -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="preAuthSubmitted" >
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="portlet light ">
+
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="table-scrollable">
+
+
+                                                    <br>
+                                                    <div class="portlet-body" style="padding: 10px;"
+                                                        ng-show="response.preAuthSubmit.length > 0">
+
+                                                        <div class="panel-group">
+                                                            <div class="panel panel-default"
+                                                                >
+                                                                <div class="panel-heading">
+                                                                    <h4 class="panel-title">
+                                                                        <a class="accordion-toggle"
+                                                                            data-toggle="collapse"
+                                                                            onclick="return false">
+                                                                            Pre Auth Submit Status
+                                                                            <!-- Response From
+                                                                            {{info.doctor}} at
+                                                                            {{info.hospital}}  -->
+                                                                        </a>
+                                                                    </h4>
+                                                                </div>
+                                                                <div id="collapsee_{{$index}}"
+                                                                    class="panel-collapse collapse {{$index == 0 ? 'in':'in'}}">
+                                                                    <div class="panel-body">
+                                                                        <div class="form-for-hospital">
+                                                                            <!-- doc-for-each-doctor -->
+                                                                            <div class="form-display-documents">
+                                                                                <h4> Pre Auth Status -
+                                                                                    <!-- <b>{{info.doctor}} (
+                                                                                        {{info.hospital}} )</b> -->
+                                                                                </h4>
+                                                                                <form
+                                                                                    class="form-horizontal form-bordered"
+                                                                                    id="insuranceEstimateForm-{{$index}}">
+                                                                                    <div class="row">
+                                                                                        <div class="col-sm-4">
+                                                                                            <div class="form-group">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 ">Date
+                                                                                                    </label>
+                                                                                                <div
+                                                                                                    class="col-sm-10 container-for-error">
+                                                                                                    <input type="text" name="date" id="date"  ng-model="preAuthSubmit.date"
+                                                                                                    class="form-control">
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                        </div>
+
+                                                                                        <div class="col-sm-4">
+                                                                                            <div class="form-group">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 "> Hospital Person Name
+                                                                                                    </label>
+                                                                                                <div
+                                                                                                    class="col-sm-10 container-for-error">
+                                                                                                    <input id="name" name="name" class="form-control"
+                                                                                                    ng-model="preAuthSubmit.name"></input>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            
+                                                                                      
+                                                                                        </div>
+                                                                                        <div class="col-sm-4">
+                                                                                            <div class="form-group">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 ">Claim ID
+                                                                                                    </label>
+                                                                                                <div
+                                                                                                    class="col-sm-10 container-for-error">
+                                                                                                    <input id="claimId"
+                                                                                                    type="string"
+                                                                                                    class="form-control container-for-error"
+                                                                                                    placeholder="Enter claim ID"
+                                                                                                    name="claimId"
+                                                                                                    ng-model="preAuthSubmit.claimId">
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                        </div>
+                                                                                    <div class="row submit-button">
+                                                                                        <div class="col-md-12">
+                                                                                            <input
+                                                                                                
+                                                                                                value="Submit"
+                                                                                                type="submit"
+                                                                                                class="btn btn-danger btn-lg btn-block"
+                                                                                                href="javascript:void(0)"
+                                                                                                id="estimatedInsuranceSubmit"
+                                                                                                ng-click="submitPreAuth(preAuthSubmit,$index,response.token)">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+
+                                                                            <!-- doc for each doctor ends -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <script>
+                                                                     setTimeout(function () {
+
+
+$('#date,#tdate').datepicker({
+    format: "yyyy-mm-dd",
+    autoclose: true,
+});
+// $("#date").datepicker("setDate", new Date());
+// $("#tdate").datepicker("setDate", new Date());
+
+}, 100);
+                                                                </script>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane" id="eligibilitySelect" >
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="portlet light ">
+
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="table-scrollable">
+
+
+                                                    <br>
+                                                    <div class="portlet-body" style="padding: 10px;"
+                                                        ng-show="response.leadInsuranceEligibility.length > 0">
+
+                                                        <div class="panel-group">
+                                                            <div class="panel panel-default"
+                                                                >
+                                                                <div class="panel-heading">
+                                                                    <h4 class="panel-title">
+                                                                        <a class="accordion-toggle"
+                                                                            data-toggle="collapse"
+                                                                            onclick="return false">
+                                                                            <!-- Response From
+                                                                            {{info.doctor}} at
+                                                                            {{info.hospital}}  -->
+                                                                            Eligibility Status
+                                                                        </a>
+                                                                    </h4>
+                                                                </div>
+                                                                <div id="collapsee_{{$index}}"
+                                                                    class="panel-collapse collapse {{$index == 0 ? 'in':'in'}}">
+                                                                    <div class="panel-body">
+                                                                        <div class="form-for-hospital">
+                                                                            <!-- doc-for-each-doctor -->
+                                                                            <div class="form-display-documents">
+                                                                                <h4> Eligibility Status -
+                                                                                    <!-- <b>{{info.doctor}} (
+                                                                                        {{info.hospital}} )</b> -->
+                                                                                </h4>
+                                                                                <form
+                                                                                    class="form-horizontal form-bordered"
+                                                                                    id="insuranceEstimateForm-{{$index}}">
+                                                                                    <div class="row">
+                                                                                        <div class="col-sm-4">
+                                                                                            <div class="form-group">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 ">Insurance
+                                                                                                    Status</label>
+                                                                                                <div
+                                                                                                    class="col-sm-10 container-for-error">
+                                                                                                    <select
+                                                                                                        class="form-control city"
+                                                                                                        name="eligibility"
+                                                                                                        id="eligibility"
+                                                                                                        ng-model="leadInsuranceEligibility.eligibility"
+                                                                                                        required>
+                                                                                                        <option
+                                                                                                            value="">
+                                                                                                            Please
+                                                                                                            select
+                                                                                                        </option>
+                                                                                                        <option
+                                                                                                            value="Eligible">
+                                                                                                            Eligible
+                                                                                                        </option>
+                                                                                                        <option
+                                                                                                            value="Not Eligible">
+                                                                                                            Not Eligible
+                                                                                                        </option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                        <div ng-if="leadInsuranceEligibility.eligibility=='Not Eligible'"
+                                                                                            class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Comments</label>
+                                                                                                <div class="col-sm-10">
+                                                                                                    <textarea
+                                                                                                        id="comments"
+                                                                                                        name="comments"
+                                                                                                        placeholder="Not"
+                                                                                                        class="form-control"
+                                                                                                        ng-model="leadInsuranceEligibility.comments"
+                                                                                                        required></textarea>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div ng-if="leadInsuranceEligibility.eligibility=='Eligible'"
+                                                                                            class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Comments</label>
+                                                                                                <div class="col-sm-10">
+                                                                                                    <textarea
+                                                                                                        id="comments"
+                                                                                                        name="comments"
+                                                                                                        placeholder="Not"
+                                                                                                        class="form-control"
+                                                                                                        ng-model="leadInsuranceEligibility.comments"></textarea>
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row"
+                                                                                        ng-if="leadInsuranceEligibility.eligibility=='Eligible'">
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Sum
+                                                                                                    Covered</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input
+                                                                                                        id="sumCovered"
+                                                                                                        type="number"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Sum covered"
+                                                                                                        name="sumCovered"
+                                                                                                        ng-model="leadInsuranceEligibility.sumCovered">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Available
+                                                                                                    Sum Covered</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input
+                                                                                                        id="balanceAmount"
+                                                                                                        type="number"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Available Sum Covered"
+                                                                                                        name="balanceAmount"
+                                                                                                        ng-model="leadInsuranceEligibility.balanceAmount">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Implant
+                                                                                                    Cost Covered Or
+                                                                                                    Not</label>
+                                                                                                <div class="col-sm-10">
+                                                                                                    <select
+                                                                                                        class="form-control city"
+                                                                                                        name="implantCovered"
+                                                                                                        id="implantCovered"
+                                                                                                        ng-model="leadInsuranceEligibility.implantCovered">
+                                                                                                        <option
+                                                                                                            value="">
+                                                                                                            Please
+                                                                                                            select
+                                                                                                        </option>
+                                                                                                        <option
+                                                                                                            value="yes">
+                                                                                                            Yes</option>
+                                                                                                        <option
+                                                                                                            value="not">
+                                                                                                            Not</option>
+                                                                                                    </select>
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                       
+
+                                                                                    </div>
+                                                                                    <div class="row"
+                                                                                        ng-if="leadInsuranceEligibility.eligibility=='Eligible'">
+
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Surgery
+                                                                                                    name</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input
+                                                                                                        id="surgeryName"
+                                                                                                        type="text"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Surgery name"
+                                                                                                        name="surgeryName"
+                                                                                                        ng-model="leadInsuranceEligibility.surgeryName">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Surgery
+                                                                                                    Package</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input
+                                                                                                        id="surgeryPackage"
+                                                                                                        type="number"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Surgery package"
+                                                                                                        name="surgeryPackage"
+                                                                                                        ng-model="leadInsuranceEligibility.surgeryPackage">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Initial
+                                                                                                    Approval</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input
+                                                                                                        id="initialApproval"
+                                                                                                        type="number"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Initial Approval"
+                                                                                                        name="initialApproval"
+                                                                                                        ng-model="leadInsuranceEligibility.initialApproval">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+
+
+
+                                                                                    </div>
+                                                                                    <div class="row"
+                                                                                        ng-if="leadInsuranceEligibility.eligibility=='Eligible'">
+
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Estimated
+                                                                                                    Final
+                                                                                                    Approval</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input
+                                                                                                        id="estimatedFinalApproval"
+                                                                                                        type="number"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Estimated Final Approval"
+                                                                                                        name="estimatedFinalApproval"
+                                                                                                        ng-model="leadInsuranceEligibility.estimatedFinalApproval">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Co-Pay</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input
+                                                                                                        id="copayPercentage"
+                                                                                                        type="text"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Co Pay Percentage"
+                                                                                                        name="copayPercentage"
+                                                                                                        ng-model="leadInsuranceEligibility.copayPercentage">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Non
+                                                                                                    Medical
+                                                                                                    Charges</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input id="nmc"
+                                                                                                        type="text"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Non Medical Charges"
+                                                                                                        name="nmc"
+                                                                                                        ng-model="leadInsuranceEligibility.nmc">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+
+                                                                                    </div>
+                                                                                    <div class="row"
+                                                                                        ng-if="leadInsuranceEligibility.eligibility=='Eligible'">
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Laser
+                                                                                                    Cost
+                                                                                                    Covered Or
+                                                                                                    Not</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <select
+                                                                                                        class="form-control"
+                                                                                                        name="laserCovered"
+                                                                                                        id="laserCovered"
+                                                                                                        ng-model="leadInsuranceEligibility.laserCovered">
+                                                                                                        <option
+                                                                                                            value="">
+                                                                                                            Please
+                                                                                                            select
+                                                                                                        </option>
+                                                                                                        <option
+                                                                                                            value="yes">
+                                                                                                            Yes</option>
+                                                                                                        <option
+                                                                                                            value="not">
+                                                                                                            Not</option>
+                                                                                                    </select>
+
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Room
+                                                                                                    Category</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input
+                                                                                                        id="roomCategory"
+                                                                                                        type="text"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Room Category"
+                                                                                                        name="roomCategory"
+                                                                                                        ng-model="leadInsuranceEligibility.roomCategory">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-sm-4">
+                                                                                            <div
+                                                                                                class="form-group form-container">
+                                                                                                <label
+                                                                                                    class="control-label col-sm-10 text-left">Room
+                                                                                                    Rent</label>
+                                                                                                <div class="col-sm-10">
+
+                                                                                                    <input id="roomRent"
+                                                                                                        type="text"
+                                                                                                        class="form-control container-for-error"
+                                                                                                        placeholder="Enter Room Category"
+                                                                                                        name="roomRent"
+                                                                                                        ng-model="leadInsuranceEligibility.roomRent">
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                   
+                                                                                    <div class="row submit-button">
+                                                                                        <div class="col-md-12">
+                                                                                            <input                                                                                                
+                                                                                                value="Submit"
+                                                                                                type="submit"
+                                                                                                class="btn btn-danger btn-lg btn-block"
+                                                                                                href="javascript:void(0)"
+                                                                                                id="estimatedInsuranceSubmit"
+                                                                                                ng-click="submitEstimates(leadInsuranceEligibility,$index,response.token)">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+
+                                                                            <!-- doc for each doctor ends -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="uploadDocModal" role="dialog">
+    <div class="modal-dialog" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Upload Document</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="uploadDocForm">
+
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Document Type</label>
+                        <div class="col-lg-8">
+                            <select class="form-control" name="fileType" id="fileType" ng-model="fileType">
+                                <option value="">Please select</option>
+                                <option ng-repeat="data in documentTypes">{{data}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-lg-8 fileupload-buttonbar">
+                            <span class="btn green fileinput-button">
+                                <i class="fa fa-plus"></i>
+                                <span> Add files... </span>
+                                <input type="file" name="file" id="file" multiple
+                                    onchange="angular.element(this).scope().getFileDetails(this)">
+
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Event</label>
+                        <div class="col-lg-8">
+                            <select class="form-control" name="event" id="event" ng-model="event">
+                                <option value="">Please Select</option>
+                                <option ng-if="claimType=='Cashless'" ng-repeat="eve in cashlessEvents" value="{{eve}}">
+                                    {{eve}}</option>
+                                <option ng-if="claimType!='Cashless'" ng-repeat="eve in reimbursementEvents"
+                                    value="{{eve}}">{{eve}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Update Status</label>
+                        <div class="col-lg-8">
+                           
+                            <select class="form-control" name="resetStatus" id="resetStatus" ng-model="resetStatus">
+                                <option value="">Please Select</option>
+                                <option value="{{status}}" ng-repeat="status in statusList">{{status}}</option>
+                            </select>
+                        
+                        </div>
+                    </div>
+
+                    <table role="presentation" class="table table-striped clearfix" ng-show="files.length>0">
+                        <tbody class="files">
+
+                            <tr class="template-upload fade in" ng-repeat="file in files">
+                                <td>
+                                    <span class="preview">
+                                        <img width="120" height="60" src="{{file.url}}">
+                                    </span>
+                                </td>
+                                <td>
+                                    <p class="name">{{file.name}}</p>
+                                    <strong class="error text-danger label label-danger"></strong>
+                                </td>
+                                <td>
+                                    <p class="size">{{file.size/1024 | bytes}} </p>
+
+                                </td>
+                                <td>
+
+                                    <button class="btn red cancel" ng-click="removeFile($index)">
+                                        <i class="fa fa-trash"></i>
+
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Enter Your Comments <font color="red">*
+                            </font></label>
+                        <div class="col-lg-8">
+                            <textarea id="docComments" name="docComments" class="form-control"
+                                ng-model="docComments"></textarea>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-mdm" ng-click="uploadDocument()">
+                    <strong><strong>Add</strong></strong>
+                </button>
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="updateCommentsModal" role="dialog">
+    <div class="modal-dialog" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Comments</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="updateCommentsForm">
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Enter Your Comments <font color="red">*
+                            </font></label>
+                        <div class="col-lg-8">
+                            <textarea id="commentsUpload" name="commentsUpload" class="form-control"
+                                ng-model="commentsUpload"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Event</label>
+                        <div class="col-lg-8">
+                            <select class="form-control" name="event" id="event" ng-model="cevent">
+                                <option value="">Please Select</option>
+                                <option ng-if="claimType=='Cashless'" ng-repeat="eve in cashlessEvents" value="{{eve}}">
+                                    {{eve}}</option>
+                                <option ng-if="claimType!='Cashless'" ng-repeat="eve in reimbursementEvents"
+                                    value="{{eve}}">{{eve}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Update Status</label>
+                        <div class="col-lg-8">
+                            <select class="form-control" name="status" id="status" ng-model="status">
+                                <option value="">Please Select</option>
+                                <option value="{{status}}" ng-repeat="status in statusList">{{status}}</option>
+                            </select>
+                            
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-mdm" ng-click="updateComments()">
+                    <strong><strong>Add</strong></strong>
+                </button>
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="openPreAuthSubmitModal" role="dialog">
+    <div class="modal-dialog" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Pre Auth Submitted</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="updatePreAuthSubmittedForm">
+
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Date </label>
+                        <div class="col-lg-8">
+                            <input type="text" name="date" id="date" readonly="true" ng-model="date"
+                            class="form-control">
+                        </div>
+                    </div>
+
+                  
+
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label"> Hospital Person Name </label>
+                        <div class="col-lg-8">
+                            <input id="name" name="name" class="form-control"
+                                ng-model="name"></input>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Claim Id </label>
+                        <div class="col-lg-8">
+                           <input id="claimId"
+                    type="string"
+                    class="form-control container-for-error"
+                    placeholder="Enter Claim Id "
+                    name="claimId"
+                    ng-model="claimId">
+                        </div>
+                    </div>
+                   
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-mdm" ng-click="updatePreAuthSubmitted()">
+                    <strong><strong>Submit</strong></strong>
+                </button>
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="openEligibilityCheckModal" role="dialog">
+    <div class="modal-dialog" style="width: 60%;">
+        <div class="modal-content" style="width: 128%;margin-left: -12%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Eligibility Check</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal form-bordered" id="insuranceEstimateForm-{{$index}}">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label col-sm-10 ">Insurance
+                                    Status</label>
+                                <div class="col-sm-10 container-for-error">
+                                    <select class="form-control city" name="eligibility" id="eligibility"
+                                        ng-model="info.eligibility" required>
+                                        <option value="">
+                                            Please
+                                            select
+                                        </option>
+                                        <option value="Eligible">
+                                            Eligible
+                                        </option>
+                                        <option value="Not Eligible">
+                                            Not Eligible
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div ng-if="info.eligibility=='Not Eligible'" class="col-sm-4">
+                            <div class="form-group form-container">
+                                <label class="control-label col-sm-10 text-left">Comments</label>
+                                <div class="col-sm-10">
+                                    <textarea id="comments" name="comments" placeholder="Not" class="form-control"
+                                        ng-model="info.comments" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="info.eligibility=='Eligible'" class="col-sm-4">
+                            <div class="form-group form-container">
+                                <label class="control-label col-sm-10 text-left">Comments</label>
+                                <div class="col-sm-10">
+                                    <textarea id="comments" name="comments" placeholder="Not" class="form-control"
+                                        ng-model="info.comments"></textarea>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="info.eligibility=='Eligible'">
+                        <div class="col-sm-4">
+                            <div class="form-group form-container">
+                                <label class="control-label col-sm-10 text-left">Sum
+                                    Covered</label>
+                                <div class="col-sm-10">
+
+                                    <input id="sumCovered" type="number" class="form-control container-for-error"
+                                        placeholder="Enter Sum covered" name="sumCovered" ng-model="info.sumCovered">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group form-container">
+                                <label class="control-label col-sm-10 text-left">Available
+                                    Sum Covered</label>
+                                <div class="col-sm-10">
+
+                                    <input id="balanceAmount" type="number" class="form-control container-for-error"
+                                        placeholder="Enter Available Sum Covered" name="balanceAmount"
+                                        ng-model="info.balanceAmount">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group form-container">
+                                <label class="control-label col-sm-10 text-left">Implant
+                                    Cost Covered Or
+                                    Not</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control city" name="implantCovered" id="implantCovered"
+                                        ng-model="info.implantCovered">
+                                        <option value="">
+                                            Please
+                                            select
+                                        </option>
+                                        <option value="yes">
+                                            Yes</option>
+                                        <option value="not">
+                                            Not</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+
+                       
+
+                    </div>
+                    <div class="row" ng-if="info.eligibility=='Eligible'">
+
+                        <div class="col-sm-4">
+                            <div class="form-group form-container">
+                                <label class="control-label col-sm-10 text-left">Surgery
+                                    name</label>
+                                <div class="col-sm-10">
+
+                                    <input id="surgeryName" type="text" class="form-control container-for-error"
+                                        placeholder="Enter Surgery name" name="surgeryName" ng-model="info.surgeryName">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group form-container">
+                                <label class="control-label col-sm-10 text-left">Surgery
+                                    Package</label>
+                                <div class="col-sm-10">
+
+                                    <input id="surgeryPackage" type="number" class="form-control container-for-error"
+                                        placeholder="Enter Surgery package" name="surgeryPackage"
+                                        ng-model="info.surgeryPackage">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-container">
+                                <label class="control-label col-sm-10 text-left">Initial
+                                    Approval</label>
+                                <div class="col-sm-10">
+
+                                    <input id="initialApproval" type="number" class="form-control container-for-error"
+                                        placeholder="Enter Initial Approval" name="initialApproval"
+                                        ng-model="info.initialApproval">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="row" ng-if="info.eligibility=='Eligible'">
+
+                        <div class="col-sm-4">
+                            <div class="form-group form-container">
+                                <label class="control-label col-sm-10 text-left">Estimated
+                                    Final
+                                    Approval</label>
+                                <div class="col-sm-10">
+
+                                    <input id="estimatedFinalApproval" type="number"
+                                        class="form-control container-for-error"
+                                        placeholder="Enter Estimated Final Approval" name="estimatedFinalApproval"
+                                        ng-model="info.estimatedFinalApproval">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group form-container">
+                                <label class="control-label col-sm-10 text-left">Co-Pay</label>
+                                <div class="col-sm-10">
+
+                                    <input id="copayPercentage" type="text" class="form-control container-for-error"
+                                        placeholder="Enter Co Pay Percentage" name="copayPercentage"
+                                        ng-model="info.copayPercentage">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-container">
+                                <label class="control-label col-sm-10 text-left">Non
+                                    Medical
+                                    Charges</label>
+                                <div class="col-sm-10">
+
+                                    <input id="nmc" type="text" class="form-control container-for-error"
+                                        placeholder="Enter Non Medical Charges" name="nmc" ng-model="info.nmc">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row" ng-if="info.eligibility=='Eligible'">
+                        <div class="col-sm-4">
+                            <div class="form-group form-container">
+                                <label class="control-label col-sm-10 text-left">Laser
+                                    Cost
+                                    Covered Or
+                                    Not</label>
+                                <div class="col-sm-10">
+
+                                    <select class="form-control" name="laserCovered" id="laserCovered"
+                                        ng-model="info.laserCovered">
+                                        <option value="">
+                                            Please
+                                            select
+                                        </option>
+                                        <option value="yes">
+                                            Yes</option>
+                                        <option value="not">
+                                            Not</option>
+                                    </select>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group form-container">
+                                <label class="control-label col-sm-10 text-left">Room
+                                    Category</label>
+                                <div class="col-sm-10">
+
+                                    <input id="roomCategory" type="text" class="form-control container-for-error"
+                                        placeholder="Enter Room Category" name="roomCategory"
+                                        ng-model="info.roomCategory">
+
+                                </div>
+                            </div>
+                        </div>
+                      
+
+                        <div class="col-sm-4">
+                            <div class="form-group form-container">
+                                <label class="control-label col-sm-10 text-left">Room
+                                    Rent</label>
+                                <div class="col-sm-10">
+
+                                    <input id="roomRent" type="text" class="form-control container-for-error"
+                                        placeholder="Enter Room Category" name="roomRent" ng-model="info.roomRent">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                   
+                    <div class="row submit-button">
+                        <div class="col-md-12">
+                            <input ng-if="isSubmitVisible" value="Submit" type="submit"
+                                class="btn btn-danger btn-lg btn-block" href="javascript:void(0)"
+                                id="estimatedInsuranceSubmit"
+                                ng-click="submitEstimatesEligibility(info,response.token)">
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DocumentModal" role="dialog">
+    <div class="modal-dialog" style="width: 40%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Upload Document</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="DocumentForm">
+                    <div class="form-group">
+                        <label for="job-document" class="col-lg-4 control-label">Choose Document</label>
+                        <div class="col-lg-8 fileupload-buttonbar">
+                            <span class="btn green fileinput-button">
+                                <i class="fa fa-plus"></i>
+                                <span> Add Documents... </span>
+                                <input type="file" name="file" id="file" multiple
+                                    onchange="angular.element(this).scope().getFiles(this)">
+
+                            </span>
+                        </div>
+                    </div>
+
+                    <table class="table table-striped clearfix" ng-show="filesSelect.length>0">
+                        <tbody class="files">
+
+                            <tr class="template-upload fade in" ng-repeat="file in filesSelect">
+                                <td>
+                                    <span class="preview">
+                                        <img width="120" height="60" src="{{file.url}}">
+                                    </span>
+                                </td>
+                                <td>
+                                    <p class="name">{{file.name}}</p>
+                                    <strong class="error text-danger label label-danger"></strong>
+                                </td>
+                                <td>
+                                    <p class="size">{{file.size/1024 | bytes}} </p>
+
+                                </td>
+                                <td>
+
+                                    <button class="btn red cancel" ng-click="removeFileDocumentStatus($index)">
+                                        <i class="fa fa-trash"></i>
+
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Gender </label>
+                        <div class="col-lg-8">
+
+                            <select class="form-control city" name="gender" id="gender" ng-model="gender">
+                                <option value="">
+                                    Please
+                                    select
+                                </option>
+                                <option value="Male">
+                                    Male
+                                </option>
+                                <option value="Female">
+                                    Female
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Policy</label>
+                        <div class="col-lg-8">
+                            <input id="policy" name="policy" class="form-control" ng-model="policySelect" />
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="job-comment" class="col-lg-4 control-label">Enter Your Comments <font color="red">*
+                            </font></label>
+                        <div class="col-lg-8">
+                            <textarea id="docComments" name="docComments" class="form-control"
+                                ng-model="docComments"></textarea>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-mdm" ng-click="updateDocuments()">
+                    <strong><strong>Update</strong></strong>
+                </button>
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="blockUiDiv" ng-show="showBlockUI">
+</div>
+<div id="blockUiBackdrop" ng-show="showBlockUI">
+</div>
+
+<script>
+    /* validate the login form */
+    (function () {
+        applySelect2();
+        // applyDateRange();      
+
+        /* Define logic for restricting user from selecting date range more than 30 days */
+        $('#startDate,#endDate').datepicker({
+            format: "yyyy-mm-dd",
+            autoclose: true,
+        });
+
+
+        $('#startDate').on("changeDate", function () {
+            $('#endDate').val($(this).val());
+            var selected = $(this).val();
+            $('#endDate').datepicker('setStartDate', selected);
+        });
+        $('#uploadDocForm').validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block help-block-error', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "", // validate all fields including form hidden input
+            rules: {
+                fileType: {
+                    required: true
+                },
+                file: {
+                    required: true
+                },
+                event: {
+                    required: true
+                },
+                docComments: {
+                    required: true
+                }
+            },
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                    .closest('.form-group').addClass(
+                        'has-error'); // set error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element)
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set error class to the control group
+            },
+            success: function (label) {
+                label
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set success class to the control group
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "mobile") {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+        $("#DocumentForm").validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block help-block-error', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "", // validate all fields including form hidden input
+            rules: {
+                docComments: {
+                    required: true
+
+                },
+                file: {
+                    required: true
+
+                }
+
+
+            },
+            messages: {
+                //appointmentId: "Enter valid Appointment Id.",
+                mobile: {
+                    required: "Enter valid Mobile Number.",
+                    minlength: "Mobile number should be {0} digit.",
+                    maxlength: "Mobile number should be {0} digit."
+                }
+
+            },
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                    .closest('.form-group').addClass(
+                        'has-error'); // set error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element)
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set error class to the control group
+            },
+            success: function (label) {
+                label
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set success class to the control group
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "mobile") {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+
+
+        $("#updateCommentsForm").validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block help-block-error', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "", // validate all fields including form hidden input
+            rules: {
+                commentsUpload: {
+                    required: true
+
+                },
+                event: {
+                    required: true
+
+                }
+
+
+            },
+            messages: {
+                //appointmentId: "Enter valid Appointment Id.",
+                mobile: {
+                    required: "Enter valid Mobile Number.",
+                    minlength: "Mobile number should be {0} digit.",
+                    maxlength: "Mobile number should be {0} digit."
+                }
+
+            },
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                    .closest('.form-group').addClass(
+                        'has-error'); // set error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element)
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set error class to the control group
+            },
+            success: function (label) {
+                label
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set success class to the control group
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "mobile") {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+
+
+        $("#updatePreAuthSubmittedForm").validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block help-block-error', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "", // validate all fields including form hidden input
+            rules: {
+                date: {
+                    required: true
+
+                },
+                name: {
+                    required: true
+
+                }
+
+
+            },
+            messages: {
+                //appointmentId: "Enter valid Appointment Id.",
+                mobile: {
+                    required: "Enter valid Mobile Number.",
+                    minlength: "Mobile number should be {0} digit.",
+                    maxlength: "Mobile number should be {0} digit."
+                }
+
+            },
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                    .closest('.form-group').addClass(
+                        'has-error'); // set error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element)
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set error class to the control group
+            },
+            success: function (label) {
+                label
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set success class to the control group
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "mobile") {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+
+
+        $('#session-filter-form').validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block help-block-error', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "", // validate all fields including form hidden input
+            rules: {
+                startDate: {
+                    required: true
+
+                },
+                endDate: {
+                    required: true
+
+                }
+
+
+            },
+            messages: {
+                //appointmentId: "Enter valid Appointment Id.",
+                mobile: {
+                    required: "Enter valid Mobile Number.",
+                    minlength: "Mobile number should be {0} digit.",
+                    maxlength: "Mobile number should be {0} digit."
+                }
+
+            },
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                    .closest('.form-group').addClass(
+                        'has-error'); // set error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element)
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set error class to the control group
+            },
+            success: function (label) {
+                label
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set success class to the control group
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "mobile") {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+
+
+    })();
+
+   
+</script>
+
+<script src="/js/internationalMobileInitiazation.js" type="text/javascript"></script>

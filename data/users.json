@@ -1,0 +1,27 @@
+{
+    "statusCode": 200,
+    "message": {
+        "messageDesc": "Records Sent"
+    },
+    "userList": [
+        {
+            "userId": 1,
+            "email": "super_user@juno.in",
+            "name": "Super User",
+            "password": "1234567890",
+            "mobile": null,
+            "allLocations": "Y",
+            "allServices": "Y",
+            "channelId": "-1",
+            "eventType": null,
+            "roles": [
+                {
+                    "roleName": "Super User",
+                    "roleDesc": "Super User to the juno Administration Portal"
+                }
+            ]
+        }
+
+
+    ]
+}

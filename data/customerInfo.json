@@ -1,0 +1,10 @@
+{
+	"customerInfo":{
+			"customerId": "1",
+			"name": "mahipal",
+			"email": "mahipal@housejoy.in",
+			"mobileNumber": "9874561235",
+			"country": "2",
+			"address": "sample address"
+		}
+}

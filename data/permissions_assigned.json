@@ -1,0 +1,49 @@
+{
+  "permissionGroupList": [
+    {
+      "groupName": "User Management",
+      "groupDesc": "User",
+      "groupId": "1",
+      "permissionList": [
+        {
+          "permissionId": "1",
+          "permissionTag": "create.user",
+          "permissionDesc": "Create New Users",
+          "permissionType": "route"
+        },
+        {
+          "permissionId": "8",
+          "permissionTag": "assignPermission.user",
+          "permissionDesc": "Assign Permission to Existing User",
+          "permissionType": "route"
+        }
+        
+      ]
+    },
+    {
+      "groupName": "Job",
+      "groupDesc": "Job",
+      "groupId": "2",
+      "permissionList": [
+        {
+          "permissionId": "33",
+          "permissionTag": "delete.brand",
+          "permissionDesc": "Delete Existing Brands",
+          "permissionType": "route"
+        },
+        {
+          "permissionId": "29",
+          "permissionTag": "delete.status",
+          "permissionDesc": "Delete Existing Statuses",
+          "permissionType": "route"
+        }
+        
+      ]
+    }
+  ],
+  "statusCode": 200,
+  "message": {
+    "messageDesc": "Records Sent"
+  },
+  "count": 0
+}

@@ -1,0 +1,176 @@
+<!-- BEGIN HEADER TOP -->
+<div class="page-header-top">
+    <div class="container">
+        <!-- BEGIN LOGO -->
+        <div class="page-logo">
+            <a ui-sref="dashboard" href="/">
+                <img src="img/logo.png" alt="logo" class="logo-default"> </a>
+        </div>
+        <!-- END LOGO -->
+        <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+        <a href="javascript:;" class="menu-toggler"></a>
+        <!-- END RESPONSIVE MENU TOGGLER -->
+        <!-- BEGIN TOP NAVIGATION MENU -->
+        <div class="top-menu">
+            <ul class="nav navbar-nav pull-right">
+
+                <!-- BEGIN USER LOGIN DROPDOWN -->
+                <li class="dropdown dropdown-user dropdown-dark">
+                    <a href="javascript:;" class="dropdown-toggle" dropdown-menu-hover data-toggle="dropdown" data-close-others="true">
+                        <img alt="" class="img-circle" src="img/avatar.png">
+                        <span class="username username-hide-mobile" ng-bind="mnc.getName()"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-default">
+                        <li>
+                            <a href="/account/change-password">
+                                <i class="icon-user"></i> Change Password 
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="return false;" class="{{mnc.isOnline}}" ng-click="mnc.toggleStatus()">                               
+                                <i class="fa fa-circle" ></i> {{mnc.isOnline}} 
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </li>
+                <!-- END USER LOGIN DROPDOWN -->
+                <!-- BEGIN QUICK SIDEBAR TOGGLER -->
+                <li class="dropdown dropdown-extended quick-sidebar-toggler">
+                    <span class="sr-only">Toggle Quick Sidebar</span>
+                    <i class="icon-logout" ng-click="mnc.logOut()"></i>
+
+
+                </li>
+                <!-- END QUICK SIDEBAR TOGGLER -->
+            </ul>
+        </div>
+        <!-- END TOP NAVIGATION MENU -->
+    </div>
+</div>
+<!-- END HEADER TOP -->
+<!-- BEGIN HEADER MENU -->
+<div class="page-header-menu">
+    <div class="container">
+        <!-- BEGIN HEADER SEARCH BOX -->
+
+        <!-- END HEADER SEARCH BOX -->
+        <!-- BEGIN MEGA MENU -->
+        <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
+        <!-- DOC: Remove dropdown-menu-hover and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
+        <div class="hor-menu">
+
+            <!--{{mnc.menus}}-->
+            <ul class="nav navbar-nav" id="">
+				<li aria-haspopup="true" class="menu-dropdown" ng-class="{'classic-menu-dropdown' :  menu.parentMenuName!='Medfin Util','mega-menu-dropdown' :  menu.parentMenuName=='Medfin Util' }" ng-repeat="menu in mnc.menus" >
+
+                    <a href="{{menu.url}}" target="_blank" aria-expanded="true"> {{menu.parentMenuName}}
+                        <span class="arrow"></span>
+                    </a>
+                    <ul class="dropdown-menu pull-left" ng-if="menu.childMenuName.length > 0 && menu.parentMenuName!='Medfin Util'">                        
+                        <li aria-haspopup="true" ng-if="submenu.childMenuName!='Call Recording' && submenu.childMenuName!='Revenue Reports'" ng-repeat="submenu in menu.adminMenuItems" >                    <a href="{{submenu.url}}" class="nav-link" ng-bind="submenu.childMenuName"></a>
+                        </li>
+                        <li aria-haspopup="true" ng-if="submenu.childMenuName=='Call Recording' && can('view.recording.filter')" ng-repeat="submenu in menu.adminMenuItems" >                                                      
+                            <a href="{{submenu.url}}" class="nav-link" ng-bind="submenu.childMenuName"></a>
+                        </li>
+                        <li aria-haspopup="true" ng-if="submenu.childMenuName=='Revenue Reports' && can('view.revenu.filter')" ng-repeat="submenu in menu.adminMenuItems" >                                                      
+                                <a href="{{submenu.url}}" class="nav-link" ng-bind="submenu.childMenuName"></a>
+                        </li>                        
+
+                    </ul>
+
+
+					 <ul class="dropdown-menu" ng-if="menu.childMenuName.length > 0 && menu.parentMenuName=='Medfin Util'">
+                            <li>
+                                <div class="mega-menu-content">
+                                    <div class="row">
+                                        <div class="col-md-6" ng-repeat="col in menu.columns">
+                                            <ul class="mega-menu-submenu">
+                                              
+                                                    <li aria-haspopup="true" ng-if="submenu.childMenuName!='Call Recording' && submenu.childMenuName!='Revenue Reports'" ng-repeat="submenu in col.adminMenuItems" >                                                      
+                                                            <a href="{{submenu.url}}" class="nav-link" ng-bind="submenu.childMenuName"></a>
+                                                    </li>
+                                                    <li aria-haspopup="true" ng-if="submenu.childMenuName=='Call Recording' && can('view.recording.filter')" ng-repeat="submenu in col.adminMenuItems" >                                                      
+                                                        <a href="{{submenu.url}}" class="nav-link" ng-bind="submenu.childMenuName"></a>
+                                                    </li>
+                                                    <li aria-haspopup="true" ng-if=" submenu.childMenuName=='Revenue Reports' && can('view.revenu.filter')" ng-repeat="submenu in col.adminMenuItems" >                                                      
+                                                            <a href="{{submenu.url}}" class="nav-link" ng-bind="submenu.childMenuName"></a>
+                                                    </li>   
+                                               
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                </li>                
+            </ul>
+
+
+        </div>
+        <!-- END MEGA MENU -->
+    </div>
+</div>
+
+<div class="page-mobile-menu" style="display: none;">
+    <ul class="metismenu level_one" id="metismenu" >
+        <li class="" ng-repeat="menu in mnc.menus">
+            <a href="{{menu.url}}" > {{menu.parentMenuName}} <i class="fa fa-angle-down"></i></a>                    
+       
+            <ul class="level_two" ng-if="menu.childMenuName.length > 0">
+                 <li ng-if="submenu.childMenuName!='Call Recording' && submenu.childMenuName!='Revenue Reports'" ng-repeat="submenu in menu.adminMenuItems" >                                                      
+                            <a href="{{submenu.url}}" ng-bind="submenu.childMenuName"></a>
+                </li>
+                 <li  ng-if="submenu.childMenuName=='Call Recording' && can('view.recording.filter')" ng-repeat="submenu in menu.adminMenuItems" >                                                      
+                            <a href="{{submenu.url}}" ng-bind="submenu.childMenuName"></a>
+                </li>
+                <li  ng-if="submenu.childMenuName=='Revenue Reports' && can('view.revenu.filter')" ng-repeat="submenu in menu.adminMenuItems" >                                                      
+                        <a href="{{submenu.url}}" ng-bind="submenu.childMenuName"></a>
+                </li>  
+            </ul>
+        </li> 
+        <li class="">
+            <a href="/account/change-password" > User Profile <i class="fa fa-angle-down"></i></a>                    
+       
+            <ul class="level_two">
+                 <li>                                                      
+                        <a href="/account/change-password"><i class="icon-user"></i> Change Password </a>
+                </li>
+                 <li>
+                    <a href="#" onclick="return false;" class="{{mnc.isOnline}}" ng-click="mnc.toggleStatus()">                               
+                        <i class="fa fa-circle" ></i> {{mnc.isOnline}} 
+                    </a>
+                </li>
+                <li >
+
+                    <a href="#">Logout<i class="icon-logout" ng-click="mnc.logOut()"></i></a>
+                </li>
+                
+            </ul>
+        </li>  
+           
+
+        
+    </ul>
+
+</div>
+
+
+<!-- END HEADER MENU -->
+
+<script>
+
+    (function () {
+        setTimeout(function () {
+            $("#metismenu").metisMenu();
+        }, 200)
+        $(".menu-toggler").click(function (e) {
+            e.preventDefault();
+
+            $(".page-mobile-menu").toggle();
+        })
+    })();
+
+</script>

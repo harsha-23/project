@@ -1,0 +1,225 @@
+{
+  "adminUser": {
+    "userId": 44,
+    "email": "mahipal@housejoy.in",
+    "name": "Mahipal",
+    "mobile": "9440044774",
+    "allLocations": "Y",
+    "allServices": "Y",
+    "channelId": "-1",
+    "authToken": "1486376764539",
+    "roles": []
+  },
+  "permissionGroupList": [
+    {
+      "groupName": "User Management",
+      "groupDesc": "User",
+      "groupId": "1",
+      "permissionList": [
+        {
+          "permissionTag": "create.user",
+          "permissionDesc": "Create New Users",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "assignPermission.user",
+          "permissionDesc": "Assign Permission to Existing User",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "delete.permissionGroup",
+          "permissionDesc": "Delete Existing Permission Group",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "list.language",
+          "permissionDesc": "List Languages",
+          "permissionType": "route+menu"
+        },
+        {
+          "permissionTag": "view.urmMenu",
+          "permissionDesc": "URM Top Level Menu",
+          "permissionType": "menu"
+        },
+        {
+          "permissionTag": "edit.role",
+          "permissionDesc": "Edit Existing Roles",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "list.menuItem",
+          "permissionDesc": "List Menu Items",
+          "permissionType": "route+menu"
+        },
+        {
+          "permissionTag": "assignRole.user",
+          "permissionDesc": "Assign Role To Existing User",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "edit.permissionGroup",
+          "permissionDesc": "Edit Existing Permission Group",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "view.masterTables",
+          "permissionDesc": "Master Tables Top Level Menu",
+          "permissionType": "menu"
+        },
+        {
+          "permissionTag": "view.user",
+          "permissionDesc": "View User Details",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "create.role",
+          "permissionDesc": "Create New Roles",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "delete.permission",
+          "permissionDesc": "Delete Existing Permissions",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "delete.user",
+          "permissionDesc": "Delete Existing User",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "assignPermission.role",
+          "permissionDesc": "Assign Permission to Existing Roles",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "delete.menuItem",
+          "permissionDesc": "Delete Existing Menu Items",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "edit.user",
+          "permissionDesc": "Edit Existing User Details",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "list.role",
+          "permissionDesc": "List All Roles",
+          "permissionType": "route+menu"
+        },
+        {
+          "permissionTag": "edit.permission",
+          "permissionDesc": "Edit Existing Permissions",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "list.user",
+          "permissionDesc": "List User Details",
+          "permissionType": "route+menu"
+        },
+        {
+          "permissionTag": "delete.role",
+          "permissionDesc": "Delete Existing Roles",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "edit.menuItem",
+          "permissionDesc": "Edit Existing Menu Items",
+          "permissionType": "route"
+        }
+      ]
+    },
+    {
+      "groupName": "Job",
+      "groupDesc": "Job",
+      "groupId": "2",
+      "permissionList": [
+        {
+          "permissionTag": "delete.brand",
+          "permissionDesc": "Delete Existing Brands",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "delete.status",
+          "permissionDesc": "Delete Existing Statuses",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "AttributeToken.create",
+          "permissionDesc": "Create Attribute Token ",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "delete.language",
+          "permissionDesc": "Delete Existing Languages",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "edit.brand",
+          "permissionDesc": "Edit Existing Brands",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "edit.status",
+          "permissionDesc": "Edit Existing Statuses",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "list.attributetoken",
+          "permissionDesc": "List Attribute Tokens",
+          "permissionType": "route+menu"
+        },
+        {
+          "permissionTag": "edit.language",
+          "permissionDesc": "Edit Existing Languages",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "create.brand",
+          "permissionDesc": "Create Brands",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "create.attribute",
+          "permissionDesc": "Create Attributes",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "create.status",
+          "permissionDesc": "Create Statuses",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "list.attribute",
+          "permissionDesc": "List Attributes",
+          "permissionType": "route+menu"
+        },
+        {
+          "permissionTag": "create.language",
+          "permissionDesc": "Create Languages",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "list.brand",
+          "permissionDesc": "List Brands",
+          "permissionType": "route+menu"
+        },
+        {
+          "permissionTag": "AttributeToken.update",
+          "permissionDesc": "Edit Existing Attribute Token",
+          "permissionType": "route"
+        },
+        {
+          "permissionTag": "list.status",
+          "permissionDesc": "List Statuses",
+          "permissionType": "route+menu"
+        }
+      ]
+    }
+  ],
+  "statusCode": 200,
+  "message": {
+    "messageDesc": "login.success",
+    "messageCode": "login.success",
+    "messageType": "login.success"
+  }
+}
