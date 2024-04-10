@@ -197,6 +197,9 @@
                 <li class="nav-item">
                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-account-list"> Account List</button>
                   </li>
+                  <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-balance-list"> Balance</button>
+                  </li>
                
                 <li class="nav-item">
                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-beneficiary-info"> Beneficiary Info</button>
@@ -204,9 +207,9 @@
                   <li class="nav-item">
                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-beneficiary-list"> Beneficiary List</button>
                   </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Address</button>
-                </li>
+                </li> -->
 
 				 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#transactions">Transactions</button>
@@ -270,62 +273,56 @@
                 </div>
 
                 <div class="tab-pane fade pt-3" id="transactions-history">
-
+                  
+                    
                   <div class="col-12">
               <div class="card recent-sales overflow-auto">
+                <div class="row col-md-12">
+                      
+                       
+                    <!-- <label for="amount" class="col-md-4 col-lg-3 col-form-label"> Please Select Account</label> -->
+                    <div class="col-sm-3">
+                        <select name="accountInfo" id="" ng-model="accountInfo"  class="form-control" ng-change="transactionHistory()">
+                            <option value="">Please Select Account</option>
+                            <option value="{{accountInfo.accountNumber}}" ng-repeat="accountInfo in getAccountlist">{{accountInfo.accountNumber+" "+accountInfo.accountType}}</option>
+                        </select>
+                    </div>
+                  </div>
 
 
-
-                <div class="card-body">
+                <div class="card-body" ng-if="getAccountHistory.length>0">
                   <h5 class="card-title">Recent Transactions </h5>
 
                   <table class="table table-borderless">
                     <thead>
                       <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Account Number</th>
-                        <th scope="col">Comments</th>
+                        <th scope="col">From Account</th>
+                        <th scope="col">To Account</th>
                         <th scope="col">Credit</th>
                         <th scope="col">Debit</th>
 						<th scope="col">Transaction Date</th>
+                        <th scope="col">Balance</th>
+                        <th scope="col">transactionStatus</th>
+                        <th scope="col">Comments</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row"><a href="#">#2457</a></th>
-                        <td>Brandon Jacob</td>
-                        <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                        <td>$64</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2147</a></th>
-                        <td>Bridie Kessler</td>
-                        <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                        <td>$47</td>
-                        <td><span class="badge bg-warning">Pending</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2049</a></th>
-                        <td>Ashleigh Langosh</td>
-                        <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                        <td>$147</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Angus Grady</td>
-                        <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                        <td>$67</td>
-                        <td><span class="badge bg-danger">Rejected</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Raheem Lehner</td>
-                        <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                        <td>$165</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
+                        <tr ng-repeat="tr in getAccountHistory" >
+                            <th scope="row"><a href="#"  ng-bind="begin + $index + 1"></a></th>
+                            <td ng-bind="tr.fromAccount"></td>
+                            <td ng-bind="tr.toAccount"></td>
+                            <td ng-bind="tr.credit"></td>
+                            <td ng-bind="tr.debit"></td>
+                            <td ng-bind="tr.transactionDate"></td>
+                            <td ng-bind="tr.balance"></td>
+                            <td ng-bind="tr.transactionStatus"></td>
+                            <td><a href="#" class="text-primary"  ng-bind="tr.comments"></a></td>
+                          
+                           
+                        </tr>
+                    
+                  
                     </tbody>
                   </table>
 
@@ -385,6 +382,40 @@
                                 <td ng-bind="begin + $index + 1"></td>
                                 <td ng-bind="tr.accountNumber"></td>
                                 <td ng-bind="tr.accountType"></td>
+                                <!-- <td ng-bind="tr.routingNumber"></td>
+                                <td ng-bind="tr.approvalStatus"></td> -->
+                                <!-- <td ><input type="checkbox" data-toggle='toggle' data-uid='{{tr.id}}' class="toggle-button" ng-checked="tr.status == '1' ? '1' : ''"  ></td> -->
+                                 <!-- <td >
+                                <a data-toggle="modal" ng-click="getUserById(tr.userId)" class="btn btn-outline btn-circle btn-sm yellow">
+                                  <i class="fa fa-edit"></i> Edit
+                                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+   
+                   </div>
+                   <div class="tab-pane fade pt-3" id="profile-balance-list">
+                    <table class="table table-bordered" >
+                        <thead>
+                            <tr>
+                                <th>Sr</th>
+                                <th>From Account</th>
+                                <th>Balance</th>
+                                <th>Credit</th>
+                                <th>Debit</th>
+                                <th>Transaction Status</th>
+                                <!-- <th>Approva lStatus</th> -->
+                                <!-- <th>Enabled/Disabled</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="tr in getBalancelist" >
+                                <td ng-bind="begin + $index + 1"></td>
+                                <td ng-bind="tr.fromAccount"></td>
+                                <td>{{tr.balance}}</td>
+                                <td>{{tr.credit}}</td>
+                                <td>{{tr.debit}}</td>
+                                <td ng-bind="tr.transactionStatus"></td>
                                 <!-- <td ng-bind="tr.routingNumber"></td>
                                 <td ng-bind="tr.approvalStatus"></td> -->
                                 <!-- <td ><input type="checkbox" data-toggle='toggle' data-uid='{{tr.id}}' class="toggle-button" ng-checked="tr.status == '1' ? '1' : ''"  ></td> -->
@@ -487,9 +518,9 @@
                   <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false" tabindex="-1">Transfer Money</button>
                 </li>
 
-				<li class="nav-item" role="presentation">
+				<!-- <li class="nav-item" role="presentation">
                   <button class="nav-link" id="pills-transaction-history-tab" data-bs-toggle="pill" data-bs-target="#pills-transaction-history" type="button" role="tab" aria-controls="pills-transaction-history" aria-selected="false" tabindex="-1">Transfer Amount</button>
-                </li>
+                </li> -->
 
               </ul>
               <div class="tab-content pt-2" id="myTabContent">

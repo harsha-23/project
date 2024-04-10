@@ -63,6 +63,24 @@
         }
         $.unblockUI();
     });
+    $scope.getBalancelist=[]
+  
+
+    var promise = api.getBalancelistType($scope.req.token);
+    promise.then(function mySucces(r) {
+
+        App.unblockUI();
+
+        if (r.data.statusCode == 200) {
+            $scope.getBalancelist=r.data.data;
+            console.log($scope.getBalancelist)
+
+        } else {
+
+            swal("Info!", r.data.message, "info");
+        }
+        $.unblockUI();
+    });
 
 
     $scope.withdrawFunds=function(){
@@ -84,7 +102,7 @@
         message: 'Please wait... we are processing your request',
         baseZ: 15000
     });
-    var promise = api.transferAddFunds(req);
+    var promise = api.withdrawFunds(req);
     promise.then(function mySucces(r) {
 
         App.unblockUI();
@@ -122,6 +140,7 @@
                 //   localStorage.setItem('customerInfo',  JSON.stringify(r.data.data));
 
                    window.open("/customer-details")
+                   location.reload(true)
                 } else {
                   swal.showInputError("please enter Valid OTP!");
                 }
@@ -196,6 +215,7 @@
                 //   localStorage.setItem('customerInfo',  JSON.stringify(r.data.data));
 
                    window.open("/customer-details")
+                   location.reload(true)
                 } else {
                   swal.showInputError("please enter Valid OTP!");
                 }
@@ -268,6 +288,7 @@
                 //   localStorage.setItem('customerInfo',  JSON.stringify(r.data.data));
 
                    window.open("/customer-details")
+                   location.reload(true)
                 } else {
                   swal.showInputError("please enter Valid OTP!");
                 }
@@ -285,7 +306,41 @@
     });
     }
 
-    
+    $scope.getAccountHistory=[];
+        $scope.transactionHistory=function(){
+            var req={
+                
+                "account":$scope.accountInfo
+                }
+           
+        console.log(JSON.stringify(req))
+        App.blockUI({
+            boxed: !0,
+            zIndex: 20000
+        })
+        $.blockUI({
+            message: 'Please wait... we are processing your request',
+            baseZ: 15000
+        });
+        var promise = api.customerTransactionHistoryAccount(req);
+        promise.then(function mySucces(r) {
+
+            App.unblockUI();
+
+            if (r.data.statusCode == 200) {
+                $scope.getAccountHistory=r.data.data;
+                console.log( $scope.getAccountHistory)
+
+                // swal("Success!", "Added successfully", "success");
+
+            } else {
+
+                swal("Info!", r.data.message, "info");
+            }
+            $.unblockUI();
+        });
+
+        }
     
         $scope.addAccount=function(){
 
@@ -376,6 +431,7 @@
                         //   localStorage.setItem('customerInfo',  JSON.stringify(r.data.data));
       
                            window.open("/customer-details")
+                           location.reload(true)
                         } else {
                           swal.showInputError("please enter Valid OTP!");
                         }
