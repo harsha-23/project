@@ -138,14 +138,14 @@
                         
                         
                         
-                        <div class="row" ng-show="total > 0">
+                        <div class="row" ng-show="TransactionList.length > 0">
                             <div class="col-md-12 col-sm-12">
                                 <div class="portlet light ">
                                     <div class="portlet-title">
                                         <div class="caption caption-md">
                                             <i class="icon-list font-purple"></i>
-                                            <span class="caption-subject font-purple sbold uppercase"> LIST (LEAD COUNT -
-                                                {{total}})</span>
+                                            <span class="caption-subject font-purple sbold uppercase"> Total COUNT -
+                                                {{TransactionList.length}}</span>
                                         </div>
                                     </div>
                                     <div class="portlet-body">
@@ -154,61 +154,27 @@
                                                 <tr>
                         
                         
-                                                    <th>Patient Name / Mobile / Vendor</th>
-                                                    <th>Insurance / TPA / Insurance Type / Claim Type</th>
-                        
-                                                    <th>Posted By / Posted Date</th>
-                                                    <th>Surgery Name / Reference Number</th>
-                        
-                                                    <th>status</th>
-                        
-                        
-                        
+                                                    <th>From Account</th>
+                                                    <th>To Account</th>
+                                                    <th>Transaction Id</th>
+                                                    <th>Debit</th>
+                                                    <th>Credit</th>
+                                                    <th>Transaction Status</th>
+                                                    <th>comments</th>
+                                                    <th>Balance</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="insurance in userList">
+                                                <tr ng-repeat="list in TransactionList">
                         
-                                                    <td>{{insurance.patientName}}<br />
-                                                        <br />
-                        
-                                                        <span ng-if="can('mobile.number.display.permission')"> {{insurance.patientMobile}}<a href="#"
-                                                            ng-click="actions.makeConferenceCallByMobile({mobile:insurance.patientMobile,leadId:insurance.leadId})"><i
-                                                                class="fa fa-phone"></i></a>
-                                                    </span>
-                                                    <a class="btn btn-icon-only btn-circle popovers" data-toggle="popover" ng-click="actions.getMobileNumber({                                               
-                                                        lead: insurance.leadId,                                               
-                                                    })"
-                                                    data-container="body" data-trigger="hover" data-placement="top"
-                                                    data-content="View mobile"
-                                                    data-original-title="Verify OTP" href="#"><i
-                                                        class="icon-eye font-purple-sharp"></i></a>
-                                                        <br /> <br/>
-                                                        <b>{{insurance.vendor}}</b>
-                                                        <br /><br />
-                                                        <a href="/insurance-estimate/{{insurance.token}}" target="_blank">Details</a>
-                        
-                                                    </td>
-                                                    <td>{{insurance.insuranceName}}<br /> <br /> {{insurance.tpa}}<br /> <br />
-                                                        {{insurance.insuranceType}} <br /> <br /><strong>{{insurance.claimType}}</strong></td>
-                                                    <td>{{insurance.postedBy}} <br /> <br /> {{insurance.postedDate}}</td>
-                                                    <td>{{insurance.surgeryName}} <br /> <br /> {{insurance.referenceNumber}}</td>
-                        
-                                                    <td>
-                                                        <table class="table table-striped table-bordered table-advance table-hover">
-                                                            <tr>
-                                                                <th>Doctor</th>
-                                                                <th>Hospital</th>
-                                                                <th>Status</th>
-                                                            </tr>
-                                                            <tr ng-repeat="status in insurance.info">
-                                                                <td>{{status.doctor}} </td>
-                                                                <td> {{status.hospital}}</td>
-                                                                <td>{{status.eligibility}}</td>
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                        
+                                                    <td>{{list.fromAccount}}</td>
+                                                    <td>{{list.toAccount}}</td>
+                                                    <td>{{list.transactionId}}</td>
+                                                    <td>{{list.debit}}</td>
+                                                    <td>{{list.credit}}</td>
+                                                    <td>{{list.transactionStatus}}</td>
+                                                    <td>{{list.comments}}</td>
+                                                    <td>{{list.balance}}</td>    
                                                 </tr>
                                             </tbody>
                                         </table>

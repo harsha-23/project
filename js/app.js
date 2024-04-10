@@ -475,6 +475,24 @@ String.prototype.replaceAll = function (search, replacement) {
                 },
             })
         };
+        this.getTransactionList = function (request) {
+            return $http({
+                method: 'POST',
+                url: SETTINGS.apiBasePath + '/transaction/filter',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
+
+        getTransactionList
         this.registerUser = function (request) {
             return $http({
                 method: 'POST',
