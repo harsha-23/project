@@ -1,0 +1,224 @@
+<div data-ng-include="'views/admin/common-css.html'"></div>
+
+<div class="page-wrapper">
+    <div class="page-wrapper-row">
+        <div class="page-wrapper-top">
+            <!-- BEGIN HEADER -->
+            <div data-ng-include="'views/layouts/tpl/header.html'" data-ng-controller="menuCtrl as mnc"
+                class="page-header"></div>
+            <!-- END HEADER -->
+        </div>
+    </div>
+    <div class="page-wrapper-row full-height">
+        <div class="page-wrapper-middle">
+            <div class="page-container">
+                <div class="page-content">
+                    <div class="container">
+
+                        <!-- Common Include -->
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="portlet light ">
+                                    <div class="portlet-title">
+                                        <div class="caption caption-md">
+                                            <i class="icon-magnifier font-blue"></i>
+                                            <span class="caption-subject font-blue sbold uppercase">User List</span>
+                                        </div>
+                                        <div class="actions">
+                                            <button class="btn btn-mdm blue" ng-click="openCreateUserModal()"><i class="fa fa-plus-circle" ></i> Add new user</button>                    
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">                            
+                                                    <div class="input-group input-group">
+                                                        <input type="text" class="form-control" ng-model="keyword" placeholder="Search for...">
+                                                        <span class="input-group-btn">
+                                                            <button class="btn blue" type="button" ng-click="search(keyword)">Search <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+                                                        </span>
+                                                    </div>
+                                                    <!-- /input-group -->
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                        <!-- <table class="table table-bordered" ng-hide="userList.length == 0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr</th>
+                                                    <th>Name</th>
+                                                    <th>Mobile</th>
+                                                    <th>Email</th>
+                                                    <th>Role</th>
+                                                    <th>Enabled/Disabled</th>
+                                                    <th>All Locations</th>
+                                                    <th>All Services</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="tr in userList" apply-switch-for-user >
+                                                    <td ng-bind="begin + $index + 1"></td>
+                                                    <td ng-bind="tr.name"></td>
+                                                    <td ng-bind="tr.mobile"></td>
+                                                    <td ng-bind="tr.email"></td>
+                                                    <td ng-bind="tr.role"></td>
+                                                    <td ><input type="checkbox" data-toggle='toggle' data-uid='{{tr.userId}}' class="toggle-button" ng-checked="tr.statusId == '1' ? '1' : ''"  ></td>                            
+                                                    <td ng-bind="tr.allLocations"></td>
+                                                    <td ng-bind="tr.allServices"></td>
+                                                    <td >
+                                                    <a data-toggle="modal" ng-click="getUserById(tr.userId)" class="btn btn-outline btn-circle btn-sm yellow">
+                                                      <i class="fa fa-edit"></i> Edit
+                                                    </td>
+                                                     <a data-toggle="modal" ng-click="getUserViewById(tr.userId)" class="btn btn-outline btn-circle btn-sm yellow">
+                                                      <i class="fa fa-eye"></i> View
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="row " ng-show="userList.length > 0" >
+                                            <div class="col-sm-12 text-right">
+                                                <pagination 
+                                                    ng-model="currentPage"
+                                                    total-items="totalPages"
+                                                    max-size="maxSize"  
+                                                    boundary-links="true">
+                                                </pagination>
+                        
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Common Include end -->
+                     </div>
+                </div>
+            <a href="javascript:;" class="page-quick-sidebar-toggler">
+                <i class="icon-login"></i>
+            </a>
+            </div>
+        <!-- END CONTAINER -->
+        </div>
+     </div>
+<div class="page-wrapper-row">
+<div class="page-wrapper-bottom">
+<!-- BEGIN FOOTER -->
+<div data-ng-include="'views/layouts/tpl/footer.html'"> </div>
+<!-- END FOOTER -->
+</div>
+</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{{userId !='' ? 'Update User' :'Add User'}}</h4>
+            </div>
+            <form class="form form-horizontal" id="createUserForm">
+                <input type="hidden" id="userId" value="{{userId}}" />
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Name</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" placeholder="Enter name" name="name"
+                                        ng-model="name">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Email</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" placeholder="example@gmail.com" name="email"
+                                        ng-model="email" ng-disabled="emailExist">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Mobile Number</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" onKeyUp="check(this.id,true)"
+                                        ng-blur="mobile" onkeydown="check(this.id,true)"
+                                        onfocusout="check(this.id,true)" id="mobile" name="mobile" ng-model="mobile">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Alt Mobile Number</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" onKeyUp="check(this.id,true)"
+                                        ng-blur="altmobile" onkeydown="check(this.id,true)"
+                                        onfocusout="check(this.id,true)" id="mobile" name="altmobile" ng-model="altmobile">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="userId == ''">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Password</label>
+                                <div class="col-md-9">
+                                    <input type="password" class="form-control" placeholder="Enter password"
+                                        name="password" ng-model="password">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Select Role</label>
+                                <div class="col-md-9">
+                                    <select class="form-control roleDropDown s2m1" multiple="multiple" name="roles"
+                                        ng-model="roles" ng-options="role.roleId as role.roleName for role in roleList">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Reporting User</label>
+                                <div class="col-md-9">
+                                    <select class="form-control roleDropDown s2m1" multiple="multiple" name="reportingTo"
+                                        ng-model="reportingUserList" ng-options="role.id as role.name for role in managerList">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div> -->
+
+                </div>
+                <div class=" modal-footer">
+                    <button type="button" class="btn btn-default"
+                        data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"
+                        ng-click="createUser(userId)">{{userId !='' ? 'Save' :'Add'}}</button>
+                 </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal -->

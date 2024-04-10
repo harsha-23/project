@@ -1,6 +1,5 @@
 var app = angular.module("myapp", ["ngRoute", "mm.acl", "ngCookies", "ui.bootstrap", "bw.paging", 's3FileUpload', 'ngSanitize', 'textAngular', 'ui.select', 'ui.toggle']);
 
-
 app.factory('middlewareInterceptor', middlewareInterceptor)
     .config(function ($httpProvider) {
         $httpProvider.interceptors.push('middlewareInterceptor');
@@ -39,9 +38,7 @@ app.directive("ngFileSelect", function () {
 
     }
 
-
 })
-
 
 app.filter('propsFilter', function () {
     return function (items, props) {
@@ -84,7 +81,6 @@ app.filter('bytes', function () {
     }
 });
 
-
 String.prototype.replaceAll = function (search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
@@ -113,7 +109,6 @@ String.prototype.replaceAll = function (search, replacement) {
         contentType: ['FAQ', 'TESTIMONIALS'],
         domain: "vendor",
         
-
     });
     app.service('app', function (AclService,$cookieStore) {
         var that = this;
@@ -220,7 +215,6 @@ String.prototype.replaceAll = function (search, replacement) {
 
         },
         
-
             this.getServiceList = function () {
                 console.log("serviceList", this.serviceList);
                 return this.serviceList;
@@ -417,8 +411,6 @@ String.prototype.replaceAll = function (search, replacement) {
         }
     });
     app.service('api', function ($http, SETTINGS, app,$cookieStore) {
-
-    
 
         var doctorId = '';
         if (app.user != null && app.user.identity.hasOwnProperty('doctorId') && app.user.identity.doctorId != '') {
@@ -735,7 +727,6 @@ String.prototype.replaceAll = function (search, replacement) {
         })
     };
   
-
         this.getDocumentListMaster = function () {
             return $http({
                 method: 'GET',
@@ -890,7 +881,6 @@ String.prototype.replaceAll = function (search, replacement) {
             })
         };
 
-
         this.getLeadList = function (request) {
             return $http({
                 method: 'POST',
@@ -1043,7 +1033,6 @@ String.prototype.replaceAll = function (search, replacement) {
             })
         };
         
-       
         this.getEmiInfoByReferenceNumber = function (refId) {
             return $http({
                 method: 'GET',
@@ -1162,9 +1151,7 @@ String.prototype.replaceAll = function (search, replacement) {
             })
         };
 
-
     })
-
 
     /*  define routes for the app */
 
@@ -1216,54 +1203,39 @@ String.prototype.replaceAll = function (search, replacement) {
                         }
                     }]
                 }
-            }).when("/insurance-estimate/:referenceNumber", {
-                templateUrl: "views/utilities/insuranceEstimate.html",
-                controller: "insuranceEstimateCtrl",
+            }).when("/user-list", {
+                templateUrl: "views/admin/userList.html",
+                controller: "userlistCtrl",
                 resolve: {
                     'acl': ['$q', 'AclService', function ($q, AclService) {
-                        if (AclService.can('menu.insurance-estimate')) {
+                        // if (AclService.can('menu.insurance-estimate')) {
 
-                            return true;
-                        } else {
-                            return $q.reject('Unauthorized');
-                        }
+                        //     return true;
+                        // } else {
+                        //     return $q.reject('Unauthorized');
+                        // }
 
                     }]
                 }
             })
-            .when("/emi-estimate/:referenceNumber", {
-                templateUrl: "views/utilities/EMIEstimate.html",
-                controller: "EMIEstimateCtrl",
+            .when("/customer-list", {
+                templateUrl: "views/admin/customerList.html",
+                controller: "customerlistCtrl",
                 resolve: {
                     'acl': ['$q', 'AclService', function ($q, AclService) {
+                        // if (AclService.can('menu.insurance-estimate')) {
 
-                        if (AclService.can('menu.emi-estimate')) {
+                        //     return true;
+                        // } else {
+                        //     return $q.reject('Unauthorized');
+                        // }
 
-                            return true;
-                        } else {
-                            return $q.reject('Unauthorized');
-                        }
-
-                    }]
-                }
-            })
-            .when("/report/insurance-status", {
-                templateUrl: "views/utilities/insuranceStatus.html",
-                controller: "insuranceStatusCtrl",
-                resolve: {
-                    'acl': ['$q', 'AclService', function ($q, AclService) {
-                        if (AclService.can('menu.insuranace-estimate-filter')) {
-
-                            return true;
-                        } else {
-                            return $q.reject('Unauthorized');
-                        }
                     }]
                 }
             })
 
             .when("/insurance-estimate-filter", {
-                templateUrl: "views/utilities/insuranceEstimateFilter.html",
+                templateUrl: "views/admin/insuranceEstimateFilter.html",
             controller: "insuranceEstimateFilterCtrl",
                 resolve: {
                     'acl': ['$q', 'AclService', function ($q, AclService) {
@@ -1349,23 +1321,19 @@ String.prototype.replaceAll = function (search, replacement) {
                 templateUrl: "views/site/pageNotFound.html",
             });
 
-
         $locationProvider.html5Mode(true);
     }])
         .run(function ($rootScope) {
             $rootScope.$on("$routeChangeSuccess", function () {
-
 
                 $(".page-mobile-menu").hide();
             })
 
         });
 
-
     app.run(function (AclService, $cookies, $cookieStore, $location, app, api) {
         let userIp = $cookieStore.get('medfinip');
    if(!userIp){
-   
    
        fetch("https://api.ipify.org/?format=json").then(a=>a.json()).then(res=>{
         
@@ -1380,8 +1348,6 @@ String.prototype.replaceAll = function (search, replacement) {
         var getPath = $location.path().split('/');
         var authKey = $cookieStore.get('medfinauthkey');
 
-        
-
         if ((getPath[1] == 'lead' && getPath[2] == 'history') || getPath[1] == 'scan-list') {
             // try {
 
@@ -1391,13 +1357,11 @@ String.prototype.replaceAll = function (search, replacement) {
             //     var authPerm = localStorage.getItem('medfinperm') != null ? JSON.parse(atob(localStorage.getItem('medfinperm'))) : '';
             //     var authIdentity = JSON.parse(atob($cookieStore.get('medfinidentity')));
 
-
             //     var aclData = {
             //         admin: authPerm
             //     };
             //     console.log('aclData', aclData);
             //     AclService.setAbilities(aclData);
-
 
             //     app.setIdentity(authIdentity);
 
@@ -1421,7 +1385,6 @@ String.prototype.replaceAll = function (search, replacement) {
             //     $cookieStore.put('visitUrl', btoa(path));
             // }
 
-
         } else {
             try {
 
@@ -1431,13 +1394,11 @@ String.prototype.replaceAll = function (search, replacement) {
                 var authPerm = localStorage.getItem('medfinperm') != null ? JSON.parse(atob(localStorage.getItem('medfinperm'))) : '';
                 var authIdentity = JSON.parse(atob($cookieStore.get('medfinidentity')));
 
-
                 var aclData = {
                     admin: authPerm
                 };
                 console.log('aclData', aclData);
                 AclService.setAbilities(aclData);
-
 
                 app.setIdentity(authIdentity);
 
@@ -1449,7 +1410,6 @@ String.prototype.replaceAll = function (search, replacement) {
                     $location.path(visitUrl);
                 }
 
-
             } catch (err) {
                 $cookieStore.remove('medfinidentity');
                 $cookieStore.remove('medfinauthkey');
@@ -1457,7 +1417,6 @@ String.prototype.replaceAll = function (search, replacement) {
             }
 
         }
-
 
     });
 

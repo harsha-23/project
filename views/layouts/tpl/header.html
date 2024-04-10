@@ -63,48 +63,41 @@
 
             <!--{{mnc.menus}}-->
             <ul class="nav navbar-nav" id="">
-				<li aria-haspopup="true" class="menu-dropdown" ng-class="{'classic-menu-dropdown' :  menu.parentMenuName!='Medfin Util','mega-menu-dropdown' :  menu.parentMenuName=='Medfin Util' }" ng-repeat="menu in mnc.menus" >
+				<li aria-haspopup="true" class="menu-dropdown">
 
-                    <a href="{{menu.url}}" target="_blank" aria-expanded="true"> {{menu.parentMenuName}}
+                    <a href="" target="_blank" aria-expanded="true"> URM
                         <span class="arrow"></span>
                     </a>
-                    <ul class="dropdown-menu pull-left" ng-if="menu.childMenuName.length > 0 && menu.parentMenuName!='Medfin Util'">                        
-                        <li aria-haspopup="true" ng-if="submenu.childMenuName!='Call Recording' && submenu.childMenuName!='Revenue Reports'" ng-repeat="submenu in menu.adminMenuItems" >                    <a href="{{submenu.url}}" class="nav-link" ng-bind="submenu.childMenuName"></a>
+                    <ul class="dropdown-menu pull-left">                        
+                        <li aria-haspopup="true">                
+                                <a href="/user-list" class="nav-link"> User List</a>
                         </li>
-                        <li aria-haspopup="true" ng-if="submenu.childMenuName=='Call Recording' && can('view.recording.filter')" ng-repeat="submenu in menu.adminMenuItems" >                                                      
-                            <a href="{{submenu.url}}" class="nav-link" ng-bind="submenu.childMenuName"></a>
+                        <li aria-haspopup="true">                                                      
+                            <a href="" class="nav-link">Customer List</a>
                         </li>
-                        <li aria-haspopup="true" ng-if="submenu.childMenuName=='Revenue Reports' && can('view.revenu.filter')" ng-repeat="submenu in menu.adminMenuItems" >                                                      
-                                <a href="{{submenu.url}}" class="nav-link" ng-bind="submenu.childMenuName"></a>
-                        </li>                        
+                        <!-- <li aria-haspopup="true">                                                      
+                                <a href="" class="nav-link">Test</a>
+                        </li>                         -->
 
                     </ul>
+                </li> 
+                <li aria-haspopup="true" class="menu-dropdown">
 
+                    <a href="" target="_blank" aria-expanded="true"> Transaction
+                        <span class="arrow"></span>
+                    </a>
+                    <ul class="dropdown-menu pull-left">                        
+                        <li aria-haspopup="true">                
+                                <a href="" class="nav-link"> Transaction Details</a>
+                        </li>
+                        <!-- <li aria-haspopup="true">                                                      
+                            <a href="" class="nav-link">Add Customer</a>
+                        </li>
+                        <li aria-haspopup="true">                                                      
+                                <a href="" class="nav-link">Test</a>
+                        </li>                         -->
 
-					 <ul class="dropdown-menu" ng-if="menu.childMenuName.length > 0 && menu.parentMenuName=='Medfin Util'">
-                            <li>
-                                <div class="mega-menu-content">
-                                    <div class="row">
-                                        <div class="col-md-6" ng-repeat="col in menu.columns">
-                                            <ul class="mega-menu-submenu">
-                                              
-                                                    <li aria-haspopup="true" ng-if="submenu.childMenuName!='Call Recording' && submenu.childMenuName!='Revenue Reports'" ng-repeat="submenu in col.adminMenuItems" >                                                      
-                                                            <a href="{{submenu.url}}" class="nav-link" ng-bind="submenu.childMenuName"></a>
-                                                    </li>
-                                                    <li aria-haspopup="true" ng-if="submenu.childMenuName=='Call Recording' && can('view.recording.filter')" ng-repeat="submenu in col.adminMenuItems" >                                                      
-                                                        <a href="{{submenu.url}}" class="nav-link" ng-bind="submenu.childMenuName"></a>
-                                                    </li>
-                                                    <li aria-haspopup="true" ng-if=" submenu.childMenuName=='Revenue Reports' && can('view.revenu.filter')" ng-repeat="submenu in col.adminMenuItems" >                                                      
-                                                            <a href="{{submenu.url}}" class="nav-link" ng-bind="submenu.childMenuName"></a>
-                                                    </li>   
-                                               
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-
+                    </ul>
                 </li>                
             </ul>
 
