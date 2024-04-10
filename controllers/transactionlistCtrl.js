@@ -1,9 +1,8 @@
 (function () {
-    app.controller("customerlistCtrl", function (AclService,$scope, $location, $cookies, $cookieStore, app, api) {
-       
-        $scope.statusList=["Pending","Approved","Rejected"];
-        app.setTitle("User List");
+    app.controller("transactionlistCtrl", function (AclService,$scope, $location, $cookies, $cookieStore, app, api) {
 
+        app.setTitle("Transaction Deatils");
+        $scope.statusList=["Pending","Approved","Rejected"];
         setTimeout(function () {
 
             $('#date,#tdate').datepicker({
@@ -14,7 +13,6 @@
             // $("#tdate").datepicker("setDate", new Date());
 
         }, 100);
-
     })
 
 })();

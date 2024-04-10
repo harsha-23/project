@@ -33,37 +33,30 @@
 
         $scope.postOtpVerification = function(r){
             if (r.data.statusCode == 200) {
-                       
-                for(let i=0;i<r.data.adminUser.roles.length;i++){                          
-                  if(r.data.adminUser.roles[i].roleTag=='Super Admin'){
-                        $cookieStore.put('superAdmin', true);
-                    }
-                }
-               
-                $cookieStore.put('medfinauthkey', r.data.adminUser.authToken);
-                if (r.data.adminUser.notificationFlag == "1") {
-                    $cookieStore.put('showAdmin', true);
-                    $location.path('/emi-estimate-filter');
-                }
+                $location.path('/');     
+                
+                // $cookieStore.put('medfinauthkey', r.data.adminUser.authToken);
+                // if (r.data.adminUser.notificationFlag == "1") {
+                //     $cookieStore.put('showAdmin', true);
+                //     $location.path('/emi-estimate-filter');
+                // }
 
                 var role = 'admin';
                 var abilities = [];
 
-                $.each(r.data.permissionGroupList, function (k, v) {
-                    if (v.permissionList.length > 0) {
-                        $.each(v.permissionList, function (k1, v1) {
-                            abilities.push(v1.permissionTag);
-                            // abilities.push(v1.permissionId);
-                        })
-                    }
+                // $.each(r.data.permissionGroupList, function (k, v) {
+                //     if (v.permissionList.length > 0) {
+                //         $.each(v.permissionList, function (k1, v1) {
+                //             abilities.push(v1.permissionTag);
+                //             // abilities.push(v1.permissionId);
+                //         })
+                //     }
 
-                });
+                // });
                 
-
-
-                var aclData = {
-                    admin: abilities
-                }
+                // var aclData = {
+                //     admin: abilities
+                // }
                 AclService.setAbilities(aclData);
                 var onlineStatus = r.data.adminUser.hasOwnProperty("onlineStatus") ? r.data.adminUser.onlineStatus : "OFFLINE";
                 var identity = {
@@ -71,23 +64,16 @@
                     authToken: r.data.adminUser.authToken,
                     isOnline: onlineStatus,
                     identity: {
-                        name: r.data.adminUser.name,
-                        email: r.data.adminUser.email,
-                        mobile: r.data.adminUser.mobile,
-                        exotelNumber:r.data.adminUser.exotelNumber,
-                        adminUserId:r.data.adminUser.userId,
-                        doctorUniqueToken: r.data.adminUser.token == undefined ? "" : r.data.adminUser.token,
-                        role: r.data.adminUser.roles,
+                        name: r.data.name,
+                        email: r.data.email,
+                        mobile: r.data.mobile,
+                        adminUserId:r.data.id,
+                        role: r.data.roles,
                     },
                 }
              
-                if (r.data.adminUser.hasOwnProperty('doctorId') && r.data.adminUser.doctorId != '') {
-                    identity.identity.doctorId = r.data.adminUser.doctorId;
-                }
-
                 app.setIdentity(identity);
                 localStorage.setItem('medfinperm', btoa(JSON.stringify(abilities)));
-
 
                 //$cookieStore.put('medfinperm', btoa(JSON.stringify(abilities)));
                 $cookieStore.put('medfinidentity', btoa(JSON.stringify(identity)));
@@ -102,7 +88,6 @@
                 //     return
                 // }
 
-              
                 // for (var i = 0; i < r.data.adminUser.roles.length; i++) {
                 //     if (r.data.adminUser.roles[i].roleName == 'Doctor') {
                 //         $location.path('/appointment/upcoming');
@@ -125,14 +110,10 @@
                           return;
                       });
             
-                    
                 }else{
 
                     location.reload();
                 }
-
-
-
 
             } else {
                 swal("Error!", r.data.message.messageDesc, "error");
@@ -141,7 +122,6 @@
         lgc.login = function ($event) {
             let userIp = $cookieStore.get('medfinip');
             if(!userIp){
-            
             
                 fetch("https://api.ipify.org/?format=json").then(a=>a.json()).then(res=>{
                  
@@ -179,7 +159,7 @@
                     //open otp form if creds are fine
                     if (r.data.statusCode == 200){
                     
-                    lgc.token= r.data.adminUser.token;
+                    lgc.token= r.data.data;
                     $("#login-form").hide();
                     $("#otpValidation").show();
 
@@ -189,12 +169,10 @@
                     }
                 });
 
-
             }
         },1000)
 
         }
-
 
         lgc.sendResetPassLink = function () {
             if ($("#resetpasswordform").valid()) {
@@ -233,7 +211,7 @@
                     boxed: !0
                 });
 
-                var promise = api.login(request);
+                var promise = api.loginWithOtp(request);
 
                 promise.then(function mySucces(r) {
                     App.unblockUI();
@@ -248,6 +226,5 @@
         }
 
     })
-
 
 })();

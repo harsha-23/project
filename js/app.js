@@ -142,7 +142,7 @@ String.prototype.replaceAll = function (search, replacement) {
             result = new Date().getTime() + result;
             return result;
         }
-
+       
         this.setIdentity = function (identity) {
             this.user = identity;
         }
@@ -184,7 +184,6 @@ String.prototype.replaceAll = function (search, replacement) {
             }
         }
     
-
         this.clear = function ($event, scope, name, objname) {
             $event.stopPropagation();
 
@@ -242,6 +241,7 @@ String.prototype.replaceAll = function (search, replacement) {
                 });
 
         };
+      
         this.getMobileNumber = function (req) {
        
             var request={
@@ -349,7 +349,47 @@ String.prototype.replaceAll = function (search, replacement) {
         this.login = function (request) {
             return $http({
                 method: 'POST',
-                url: SETTINGS.apiBasePath + '/user/login',
+                url: 'http://65.2.84.156/admin/login',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
+        this.loginWithOtp = function (request) {
+            return $http({
+                method: 'POST',
+                url: 'http://65.2.84.156/admin/validate-otp',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
+        this.getRoleList = function () {
+            return $http({
+                method: 'GET',
+                url: 'http://65.2.84.156/master-info/role-list',
+                dataType: 'json',
+                headers: app.headers()
+            })
+        };
+        this.getUsersByKeyword = function (request) {
+            return $http({
+                method: 'POST',
+                url: 'http://65.2.84.156/admin/filter',
                 dataType: 'json',
                 data: request,
                 headers: {
@@ -371,7 +411,6 @@ String.prototype.replaceAll = function (search, replacement) {
                 headers: app.headers(),
             })
         };
-       
         this.resetPassword = function (request) {
             return $http({
                 method: 'PUT',
@@ -388,7 +427,6 @@ String.prototype.replaceAll = function (search, replacement) {
             })
         };
 
-    
         this.getLeadFilterStatus = function () {
             return $http({
                 method: 'GET',
@@ -543,6 +581,22 @@ String.prototype.replaceAll = function (search, replacement) {
             .when("/customer-list", {
                 templateUrl: "views/admin/customerList.html",
                 controller: "customerlistCtrl",
+                resolve: {
+                    'acl': ['$q', 'AclService', function ($q, AclService) {
+                        // if (AclService.can('menu.insurance-estimate')) {
+
+                        //     return true;
+                        // } else {
+                        //     return $q.reject('Unauthorized');
+                        // }
+
+                    }]
+                }
+            })
+
+            .when("/transaction-details", {
+                templateUrl: "views/admin/transactionList.html",
+                controller: "transactionlistCtrl",
                 resolve: {
                     'acl': ['$q', 'AclService', function ($q, AclService) {
                         // if (AclService.can('menu.insurance-estimate')) {

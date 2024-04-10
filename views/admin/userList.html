@@ -33,7 +33,7 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group">                            
                                                     <div class="input-group input-group">
-                                                        <input type="text" class="form-control" ng-model="keyword" placeholder="Search for...">
+                                                        <input type="text" class="form-control" ng-model="keyword" placeholder="Search for..." ng-enter="search(keyword,0)">
                                                         <span class="input-group-btn">
                                                             <button class="btn blue" type="button" ng-click="search(keyword)">Search <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
                                                         </span>
@@ -43,18 +43,15 @@
                                             </div>
                                         </div>
                         
-                                        <!-- <table class="table table-bordered" ng-hide="userList.length == 0">
+                                          <table class="table table-bordered" ng-hide="userList.length == 0">
                                             <thead>
                                                 <tr>
                                                     <th>Sr</th>
                                                     <th>Name</th>
                                                     <th>Mobile</th>
                                                     <th>Email</th>
-                                                    <th>Role</th>
+                                                    <th>Alt Mobile</th>
                                                     <th>Enabled/Disabled</th>
-                                                    <th>All Locations</th>
-                                                    <th>All Services</th>
-                                                    <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -63,31 +60,15 @@
                                                     <td ng-bind="tr.name"></td>
                                                     <td ng-bind="tr.mobile"></td>
                                                     <td ng-bind="tr.email"></td>
-                                                    <td ng-bind="tr.role"></td>
-                                                    <td ><input type="checkbox" data-toggle='toggle' data-uid='{{tr.userId}}' class="toggle-button" ng-checked="tr.statusId == '1' ? '1' : ''"  ></td>                            
-                                                    <td ng-bind="tr.allLocations"></td>
-                                                    <td ng-bind="tr.allServices"></td>
-                                                    <td >
+                                                    <td ng-bind="tr.altMobile"></td>
+                                                    <td ><input type="checkbox" data-toggle='toggle' data-uid='{{tr.userId}}' class="toggle-button" ng-checked="tr.statusId == '1' ? '1' : ''"  ></td>
+                                                     <!-- <td >
                                                     <a data-toggle="modal" ng-click="getUserById(tr.userId)" class="btn btn-outline btn-circle btn-sm yellow">
                                                       <i class="fa fa-edit"></i> Edit
-                                                    </td>
-                                                     <a data-toggle="modal" ng-click="getUserViewById(tr.userId)" class="btn btn-outline btn-circle btn-sm yellow">
-                                                      <i class="fa fa-eye"></i> View
-                                                    </td>
+                                                    </td> -->
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <div class="row " ng-show="userList.length > 0" >
-                                            <div class="col-sm-12 text-right">
-                                                <pagination 
-                                                    ng-model="currentPage"
-                                                    total-items="totalPages"
-                                                    max-size="maxSize"  
-                                                    boundary-links="true">
-                                                </pagination>
-                        
-                                            </div>
-                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +169,7 @@
                                 <label class="col-md-3 control-label">Select Role</label>
                                 <div class="col-md-9">
                                     <select class="form-control roleDropDown s2m1" multiple="multiple" name="roles"
-                                        ng-model="roles" ng-options="role.roleId as role.roleName for role in roleList">
+                                        ng-model="roles" ng-options="role.id as role.name for role in roleList">
                                     </select>
                                 </div>
                             </div>
