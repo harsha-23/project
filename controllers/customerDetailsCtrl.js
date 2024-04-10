@@ -1,5 +1,5 @@
 (function () {
-    app.controller("customerLoginCtrl", function (AclService,$scope, $location, $cookies, $cookieStore, app, api) {
+    app.controller("customerDetailsCtrl", function (AclService,$scope, $location, $cookies, $cookieStore, app, api) {
         var lgc = this;
         lgc.email = null;
         lgc.password = null;
@@ -7,7 +7,7 @@
         lgc.otp = null;
         lgc.token = null;
 
-        app.setTitle("Customer Registration");
+        app.setTitle("Customer Details");
 
         $scope.submit=function(){
     

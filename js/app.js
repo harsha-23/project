@@ -1276,6 +1276,20 @@ String.prototype.replaceAll = function (search, replacement) {
                     }]
                 }
             })
+            .when("/customer-details", {
+                templateUrl: "views/customer/customerDetails.html",
+            controller: "customerDetailsCtrl",
+                resolve: {
+                    'acl': ['$q', 'AclService', function ($q, AclService) {
+                        // if (AclService.can('menu.insuranace-estimate-filter')) {
+
+                        //     return true;
+                        // } else {
+                        //     return $q.reject('Unauthorized');
+                        // }
+                    }]
+                }
+            })
             .when("/emi-estimate-filter", {
                 templateUrl: "views/utilities/EMIEstimateFilter.html",
                 controller: "EMIEstimateFilterCtrl",
