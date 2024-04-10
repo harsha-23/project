@@ -53,6 +53,61 @@ app.directive('applySwitchForUser', function (api, $location) {
                                 App.blockUI({
                                     boxed: !0
                                 });
+                                // var promise = api.setUserStatus({
+                                //     id: userId,
+                                //     status: ustatus
+                                // });
+                                promise.then(function mySucces(r) {
+                                    App.unblockUI()
+                                    if (r.data.statusCode == 200) {
+                                        $(that).prop('checked', status).change();
+                                        swal("Success", r.data.message.messageDesc, "success");
+                                    } else {
+                                        $(that).prop('checked', !status).change();
+                                        swal("Error!", r.data.message.messageDesc, "error");
+                                    }
+                                });
+                            } else {
+                                $(that).prop('checked', !status).change();
+                            }
+                        });
+                })
+            }, 100)
+        }
+    };
+});
+app.directive('applySwitchForCustomer', function (api, $location) {
+    return function (scope, element, attrs) {
+        if (scope.$last) {
+            setTimeout(function () {
+                $("input[data-toggle='toggle']").bootstrapToggle({
+                    on: 'Active',
+                    off: 'Inactive',
+                    onstyle: 'success',
+                    offstyle: 'danger'
+                })
+
+                $(".toggle-button").change(function () {
+                    var that = this;
+                    var userId = $(this).data('uid');
+                    var status = $(this).prop('checked');
+                    var ustatus = status == true ? '1' : '2';
+                    swal({
+                        title: "Do you want to change status?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-success",
+                        confirmButtonText: "Yes, change it!",
+                        cancelButtonClass: "btn-danger",
+                        cancelButtonText: "No, cancel please!",
+                        closeOnConfirm: false,
+                        closeOnCancel: true
+                    },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                App.blockUI({
+                                    boxed: !0
+                                });
                                 var promise = api.setUserStatus({
                                     id: userId,
                                     status: ustatus
@@ -442,6 +497,23 @@ String.prototype.replaceAll = function (search, replacement) {
                 headers: app.headers()
             })
         };
+        this.getTransactionStatusList = function () {
+            return $http({
+                method: 'GET',
+                url: SETTINGS.apiBasePath + '/master-info/transaction-status-list',
+                dataType: 'json',
+                headers: app.headers()
+            })
+        };
+        this.getCustomerStatusList = function () {
+            return $http({
+                method: 'GET',
+                url: SETTINGS.apiBasePath + '/master-info/customer-status-list',
+                dataType: 'json',
+                headers: app.headers()
+            })
+        };
+        
         this.getUsersByKeyword = function (request) {
             return $http({
                 method: 'POST',
@@ -458,6 +530,39 @@ String.prototype.replaceAll = function (search, replacement) {
                 },
             })
         };
+        this.getTransactionList = function (request) {
+            return $http({
+                method: 'POST',
+                url: SETTINGS.apiBasePath + '/transaction/filter',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
+        this.getCustomerList = function (request) {
+            return $http({
+                method: 'POST',
+                url: SETTINGS.apiBasePath + '/customer/filter',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
+        
         this.registerUser = function (request) {
             return $http({
                 method: 'POST',
