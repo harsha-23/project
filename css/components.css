@@ -2831,8 +2831,8 @@ Custom color buttons
 
 .btn.green-haze:not(.btn-outline) {
   color: #FFFFFF;
-  background-color: #44b6ae;
-  border-color: #44b6ae; }
+  background-color: #311b92c7;
+  border-color: #311b92; }
   .btn.green-haze:not(.btn-outline):focus, .btn.green-haze:not(.btn-outline).focus {
     color: #FFFFFF;
     background-color: #36918b;

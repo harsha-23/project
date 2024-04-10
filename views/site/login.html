@@ -141,13 +141,17 @@ padding-left: 30px;
 
 </style>
 <!-- END THEME LAYOUT STYLES -->
-<link rel="shortcut icon" href="/img/favicon.png" />
+<link rel="shortcut icon" href="/img/favicon1.png" />
 
 <div class="login-box login">
-    <div class="logo">
+    <!-- <div class="logo">
         <a href="/">
             <img alt="logo" class="logo-default" style="margin-top: 10px;" src="img/logo.png">
         </a>
+    </div> -->
+    <div class="logo">
+        <a href="/">
+            <img src="https://thebanks.eu/img/logos/Easybank_NO.png" alt="logo" height="70" class="logo-default"> </a>
     </div>
     <div class="content">
         <!-- BEGIN LOGIN FORM -->
@@ -186,7 +190,7 @@ padding-left: 30px;
                     Login <i class="m-icon-swapright m-icon-white"></i>
                 </button>
             </div>
-            <div class="forget-password">
+            <!-- <div class="forget-password">
                 <h4>Forgot your password ?</h4>
 
                 <p>
@@ -194,7 +198,7 @@ padding-left: 30px;
                         here </a>
                     to reset your password.
                 </p>
-            </div>
+            </div> -->
 
         </form>
 
@@ -210,7 +214,7 @@ padding-left: 30px;
         </form>
         <form class="forget-form" name="otpValidation" id="otpValidation"  novalidate="novalidate" style="display: none;">
             <h3 class="">Verify Otp</h3>
-            <p> Please enter the otp sent to registered mobile number, Please contact system admin in case, you haven't received any otp </p>
+            <p> Please enter the otp sent to registered Email</p>
             <div class="form-group">
                 <input class="form-control placeholder-no-fix" id="otp" type="number" ng-model="lgc.otp" autocomplete="off" placeholder="otp" name="otp" id="resetemail" required=""> </div>
             <div class="form-actions">
