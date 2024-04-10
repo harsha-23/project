@@ -33,7 +33,7 @@
 
         $scope.postOtpVerification = function(r){
             if (r.data.statusCode == 200) {
-                $location.path('/');     
+                console.log(r.data)
                 
                 // $cookieStore.put('medfinauthkey', r.data.adminUser.authToken);
                 // if (r.data.adminUser.notificationFlag == "1") {
@@ -57,32 +57,33 @@
                 // var aclData = {
                 //     admin: abilities
                 // }
-                AclService.setAbilities(aclData);
-                var onlineStatus = r.data.adminUser.hasOwnProperty("onlineStatus") ? r.data.adminUser.onlineStatus : "OFFLINE";
+                // AclService.setAbilities(aclData);
+                // var onlineStatus = r.data.adminUser.hasOwnProperty("onlineStatus") ? r.data.adminUser.onlineStatus : "OFFLINE";
                 var identity = {
-                    id: r.data.adminUser.userId,
-                    authToken: r.data.adminUser.authToken,
-                    isOnline: onlineStatus,
+                    id: r.data.data.id,
+                    // authToken: r.data.data.authToken,
+                    // isOnline: onlineStatus,
                     identity: {
-                        name: r.data.name,
-                        email: r.data.email,
-                        mobile: r.data.mobile,
-                        adminUserId:r.data.id,
-                        role: r.data.roles,
+                        name: r.data.data.name,
+                        email: r.data.data.email,
+                        mobile: r.data.data.mobile,
+                        id:r.data.id,
+                        role: r.data.data.roles,
                     },
                 }
              
                 app.setIdentity(identity);
+                localStorage.setItem('nameAdd',  r.data.data.name);
                 localStorage.setItem('medfinperm', btoa(JSON.stringify(abilities)));
 
                 //$cookieStore.put('medfinperm', btoa(JSON.stringify(abilities)));
                 $cookieStore.put('medfinidentity', btoa(JSON.stringify(identity)));
-                $cookieStore.put('crossDomainCookie',  r.data.adminUser.authToken);
+                // $cookieStore.put('crossDomainCookie',  r.data.adminUser.authToken);
 
                 let loginToken = $cookieStore.get('crossDomainCookie');
                 console.log(loginToken)
                   // Attach the member role to the current user
-                AclService.attachRole(role);
+                // AclService.attachRole(role);
                 // if(loginToken){
                 //     $location.path('/');
                 //     return
@@ -95,25 +96,8 @@
                 //         return false;
                 //     }
                 // }
-                if(r.data.adminUser.notificationFlag =="1"||r.data.adminUser.notificationFlag==1){
-                    const beamsClient = new PusherPushNotifications.Client({
-                        instanceId: '218ba1e6-0eed-47b7-9d7d-ead116a2eec8',
-                      });
-                    
-                      beamsClient.start()
-                      .then(() => beamsClient.addDeviceInterest(r.data.adminUser.userId.toString()))
-                      .then(() => {console.log('Successfully registered and subscribed!');
-                      location.reload();})
-                      .catch((e)=>{
-                          console.log(e);
-                          $scope.logOutFromAdmin();
-                          return;
-                      });
-            
-                }else{
-
-                    location.reload();
-                }
+                $location.path('/');     
+                
 
             } else {
                 swal("Error!", r.data.message.messageDesc, "error");
