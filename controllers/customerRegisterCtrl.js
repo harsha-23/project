@@ -46,7 +46,7 @@
                 "lastName":$scope.lastName,
                 "accountType":$scope.accountType,
                 "mobile":$scope.mobile,
-                "userType":"1",
+                "userType":$scope.userType,
                 "email":$scope.email,
                 "password":$scope.password,
                 "address":[{                    
