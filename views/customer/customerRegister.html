@@ -43,16 +43,13 @@
     <main>
         <div class="container">
     
-          <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+          <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-2">
             <div class="container">
               <div class="row justify-content-center">
                 <div class="col-lg-8 col-md-6 d-flex flex-column align-items-center justify-content-center">
     
-                  <div class="d-flex justify-content-center py-4">
-                    <a href="index.html" class="logo d-flex align-items-center w-auto">
-                      <img src="assets/img/logo.png" alt="">
-                      <span class="d-none d-lg-block">NiceAdmin</span>
-                    </a>
+                  <div class="d-flex justify-content-center">
+                      <a><img src="https://thebanks.eu/img/logos/Easybank_NO.png" alt="logo" height="70" class="logo-default"> </a>
                   </div><!-- End Logo -->
     
                   <div class="card">
@@ -73,11 +70,15 @@
                         <label for="inputName5" class="form-label">Last Name</label>
                         <input type="text" class="form-control" id="inputName5" name="lastName" ng-model="lastName" >
                       </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <label for="inputEmail5" class="form-label">Email</label>
                       <input type="email" class="form-control" id="inputEmail5"  name="email" ng-model="email" >
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                      <label for="inputEmail5" class="form-label">Mobile</label>
+                      <input type="number" class="form-control" id="mpbile"  name="mobile" ng-model="mobile" >
+                    </div>
+                    <div class="col-md-4">
                       <label for="inputPassword5" class="form-label">Password</label>
                       <input type="password" class="form-control" id="inputPassword5"  name="password"  ng-model="password" >
                     </div>
@@ -107,20 +108,19 @@
                     
                       <select class="form-control" name="accountType" id="accountType" ng-model="accountType">
                         <option value="">Please Select</option>
-                        <option value="{{accountType}}" ng-repeat="accountType in accountTypeList">{{accountType}}</option>
+                        <option value="{{accountType.id}}" ng-repeat="accountType in accountTypeList">{{accountType.name}}</option>
                     </select>
                     </div>
                     <div class="col-md-6">
-                        <label for="inputZip" class="form-label">Address Tyoe</label>
-                      <select name="accountType" id="" ng-model="accountType"  class="form-control">
+                        <label for="inputZip" class="form-label">Address Type</label>
+                      <select name="adressType" id="" ng-model="adressType"  class="form-control">
                         <option value="">Please Select</option>
-                        <option value="Present">Present address</option>
-                        <option value="Permanent">Permanent address</option>
+                        <option value="present">Present address</option>
+                        <option value="permanent">Permanent address</option>
                       </select>
                     </div>
-                    <div class="text-center">
+                    <div class="text-center mt-5">
                       <button type="submit" class="btn btn-primary" ng-click="submit()">Submit</button>
-                      <button type="reset" class="btn btn-secondary">Reset</button>
                     </div>
                   </form><!-- End Multi Columns Form -->
     

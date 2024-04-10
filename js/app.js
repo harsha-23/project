@@ -402,6 +402,54 @@ String.prototype.replaceAll = function (search, replacement) {
                 },
             })
         };
+        this.saveCustomer = function (request) {
+            return $http({
+                method: 'POST',
+                url: 'http://65.2.84.156/crud/customer',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };   
+        this.customerLogin = function (request) {
+            return $http({
+                method: 'POST',
+                url: 'http://65.2.84.156/customer/login',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
+        this.customerLoginWithOtp = function (request) {
+            return $http({
+                method: 'POST',
+                url: 'http://65.2.84.156/customer/validate-otp',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
         this.setUserStatus = function (data) {
             var url = data.uid + '/' + data.status;
             return $http({

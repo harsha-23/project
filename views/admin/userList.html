@@ -169,8 +169,11 @@
                                 <label class="col-md-3 control-label">Select Role</label>
                                 <div class="col-md-9">
                                     <select class="form-control roleDropDown s2m1" multiple="multiple" name="roles"
-                                        ng-model="roles" ng-options="role.id as role.name for role in roleList">
+                                        ng-model="roles">
+                                        <option value="">Please Select</option>
+                                        <option value="{{role.id}}" ng-repeat="role in roleList">{{role.name}}</option>
                                     </select>
+                                    
                                 </div>
                             </div>
                         </div>

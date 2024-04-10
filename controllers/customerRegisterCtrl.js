@@ -32,56 +32,50 @@
                 "middleName":$scope.middleName,
                 "lastName":$scope.lastName,
                 "accountType":$scope.accountType,
+                "mobile":$scope.mobile,
+                "userType":"1",
                 "email":$scope.email,
                 "password":$scope.password,
-                "address":{                    
-                "address":$scope.address,
-                "addressOne":$scope.addressOne,
+                "address":[{                    
+                "address1":$scope.address,
+                "address2":$scope.addressOne,
                 "city":$scope.city,
                 "state":$scope.state,
-                "zip":$scope.zip    
-            }
+                "zip":$scope.zip    ,
+                "addressType":$scope.adressType
+            }]
             }
             console.log(JSON.stringify(req))
 
-            swal("Success!", "User Created Successfully", "success");
+            App.blockUI({
+                boxed: !0,
+                zIndex: 20000
+            })
+            $.blockUI({
+                message: 'Please wait... we are processing your request',
+                baseZ: 15000
+            });
+            var promise = api.saveCustomer(req);
+            promise.then(function mySucces(r) {
+
+                App.unblockUI();
+
+                if (r.data.statusCode == 200) {
+
+                            swal("Success!", "User Created Successfully", "success");
             setTimeout(()=>{
             window.open("/customer-login")
         },1500)
-            
-            // App.blockUI({
-            //     boxed: !0,
-            //     zIndex: 20000
-            // })
-            // $.blockUI({
-            //     message: 'Please wait... we are processing your request',
-            //     baseZ: 15000
-            // });
-            // var promise = api.getInsuranceStatusList(requestData);
-            // promise.then(function mySucces(r) {
 
-            //     App.unblockUI();
+                } else {
 
-            //     if (r.data.statusCode == 200) {
-            //         $scope.userList = r.data.data;
-
-            //         $scope.total = r.data.count;
-            //         setTimeout(function () {
-            //             $('[data-toggle="popover"]').popover({ html: true });
-            //         }, 1000);
-
-
-            //     } else {
-
-            //         swal("Info!", r.data.message, "info");
-            //     }
-            //     $.unblockUI();
-            // });
+                    swal("Info!", r.data.message, "info");
+                }
+                $.unblockUI();
+            });
     
         }
      
-
     })
-
 
 })();

@@ -13,13 +13,28 @@
             if($scope.username.length>0 && $scope.password.length>0){
     
             var req={
-                "username":$scope.username,
+                "email":$scope.username,
                 "password":$scope.password,
                
-    
             }
             console.log(JSON.stringify(req))
-            swal({
+            $.blockUI({
+              message: 'Please wait... we are processing your request',
+              baseZ: 15000
+            }); 
+          var promise = api.customerLogin(req);
+
+          promise.then(function mySucces(r) {
+          
+              // App.unblockUI();
+              $.unblockUI();
+              //  $scope.postOtpVerification(r);
+
+              //open otp form if creds are fine
+              if (r.data.statusCode == 200){
+              
+              lgc.token= r.data.data;
+              swal({
                 title: "OTP!",
                 text: "Please Enter OTP:",
                 type: "input",
@@ -32,13 +47,38 @@
                   swal.showInputError("please enter OTP!");
                   return false
                 }
-                window.open("/customer-details")
+
+                var request = {
+                  "token": lgc.token,
+                  "otp": inputValue
+              };
+              App.blockUI({
+                  boxed: !0
+              });
+
+              var promise = api.customerLoginWithOtp(request);
+
+              promise.then(function mySucces(r) {
+                  App.unblockUI();
+                  if (r.data.statusCode == 200) {
+                     window.open("/customer-details")
+                  } else {
+                    swal.showInputError("please enter Valid OTP!");
+                  }
+              });
+               
                 // swal("Nice!", "You wrote: " + inputValue, "success");
               });
+
+              } else{
+              //wrong password flow
+              swal("Error!", r.data.message.messageDesc, "error");
+              }
+          });
+           
         }
      
     }
     })
-
 
 })();
