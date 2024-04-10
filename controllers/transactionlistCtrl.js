@@ -13,6 +13,10 @@
                 
             });
             $scope.submit = function () {
+
+                if (!$('#transactionForm').valid()) {
+                    return false;
+                }
                 var request = {
                    
                 };

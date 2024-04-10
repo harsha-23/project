@@ -26,7 +26,7 @@
                                         </div>
                                     </div>
                                     <div class="portlet-body">
-                                        <form class="form-horizontal form-bordered" id="insuranceForm">
+                                        <form class="form-horizontal form-bordered" id="transactionForm">
                         
                         
                         
@@ -153,28 +153,30 @@
                                             <thead>
                                                 <tr>
                         
-                        
+                                                    <th>Balance</th>
                                                     <th>From Account</th>
                                                     <th>To Account</th>
-                                                    <th>Transaction Id</th>
+                                                    <!-- <th>Transaction Id</th> -->
                                                     <th>Debit</th>
                                                     <th>Credit</th>
                                                     <th>Transaction Status</th>
                                                     <th>comments</th>
-                                                    <th>Balance</th>
+                                                    <th>T Date</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="list in TransactionList">
-                        
+                                                    <td>{{list.balance}}</td>  
                                                     <td>{{list.fromAccount}}</td>
                                                     <td>{{list.toAccount}}</td>
-                                                    <td>{{list.transactionId}}</td>
+                                                    <!-- <td>{{list.transactionId}}</td> -->
                                                     <td>{{list.debit}}</td>
                                                     <td>{{list.credit}}</td>
                                                     <td>{{list.transactionStatus}}</td>
                                                     <td>{{list.comments}}</td>
-                                                    <td>{{list.balance}}</td>    
+                                                    <td>{{list.transactionDate}}</td>
+                                                    <td ng-if="list.transactionStatus !== 'cleared'"><button class="btn btn-succes">Approve</button></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -212,3 +214,68 @@
 </div>
 </div>
 </div>
+<script>
+    $('#transactionForm').validate({
+          errorElement: 'span', //default input error message container
+          errorClass: 'help-block help-block-error', // default input error message class
+          focusInvalid: false, // do not focus the last invalid input
+          ignore: "", // validate all fields including form hidden input
+          rules: {
+              date: {
+                  required: true
+              },
+              tdate: {
+                  required: true,
+                 
+              }
+           
+             
+
+
+          },
+          messages: {
+                    
+                     mobile: {
+                  required: "Enter valid Mobile Number.",
+                  minlength: "Mobile number should be 10 digit.",
+                  maxlength: "Mobile number should be 10 digit."
+              },
+              whatsAppNumber: {
+                  required: "Enter valid Mobile Number.",
+                  minlength: "Mobile number should be 10 digit.",
+                  maxlength: "Mobile number should be 10 digit."
+              },
+              exotelNumber: {
+                  required: "Enter valid Mobile Number.",
+                  minlength: "Mobile number should be 10 digit.",
+                  maxlength: "Mobile number should be 10 digit."
+              },
+                    
+                     
+     
+                 },
+          errorPlacement: function (error, element) { // render error placement for each input type
+              if (element.attr("name") == "mobile") {
+                  error.insertAfter(element.parent());
+              } else {
+                  error.insertAfter(element); // for other inputs, just perform default behavior
+              }
+          },
+          highlight: function (element) { // hightlight error inputs
+              $(element)
+                  .closest('.form-group').addClass(
+                      'has-error'); // set error class to the control group
+          },
+          unhighlight: function (element) { // revert the change done by hightlight
+              $(element)
+                  .closest('.form-group').removeClass(
+                      'has-error'); // set error class to the control group
+          },
+          success: function (label) {
+              label
+                  .closest('.form-group').removeClass(
+                      'has-error'); // set success class to the control group
+          }
+      });
+   
+</script>
