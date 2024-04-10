@@ -1,0 +1,241 @@
+<div data-ng-include="'views/admin/common-css.html'"></div>
+
+<div class="page-wrapper">
+    <div class="page-wrapper-row">
+        <div class="page-wrapper-top">
+            <!-- BEGIN HEADER -->
+            <div data-ng-include="'views/layouts/tpl/header.html'" 
+                class="page-header"></div>
+            <!-- END HEADER -->
+        </div>
+    </div>
+    <div class="page-wrapper-row full-height">
+        <div class="page-wrapper-middle">
+            <div class="page-container">
+                <div class="page-content">
+                    <div class="container">
+
+                        <!-- Common Include -->
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="portlet light ">
+                                    <div class="portlet-title">
+                                        <div class="caption caption-md">
+                                            <i class="icon-magnifier font-green"></i>
+                                            <span class="caption-subject font-green sbold uppercase">customer list</span>
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <form class="form-horizontal form-bordered" id="insuranceForm">
+                        
+                        
+                        
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-12 text-left">From Date<span class="required"
+                                                                aria-required="true"> * </span></label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="date" id="date" readonly="true" ng-model="date"
+                                                                class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-12 text-left">To Date<span class="required"
+                                                                aria-required="true"> * </span></label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="tdate" id="tdate" readonly="true" ng-model="tdate"
+                                                                class="form-control"><span class="err">{{errMessage}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                        
+                        
+                                              
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-12 text-left">Account Number </label>
+                                                        <div class="col-sm-12">
+                        
+                                                            <input type="text" class="form-control" id="lead" name="lead" ng-model="lead">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                                            </div>
+                        
+                        
+                        
+                        
+                                            <div class="row">
+                        
+                        
+                                               
+                        
+                        
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-12 text-left">Status</label>
+                                                        <div class="col-sm-12">
+                                                            <select class="form-control" name="status" id="status" ng-model="status">
+                                                                <option value="">Please Select</option>
+                                                                <option value="{{status}}" ng-repeat="status in statusList">{{status}}</option>
+                                                            </select>
+                        
+                                                          
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                        
+                                                <div class="col-sm-3" >
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-12 ">Mobile Number</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="number" class="form-control" id="mobile" name="mobile" ng-model="mobile">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                              
+                        
+                                            </div>
+                        
+                        
+                        
+                                            <div class="row">
+                                                <div class="col-md-6" style="margin-top: 10px;">
+                                                    <div class="col-md-4">
+                                                        <input type="button" date-exportexcel="false" data-page="1"
+                                                            class="btn blue btn-block margin-top-20 green-haze" value="Submit"
+                                                            ng-click="submit(0);">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input type="button" ng-click="resetFilter()"
+                                                            class="btn blue btn-block margin-top-20 red-haze" value="Clear">
+                                                    </div>
+                                                   
+                                                </div>
+                                            </div>
+                        
+                                        </form>
+                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        <div class="row" ng-show="total > 0">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="portlet light ">
+                                    <div class="portlet-title">
+                                        <div class="caption caption-md">
+                                            <i class="icon-list font-green"></i>
+                                            <span class="caption-subject font-green sbold uppercase"> LIST (LEAD COUNT -
+                                                {{total}})</span>
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <table class="table table-striped table-bordered table-advance table-hover">
+                                            <thead>
+                                                <tr>
+                        
+                        
+                                                    <th>Patient Name / Mobile / Vendor</th>
+                                                    <th>Insurance / TPA / Insurance Type / Claim Type</th>
+                        
+                                                    <th>Posted By / Posted Date</th>
+                                                    <th>Surgery Name / Reference Number</th>
+                        
+                                                    <th>status</th>
+                        
+                        
+                        
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="insurance in userList">
+                        
+                                                    <td>{{insurance.patientName}}<br />
+                                                        <br />
+                        
+                                                        <span ng-if="can('mobile.number.display.permission')"> {{insurance.patientMobile}}<a href="#"
+                                                            ng-click="actions.makeConferenceCallByMobile({mobile:insurance.patientMobile,leadId:insurance.leadId})"><i
+                                                                class="fa fa-phone"></i></a>
+                                                    </span>
+                                                    <a class="btn btn-icon-only btn-circle popovers" data-toggle="popover" ng-click="actions.getMobileNumber({                                               
+                                                        lead: insurance.leadId,                                               
+                                                    })"
+                                                    data-container="body" data-trigger="hover" data-placement="top"
+                                                    data-content="View mobile"
+                                                    data-original-title="Verify OTP" href="#"><i
+                                                        class="icon-eye font-green-sharp"></i></a>
+                                                        <br /> <br/>
+                                                        <b>{{insurance.vendor}}</b>
+                                                        <br /><br />
+                                                        <a href="/insurance-estimate/{{insurance.token}}" target="_blank">Details</a>
+                        
+                                                    </td>
+                                                    <td>{{insurance.insuranceName}}<br /> <br /> {{insurance.tpa}}<br /> <br />
+                                                        {{insurance.insuranceType}} <br /> <br /><strong>{{insurance.claimType}}</strong></td>
+                                                    <td>{{insurance.postedBy}} <br /> <br /> {{insurance.postedDate}}</td>
+                                                    <td>{{insurance.surgeryName}} <br /> <br /> {{insurance.referenceNumber}}</td>
+                        
+                                                    <td>
+                                                        <table class="table table-striped table-bordered table-advance table-hover">
+                                                            <tr>
+                                                                <th>Doctor</th>
+                                                                <th>Hospital</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                            <tr ng-repeat="status in insurance.info">
+                                                                <td>{{status.doctor}} </td>
+                                                                <td> {{status.hospital}}</td>
+                                                                <td>{{status.eligibility}}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                        
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                        
+                        
+                                        <div class="row " ng-show="userList.length > 0">
+                                            <div class="col-sm-12 text-right">
+                                                <!-- pagination -->
+                                                <div paging page="currentPage" page-size="pageSize" total="total" show-prev-next="true"
+                                                    text-next="next" text-prev="prev" paging-action="pagination('Paging Clicked', page)">
+                                                </div>
+                        
+                                            </div>
+                                        </div>
+                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                     
+                        <!-- Common Include end -->
+                     </div>
+                </div>
+            <a href="javascript:;" class="page-quick-sidebar-toggler">
+                <i class="icon-login"></i>
+            </a>
+            </div>
+        <!-- END CONTAINER -->
+        </div>
+     </div>
+<div class="page-wrapper-row">
+<div class="page-wrapper-bottom">
+<!-- BEGIN FOOTER -->
+<div data-ng-include="'views/layouts/tpl/footer.html'"> </div>
+<!-- END FOOTER -->
+</div>
+</div>
+</div>
