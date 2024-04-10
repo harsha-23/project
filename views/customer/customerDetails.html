@@ -232,9 +232,6 @@
                     <div class="col-lg-3 col-md-4 label ">Full Name</div>
                     <div class="col-lg-9 col-md-8">{{req.firstName+" "+req.middleName+" "+req.lastName}}</div>
                   </div>
-
-
-
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">mobile</div>
                     <div class="col-lg-9 col-md-8">{{req.mobile}}</div>
@@ -243,6 +240,11 @@
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Email</div>
                     <div class="col-lg-9 col-md-8">{{req.email}}</div>
+                  </div>
+
+				  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">User Type</div>
+                    <div class="col-lg-9 col-md-8">{{req.userType}}</div>
                   </div>
 
                 </div>
@@ -300,27 +302,21 @@
                         <th scope="col">#</th>
                         <th scope="col">From Account</th>
                         <th scope="col">To Account</th>
-                        <th scope="col">Credit</th>
-                        <th scope="col">Debit</th>
-						<th scope="col">Transaction Date</th>
-                        <th scope="col">Balance</th>
-                        <th scope="col">transactionStatus</th>
+                        <th scope="col">Credit / Debit</th>
+                     	<th scope="col">Date</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Comments</th>
                       </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="tr in getAccountHistory" >
-                            <th scope="row"><a href="#"  ng-bind="begin + $index + 1"></a></th>
+                            <th scope="row" ng-bind="begin + $index + 1"></th>
                             <td ng-bind="tr.fromAccount"></td>
                             <td ng-bind="tr.toAccount"></td>
-                            <td ng-bind="tr.credit"></td>
-                            <td ng-bind="tr.debit"></td>
+                            <td>{{tr.credit}} / {{tr.debit}}</td>
                             <td ng-bind="tr.transactionDate"></td>
-                            <td ng-bind="tr.balance"></td>
                             <td ng-bind="tr.transactionStatus"></td>
-                            <td><a href="#" class="text-primary"  ng-bind="tr.comments"></a></td>
-                          
-                           
+                            <td ng-bind="tr.comments"></td>
                         </tr>
                     
                   
@@ -402,8 +398,6 @@
                                 <th>Sr</th>
                                 <th>From Account</th>
                                 <th>Balance</th>
-                                <th>Credit</th>
-                                <th>Debit</th>
                                 <th>Transaction Status</th>
                                 <!-- <th>Approva lStatus</th> -->
                                 <!-- <th>Enabled/Disabled</th> -->
@@ -414,8 +408,6 @@
                                 <td ng-bind="begin + $index + 1"></td>
                                 <td ng-bind="tr.fromAccount"></td>
                                 <td>{{tr.balance}}</td>
-                                <td>{{tr.credit}}</td>
-                                <td>{{tr.debit}}</td>
                                 <td ng-bind="tr.transactionStatus"></td>
                                 <!-- <td ng-bind="tr.routingNumber"></td>
                                 <td ng-bind="tr.approvalStatus"></td> -->
@@ -533,7 +525,7 @@
                     <div class="row col-md-12">
                       
                        
-                        <label for="amount" class="col-md-4 col-lg-3 col-form-label">source account</label>
+                        <label for="amount" class="col-md-4 col-lg-3 col-form-label">Source Account</label>
                         <div class="col-sm-3">
                             <select name="accountType" id="" ng-model="accountType"  class="form-control" >
                                 <option value="">Please Select</option>
@@ -571,7 +563,7 @@
                     <div class="row col-md-12">
                       
                        
-                        <label for="amount" class="col-md-4 col-lg-3 col-form-label">source account</label>
+                        <label for="amount" class="col-md-4 col-lg-3 col-form-label">Source Account</label>
                         <div class="col-sm-3">
                             <select name="withdrawAccountType" id="" ng-model="withdrawAccountType"  class="form-control" >
                                 <option value="">Please Select</option>
