@@ -10,6 +10,7 @@
         app.setTitle("Customer Registration");
 
         $scope.submit=function(){
+            if($scope.username.length>0 && $scope.password.length>0){
     
             var req={
                 "username":$scope.username,
@@ -18,10 +19,25 @@
     
             }
             console.log(JSON.stringify(req))
-    
+            swal({
+                title: "OTP!",
+                text: "Please Enter OTP:",
+                type: "input",
+                // showCancelButton: true,
+                closeOnConfirm: false,
+                inputPlaceholder: "OTP"
+              }, function (inputValue) {
+                if (inputValue === false) return false;
+                if (inputValue === "") {
+                  swal.showInputError("please enter OTP!");
+                  return false
+                }
+                window.open("/customer-details")
+                // swal("Nice!", "You wrote: " + inputValue, "success");
+              });
         }
      
-
+    }
     })
 
 

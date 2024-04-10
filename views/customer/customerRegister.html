@@ -1,45 +1,44 @@
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Pages / Register - NiceAdmin Bootstrap Template</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+<style>
+  .select2-container--bootstrap {
+      width: 100% !important;
+  }
+  
+  .intl-tel-input {
+      width: 100%;
+  }
+  
+  .help-block {
+      color: #e73d4a;
+  }
+  
+  .error {
+      color: #e73d4a;
+  }
+  
+  .select2-container .select2-choice .select2-arrow {
+      background-image: none;
+      background: none;
+      border-left: none;
+  }
+  
+  .select2-container .select2-choice>.select2-chosen {
+      color: #555;
+  }
+  
+  
+  @media (max-width: 991px) {
+      .top-menu {
+          display: none !important;
+      }
+  }
+  </style>
+  <link href="/plugins/bootstrap-sweetalert/sweetalert.css" rel="stylesheet" type="text/css" />
 
-  <!-- Favicons -->
-  <link href="plugins/assets/img/favicon.png" rel="icon">
-  <link href="plugins/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="plugins/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="plugins/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="plugins/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="plugins/assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="plugins/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="plugins/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="plugins/assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="plugins/assets/css/style.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: NiceAdmin
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Updated: Mar 17 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
-</head>
-
-<body>
+<div data-ng-include="'views/customer/headerCommon.html'"
+                   ></div>
 
     <main>
         <div class="container">
@@ -61,26 +60,26 @@
                   <h5 class="card-title">Multi Columns Form</h5>
     
                   <!-- Multi Columns Form -->
-                  <form class="row g-3">
+                  <form class="row g-3" id="RegisterForm">
                     <div class="col-md-4">
                       <label for="inputName5" class="form-label">First Name</label>
-                      <input type="text" class="form-control" id="inputName5" name="firstName" ng-model="firstName">
+                      <input type="text" class="form-control" id="inputName5" name="firstName" ng-model="firstName" >
                     </div>
                     <div class="col-md-4">
                         <label for="inputName5" class="form-label">Middle Name</label>
-                        <input type="text" class="form-control" id="inputName5" name="middleName" ng-model="middleName">
+                        <input type="text" class="form-control" id="inputName5" name="middleName" ng-model="middleName" >
                       </div>
                       <div class="col-md-4">
                         <label for="inputName5" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="inputName5" name="lastName" ng-model="lastName">
+                        <input type="text" class="form-control" id="inputName5" name="lastName" ng-model="lastName" >
                       </div>
                     <div class="col-md-6">
                       <label for="inputEmail5" class="form-label">Email</label>
-                      <input type="email" class="form-control" id="inputEmail5"  name="email" ng-model="email">
+                      <input type="email" class="form-control" id="inputEmail5"  name="email" ng-model="email" >
                     </div>
                     <div class="col-md-6">
                       <label for="inputPassword5" class="form-label">Password</label>
-                      <input type="password" class="form-control" id="inputPassword5"  name="password"  ng-model="password">
+                      <input type="password" class="form-control" id="inputPassword5"  name="password"  ng-model="password" >
                     </div>
                     <div class="col-12">
                       <label for="inputAddress5" class="form-label">Address</label>
@@ -105,18 +104,18 @@
                     </div>
                     <div class="col-md-6">
                         <label for="inputZip" class="form-label">Account Type</label>
-                      <select name="accountType" id="" ng-model="accountType"  class="form-control">
+                    
+                      <select class="form-control" name="accountType" id="accountType" ng-model="accountType">
                         <option value="">Please Select</option>
-                        <option value="Saving">Saving</option>
-                        <option value="Checking">Checking</option>
-                      </select>
+                        <option value="{{accountType}}" ng-repeat="accountType in accountTypeList">{{accountType}}</option>
+                    </select>
                     </div>
                     <div class="col-md-6">
-                        <label for="inputZip" class="form-label">Account Info</label>
+                        <label for="inputZip" class="form-label">Address Tyoe</label>
                       <select name="accountType" id="" ng-model="accountType"  class="form-control">
                         <option value="">Please Select</option>
-                        <option value="Saving">Saving</option>
-                        <option value="Checking">Checking</option>
+                        <option value="Present">Present address</option>
+                        <option value="Permanent">Permanent address</option>
                       </select>
                     </div>
                     <div class="text-center">
@@ -141,19 +140,93 @@
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Vendor JS Files -->
-  <script src="plugins/assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="plugins/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="plugins/assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="plugins/assets/vendor/echarts/echarts.min.js"></script>
-  <script src="plugins/assets/vendor/quill/quill.min.js"></script>
-  <script src="plugins/assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="plugins/assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="plugins/assets/vendor/php-email-form/validate.js"></script>
+  <script>
+    (function () {
+        $('#RegisterForm').validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block help-block-error', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "", // validate all fields including form hidden input
+            rules: {
 
-  <!-- Template Main JS File -->
-  <script src="plugins/assets/js/main.js"></script>
 
-</body>
 
-</html>
+                firstName: {
+                    required: true,
+
+                },
+                email: {
+                    required: true,
+
+                },
+                password:{
+                  required:true
+                }
+
+            },
+            messages: {
+                service: "Please select the service.",
+                city: "Please select the city.",
+                date: "date is required",
+                tdate: "date is required",
+
+
+                prospect: "Please select the speciality"
+
+
+            },
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                    .closest('.form-group').addClass(
+                        'has-error'); // set error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element)
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set error class to the control group
+            },
+            success: function (label) {
+                label
+                    .closest('.form-group').removeClass(
+                        'has-error'); // set success class to the control group
+            },
+
+        });
+
+
+
+
+
+        setTimeout(function () {
+
+            $('#date,#tdate,#reminderDate2').datepicker({
+                format: "yyyy-mm-dd",
+                autoclose: true,
+
+            });
+
+            $('#date').on("changeDate", function () {
+                $('#tdate').val($(this).val());
+                var selected = $(this).val();
+
+                var dt2 = $('#tdate');
+
+
+                $('#tdate').datepicker('setStartDate', selected);
+
+
+            });
+
+
+        }, 100);
+
+
+
+
+    })();
+</script>
+
+  <div data-ng-include="'views/customer/footer.html'"
+  ></div>
+
+

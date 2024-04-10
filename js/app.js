@@ -1,9 +1,9 @@
 var app = angular.module("myapp", ["ngRoute", "mm.acl", "ngCookies", "ui.bootstrap", "bw.paging", 's3FileUpload', 'ngSanitize', 'textAngular', 'ui.select', 'ui.toggle']);
 
-app.factory('middlewareInterceptor', middlewareInterceptor)
-    .config(function ($httpProvider) {
-        $httpProvider.interceptors.push('middlewareInterceptor');
-    });
+// app.factory('middlewareInterceptor', middlewareInterceptor)
+//     .config(function ($httpProvider) {
+//         $httpProvider.interceptors.push('middlewareInterceptor');
+//     });
 
 app.directive('fileModel', ['$parse', function ($parse) {
     return {
@@ -88,12 +88,12 @@ String.prototype.replaceAll = function (search, replacement) {
 (function () {
 
     app.constant('SETTINGS', (function () {
-        let APIPath=""  
-        if (window.location.href.indexOf("https://vendor.medfin.in") > -1) {
-           APIPath="https://services.medfin.in"
-          }else{
-            APIPath="https://betaservices.medfin.in"
-          }
+        let APIPath="http://65.2.84.156"  
+        // if (window.location.href.indexOf("https://vendor.medfin.in") > -1) {
+        //    APIPath="https://services.medfin.in"
+        //   }else{
+        //     APIPath="https://betaservices.medfin.in"
+        //   }
     
         return {
             layoutPath: "views/layouts/",
@@ -406,6 +406,25 @@ String.prototype.replaceAll = function (search, replacement) {
                 },
             })
         };
+        
+        this.getAccountTypes = function () {
+            return $http({
+                method: 'GET',
+                url: SETTINGS.apiBasePath + '/master-info/account-types',
+
+                headers: {
+                    // "x-correlation-id": app.uuidv4(),
+                    // "x-component": 'ADMIN',
+                    // "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    // "Authorization": "Bearer " + app.getAuthToken(),
+                    // "x-user-email": app.user.identity.email,
+                    // "x-token": app.getAuthToken(),
+                    // "x-user-id": app.user.identity.adminUserId
+                },
+            })
+        };
+
         this.changePassword = function (request) {
             return $http({
                 method: 'PUT',

@@ -1,4 +1,44 @@
 
+
+
+<style>
+  .select2-container--bootstrap {
+      width: 100% !important;
+  }
+  
+  .intl-tel-input {
+      width: 100%;
+  }
+  
+  .help-block {
+      color: #e73d4a;
+  }
+  
+  .error {
+      color: #e73d4a;
+  }
+  .sweet-alert .form-group .sa-input-error {
+    display: block !important;
+}
+  
+  .select2-container .select2-choice .select2-arrow {
+      background-image: none;
+      background: none;
+      border-left: none;
+  }
+  
+  .select2-container .select2-choice>.select2-chosen {
+      color: #555;
+  }
+  
+  
+  @media (max-width: 991px) {
+      .top-menu {
+          display: none !important;
+      }
+  }
+  </style>
+  <link href="/plugins/bootstrap-sweetalert/sweetalert.css" rel="stylesheet" type="text/css" />
 <div data-ng-include="'views/customer/headerCommon.html'"
                    ></div>
 
@@ -73,19 +113,7 @@
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Vendor JS Files -->
-  <script src="plugins/assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="plugins/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="plugins/assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="plugins/assets/vendor/echarts/echarts.min.js"></script>
-  <script src="plugins/assets/vendor/quill/quill.min.js"></script>
-  <script src="plugins/assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="plugins/assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="plugins/assets/vendor/php-email-form/validate.js"></script>
+ 
+  <div data-ng-include="'views/customer/footer.html'"
+  ></div>
 
-  <!-- Template Main JS File -->
-  <script src="plugins/assets/js/main.js"></script>
-
-</body>
-
-</html>
