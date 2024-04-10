@@ -72,7 +72,7 @@
 
               } else{
               //wrong password flow
-              swal("Error!", r.data.message.messageDesc, "error");
+              swal("Error!", r.data.message, "error");
               }
           });
            

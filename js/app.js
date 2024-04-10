@@ -21,6 +21,61 @@ app.directive('fileModel', ['$parse', function ($parse) {
     };
 }]);
 
+app.directive('applySwitchForUser', function (api, $location) {
+    return function (scope, element, attrs) {
+        if (scope.$last) {
+            setTimeout(function () {
+                $("input[data-toggle='toggle']").bootstrapToggle({
+                    on: 'Active',
+                    off: 'Inactive',
+                    onstyle: 'success',
+                    offstyle: 'danger'
+                })
+
+                $(".toggle-button").change(function () {
+                    var that = this;
+                    var userId = $(this).data('uid');
+                    var status = $(this).prop('checked');
+                    var ustatus = status == true ? '1' : '2';
+                    swal({
+                        title: "Do you want to change status?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-success",
+                        confirmButtonText: "Yes, change it!",
+                        cancelButtonClass: "btn-danger",
+                        cancelButtonText: "No, cancel please!",
+                        closeOnConfirm: false,
+                        closeOnCancel: true
+                    },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                App.blockUI({
+                                    boxed: !0
+                                });
+                                var promise = api.setUserStatus({
+                                    id: userId,
+                                    status: ustatus
+                                });
+                                promise.then(function mySucces(r) {
+                                    App.unblockUI()
+                                    if (r.data.statusCode == 200) {
+                                        $(that).prop('checked', status).change();
+                                        swal("Success", r.data.message.messageDesc, "success");
+                                    } else {
+                                        $(that).prop('checked', !status).change();
+                                        swal("Error!", r.data.message.messageDesc, "error");
+                                    }
+                                });
+                            } else {
+                                $(that).prop('checked', !status).change();
+                            }
+                        });
+                })
+            }, 100)
+        }
+    };
+});
 app.directive("ngFileSelect", function () {
 
     return {
@@ -349,7 +404,8 @@ String.prototype.replaceAll = function (search, replacement) {
         this.login = function (request) {
             return $http({
                 method: 'POST',
-                url: 'http://65.2.84.156/admin/login',
+               
+                url: SETTINGS.apiBasePath + '/admin/login',
                 dataType: 'json',
                 data: request,
                 headers: {
@@ -365,7 +421,7 @@ String.prototype.replaceAll = function (search, replacement) {
         this.loginWithOtp = function (request) {
             return $http({
                 method: 'POST',
-                url: 'http://65.2.84.156/admin/validate-otp',
+                url: SETTINGS.apiBasePath + '/admin/validate-otp',
                 dataType: 'json',
                 data: request,
                 headers: {
@@ -381,7 +437,7 @@ String.prototype.replaceAll = function (search, replacement) {
         this.getRoleList = function () {
             return $http({
                 method: 'GET',
-                url: 'http://65.2.84.156/master-info/role-list',
+                url: SETTINGS.apiBasePath + '/master-info/role-list',
                 dataType: 'json',
                 headers: app.headers()
             })
@@ -389,7 +445,23 @@ String.prototype.replaceAll = function (search, replacement) {
         this.getUsersByKeyword = function (request) {
             return $http({
                 method: 'POST',
-                url: 'http://65.2.84.156/admin/filter',
+                url: SETTINGS.apiBasePath + '/admin/filter',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
+        this.registerUser = function (request) {
+            return $http({
+                method: 'POST',
+                url: SETTINGS.apiBasePath + '/crud/admin-user',
                 dataType: 'json',
                 data: request,
                 headers: {
@@ -405,7 +477,7 @@ String.prototype.replaceAll = function (search, replacement) {
         this.saveCustomer = function (request) {
             return $http({
                 method: 'POST',
-                url: 'http://65.2.84.156/crud/customer',
+                url: SETTINGS.apiBasePath + '/crud/customer',
                 dataType: 'json',
                 data: request,
                 headers: {
@@ -421,7 +493,7 @@ String.prototype.replaceAll = function (search, replacement) {
         this.customerLogin = function (request) {
             return $http({
                 method: 'POST',
-                url: 'http://65.2.84.156/customer/login',
+                url: SETTINGS.apiBasePath + '/customer/login',
                 dataType: 'json',
                 data: request,
                 headers: {
@@ -437,7 +509,7 @@ String.prototype.replaceAll = function (search, replacement) {
         this.customerLoginWithOtp = function (request) {
             return $http({
                 method: 'POST',
-                url: 'http://65.2.84.156/customer/validate-otp',
+                url: SETTINGS.apiBasePath + '/customer/validate-otp',
                 dataType: 'json',
                 data: request,
                 headers: {
@@ -450,13 +522,28 @@ String.prototype.replaceAll = function (search, replacement) {
                 },
             })
         };
-        this.setUserStatus = function (data) {
+        this.setUserStatusss = function (data) {
             var url = data.uid + '/' + data.status;
             return $http({
                 method: 'PUT',
                 url: SETTINGS.apiBasePath + '/user/user/' + url,
                 dataType: 'json',
                 headers: app.headers(),
+            })
+        };
+        this.setUserStatus = function (request) {
+            return $http({
+                method: 'PUT',
+                url: SETTINGS.apiBasePath + '/crud/admin-user-status',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+                }
             })
         };
         this.resetPassword = function (request) {

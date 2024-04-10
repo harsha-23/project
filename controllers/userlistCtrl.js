@@ -26,9 +26,10 @@
         }
         $scope.roleList = api.getRoleList();
         $scope.roleList.then(function mySucces(r) {
-            if (r.data.length > 0) {
-                $scope.roleList = r.data;
-            }
+            console.log(r.data)
+       
+                $scope.roleList = r.data.data;
+            
 
         });
         $scope.search = function (keyword, startIndex) {
@@ -60,6 +61,45 @@
             // }
 
         }
+
+        $scope.createUser = function () {
+         
+
+            if (!$('#createUserForm').valid()) {
+                return false;
+            }
+       
+
+                var requestData = {
+                    "email": $scope.email,
+                    "name": $scope.name,
+                    "password": $scope.password,                 
+                    "mobile": $scope.mobile,
+                    "altMobile": $scope.altmobile,
+                    "roleId": $scope.roles,
+                            
+                };
+                console.log(requestData)
+              
+                App.blockUI({
+                    boxed: !0,
+                    zIndex: 20000
+                });
+                var promise = api.registerUser(requestData);
+
+                promise.then(function mySucces(r) {
+                    App.unblockUI();
+                    if (r.data.statusCode == 200) {
+                        $('.modal').modal('hide');
+                        swal("Success", r.data.message, "success");
+                    } else {
+                        swal("Error!", r.data.message, "error");
+                    }
+
+                    // $scope.search($scope.keyword, 0);
+                });
+            
+        };
 
         $scope.pagination = function (a, page) {
             var startIndex = ($scope.pageSize * (page - 1));
