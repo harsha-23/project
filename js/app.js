@@ -490,6 +490,70 @@ String.prototype.replaceAll = function (search, replacement) {
                 },
             })
         };   
+        this.saveCustomerBeneficiary = function (request) {
+            return $http({
+                method: 'POST',
+                url: SETTINGS.apiBasePath + '/customer/customer-beneficiary',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };  
+        this.customerAddAccount = function (request) {
+            return $http({
+                method: 'POST',
+                url: SETTINGS.apiBasePath + '/customer/add-account',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };   
+        this.customerAddFunds = function (request) {
+            return $http({
+                method: 'POST',
+                url: SETTINGS.apiBasePath + '/transaction/deposit',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
+        this.transferAddFunds = function (request) {
+            return $http({
+                method: 'POST',
+                url: SETTINGS.apiBasePath + '/transaction/transfer',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };   
         this.customerLogin = function (request) {
             return $http({
                 method: 'POST',
@@ -510,6 +574,38 @@ String.prototype.replaceAll = function (search, replacement) {
             return $http({
                 method: 'POST',
                 url: SETTINGS.apiBasePath + '/customer/validate-otp',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
+        this.customerLoginWithOtpBeneficiary = function (request) {
+            return $http({
+                method: 'PUT',
+                url: SETTINGS.apiBasePath + '/customer/customer-beneficiary',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
+        this.customerLoginWithOtpAddFunds = function (request) {
+            return $http({
+                method: 'POST',
+                url: SETTINGS.apiBasePath + '/transaction/validate-transfer-otp',
                 dataType: 'json',
                 data: request,
                 headers: {
@@ -584,6 +680,40 @@ String.prototype.replaceAll = function (search, replacement) {
             return $http({
                 method: 'GET',
                 url: SETTINGS.apiBasePath + '/master-info/account-types',
+
+                headers: {
+                    // "x-correlation-id": app.uuidv4(),
+                    // "x-component": 'ADMIN',
+                    // "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    // "Authorization": "Bearer " + app.getAuthToken(),
+                    // "x-user-email": app.user.identity.email,
+                    // "x-token": app.getAuthToken(),
+                    // "x-user-id": app.user.identity.adminUserId
+                },
+            })
+        };
+        this.getBenficiarylist = function (token) {
+            return $http({
+                method: 'GET',
+                url: SETTINGS.apiBasePath + '/customer/beneficary-list?token='+token,
+
+                headers: {
+                    // "x-correlation-id": app.uuidv4(),
+                    // "x-component": 'ADMIN',
+                    // "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    // "Authorization": "Bearer " + app.getAuthToken(),
+                    // "x-user-email": app.user.identity.email,
+                    // "x-token": app.getAuthToken(),
+                    // "x-user-id": app.user.identity.adminUserId
+                },
+            })
+        };
+        this.getAccountlistType = function (token) {
+            return $http({
+                method: 'GET',
+                url: SETTINGS.apiBasePath + '/customer/account-list?token='+token,
 
                 headers: {
                     // "x-correlation-id": app.uuidv4(),

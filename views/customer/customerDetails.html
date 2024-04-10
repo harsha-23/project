@@ -1,43 +1,83 @@
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Users / Profile - NiceAdmin Bootstrap Template</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
 
-  <!-- Favicons -->
-  <link href="plugins/assets/img/favicon1.png" rel="icon">
-  <link href="plugins/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="plugins/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="plugins/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="plugins/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="plugins/assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="plugins/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="plugins/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="plugins/assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="plugins/assets/css/style.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: NiceAdmin
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Updated: Mar 17 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
-</head>
+<style>
+    .select2-container--bootstrap {
+        width: 100% !important;
+    }
+    
+    .intl-tel-input {
+        width: 100%;
+    }
+    
+    .help-block {
+        color: #e73d4a;
+    }
+    
+    .error {
+        color: #e73d4a;
+    }
+    .sweet-alert .form-group .sa-input-error {
+      display: block !important;
+  }
+    
+    .select2-container .select2-choice .select2-arrow {
+        background-image: none;
+        background: none;
+        border-left: none;
+    }
+    
+    .select2-container .select2-choice>.select2-chosen {
+        color: #555;
+    }
+    
+    
+    @media (max-width: 991px) {
+        .top-menu {
+            display: none !important;
+        }
+    }
+    </style>
+<style>
+    .select2-container--bootstrap {
+        width: 100% !important;
+    }
+    
+    .intl-tel-input {
+        width: 100%;
+    }
+    
+    .help-block {
+        color: #e73d4a;
+    }
+    
+    .error {
+        color: #e73d4a;
+    }
+    
+    .select2-container .select2-choice .select2-arrow {
+        background-image: none;
+        background: none;
+        border-left: none;
+    }
+    
+    .select2-container .select2-choice>.select2-chosen {
+        color: #555;
+    }
+    
+    
+    @media (max-width: 991px) {
+        .top-menu {
+            display: none !important;
+        }
+    }
+    </style>
+    <link href="/plugins/bootstrap-sweetalert/sweetalert.css" rel="stylesheet" type="text/css" />
+  
+  <div data-ng-include="'views/customer/headerCommon.html'"
+                     ></div>
 
 <body class="toggle-sidebar">
 
@@ -154,6 +194,9 @@
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Account Info</button>
                 </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-account-list"> Account List</button>
+                  </li>
                
                 <li class="nav-item">
                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-beneficiary-info"> Beneficiary Info</button>
@@ -220,7 +263,7 @@
                  
 
                     <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                      <button type="submit" class="btn btn-primary" ng-click="addAccount()">Save Changes</button>
                     </div>
                   </form><!-- End Profile Edit Form -->
 
@@ -325,6 +368,36 @@
 
                 </div>
 
+                <div class="tab-pane fade pt-3" id="profile-account-list">
+                    <table class="table table-bordered" ng-hide="userList.length == 0">
+                        <thead>
+                            <tr>
+                                <th>Sr</th>
+                               
+                                <th>Account Number</th>
+                                <th>Account Type</th>
+                                <!-- <th>Approva lStatus</th> -->
+                                <!-- <th>Enabled/Disabled</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="tr in getAccountlist" >
+                                <td ng-bind="begin + $index + 1"></td>
+                                <td ng-bind="tr.accountNumber"></td>
+                                <td ng-bind="tr.accountType"></td>
+                                <!-- <td ng-bind="tr.routingNumber"></td>
+                                <td ng-bind="tr.approvalStatus"></td> -->
+                                <!-- <td ><input type="checkbox" data-toggle='toggle' data-uid='{{tr.id}}' class="toggle-button" ng-checked="tr.status == '1' ? '1' : ''"  ></td> -->
+                                 <!-- <td >
+                                <a data-toggle="modal" ng-click="getUserById(tr.userId)" class="btn btn-outline btn-circle btn-sm yellow">
+                                  <i class="fa fa-edit"></i> Edit
+                                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+   
+                   </div>
+
                 <div class="tab-pane fade pt-3" id="profile-beneficiary-info">
                    <div> <button  class="btn btn-primary">Add Beneficiary</button></div>
                     <form>
@@ -332,14 +405,14 @@
                       <div class="row mb-3">
                         <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Name</label>
                         <div class="col-md-8 col-lg-9">
-                          <input name="password" type="password" class="form-control" id="Account number">
+                          <input name="name" type="text" class="form-control" id="name" ng-model="name">
                         </div>
                       </div>
 
                       <div class="row mb-3">
                         <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Account Number </label>
                         <div class="col-md-8 col-lg-9">
-                          <input name="newpassword" type="password" class="form-control" id="newPassword">
+                          <input name="accountNumber" type="text" class="form-control" id="accountNumber" ng-model="accountNumber">
                         </div>
                       </div>
   
@@ -347,25 +420,50 @@
                       <div class="row mb-3">
                         <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Routing Number </label>
                         <div class="col-md-8 col-lg-9">
-                          <input name="newpassword" type="password" class="form-control" id="newPassword">
+                          <input name="routingNumber" type="text" class="form-control" id="routingNumber" ng-model="routingNumber">
                         </div>
                       </div>
   
                       <div class="row mb-3">
                         <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Account Type</label>
                         <div class="col-md-8 col-lg-9">
-                          <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                          <input name="accountType" type="text" class="form-control" id="accountType">
                         </div>
                       </div>
   
                       <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary" ng-click="addBenificiary()">Save</button>
                       </div>
                     </form><!-- End Change Password Form -->
   
                   </div>
                   <div class="tab-pane fade pt-3" id="profile-beneficiary-list">
-                   
+                    <table class="table table-bordered" ng-hide="userList.length == 0">
+                        <thead>
+                            <tr>
+                                <th>Sr</th>
+                                <th>Name</th>
+                                <th>Account</th>
+                                <th>Routing Number</th>
+                                <th>Approva lStatus</th>
+                                <!-- <th>Enabled/Disabled</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="tr in getBenficiarylist" apply-switch-for-user >
+                                <td ng-bind="begin + $index + 1"></td>
+                                <td ng-bind="tr.beneficiaryName"></td>
+                                <td ng-bind="tr.beneficiaryAccount"></td>
+                                <td ng-bind="tr.routingNumber"></td>
+                                <td ng-bind="tr.approvalStatus"></td>
+                                <!-- <td ><input type="checkbox" data-toggle='toggle' data-uid='{{tr.id}}' class="toggle-button" ng-checked="tr.status == '1' ? '1' : ''"  ></td> -->
+                                 <!-- <td >
+                                <a data-toggle="modal" ng-click="getUserById(tr.userId)" class="btn btn-outline btn-circle btn-sm yellow">
+                                  <i class="fa fa-edit"></i> Edit
+                                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
    
                    </div>
 
@@ -407,7 +505,7 @@
                         <div class="col-sm-3">
                             <select name="accountType" id="" ng-model="accountType"  class="form-control" >
                                 <option value="">Please Select</option>
-                                <option value="{{accountType.id}}" ng-repeat="accountType in accountTypeList">{{accountType.name}}</option>
+                                <option value="{{accountType.accountNumber}}" ng-repeat="accountType in getAccountlist">{{accountType.accountNumber+" "+accountType.accountType}}</option>
                             </select>
                         </div>
                       </div>
@@ -417,19 +515,19 @@
                     <div class="row col-md-12">
                       <label for="amount" class="col-md-4 col-lg-3 col-form-label">Enter the Amount</label>
                       <div class="col-sm-3">
-                        <input type="number" name="amount" step="0.01"  class="form-control" id="amount">
+                        <input type="number" name="amount" step="0.01"  class="form-control" id="amount" ng-model="amount">
                       </div>
                     </div>
 
 					  <div class="row col-md-12">
                       <label for="comments" class="col-md-4 col-lg-3 col-form-label">Enter the Comments</label>
                       <div class="col-sm-9">
-                        <input name="comments" type="text" class="form-control" id="comments">
+                        <input name="comments" type="text" class="form-control" id="comments"  ng-model="comments">
                       </div>
                     </div>
 
                     <div class="text-center">
-                      <button type="button" onClick="validateAndProcessAddFunds()" class="btn btn-primary">Add Funds</button>
+                      <button type="button" ng-click="addFunds()" class="btn btn-primary">Add Funds</button>
                     </div>
                   </form>
                   
@@ -443,9 +541,9 @@
                        
                         <label for="amount" class="col-md-4 col-lg-3 col-form-label">source account</label>
                         <div class="col-sm-3">
-                            <select name="accountType" id="" ng-model="accountType"  class="form-control" >
+                            <select name="withdrawAccountType" id="" ng-model="withdrawAccountType"  class="form-control" >
                                 <option value="">Please Select</option>
-                                <option value="{{accountType.id}}" ng-repeat="accountType in accountTypeList">{{accountType.name}}</option>
+                                <option value="{{withdrawAccountType.accountNumber}}" ng-repeat="withdrawAccountType in getAccountlist">{{withdrawAccountType.accountNumber+" "+withdrawAccountType.accountType}}</option>
                             </select>
                         </div>
                       </div>
@@ -455,52 +553,64 @@
                     <div class="row col-md-12">
                       <label for="amount" class="col-md-4 col-lg-3 col-form-label">Enter the Amount</label>
                       <div class="col-sm-3">
-                        <input type="number" name="amount" step="0.01"  class="form-control" id="amount">
+                        <input type="number" name="amount" step="0.01"  class="form-control" id="withdrawAmount" ng-model="withdrawAmount">
                       </div>
                     </div>
 
 					  <div class="row col-md-12">
                       <label for="comments" class="col-md-4 col-lg-3 col-form-label">Enter the Comments</label>
                       <div class="col-sm-9">
-                        <input name="comments" type="text" class="form-control" id="comments">
+                        <input name="withdrawComments" type="text" class="form-control" id="withdrawComments" ng-model="withdrawComments">
                       </div>
                     </div>
 
                     <div class="text-center">
-                      <button type="button" onClick="validateAndProcessAddFunds()" class="btn btn-primary">Add Funds</button>
+                      <button type="button" ng-click="withdrawFunds()" class="btn btn-primary">Withdraw Funds</button>
                     </div> 
                 </div>
                 <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="contact-tab">
                     <div class="row col-md-12">
                       
                        
-                        <label for="amount" class="col-md-4 col-lg-3 col-form-label">source account</label>
+                        <label for="amount" class="col-md-4 col-lg-3 col-form-label">Source Account</label>
                         <div class="col-sm-3">
-                            <select name="accountType" id="" ng-model="accountType"  class="form-control" >
+                            <select name="transfer" id="" ng-model="transfer"  class="form-control" >
                                 <option value="">Please Select</option>
-                                <option value="{{accountType.id}}" ng-repeat="accountType in accountTypeList">{{accountType.name}}</option>
+                                <option value="{{transfer.accountNumber}}" ng-repeat="transfer in getAccountlist">{{transfer.accountNumber+" "+transfer.accountType}}</option>
                             </select>
                         </div>
                       </div>
+                      <div class="row col-md-12">
+                      
+                       
+                        <label for="amount" class="col-md-4 col-lg-3 col-form-label">Beneficiary Account </label>
+                        <div class="col-sm-3">
+                            <select name="toAccount" id="" ng-model="toAccount"  class="form-control" >
+                                <option value="">Please Select</option>
+                                <option value="{{toAccount.beneficiaryAccount}}" ng-repeat="toAccount in getBenficiarylist">{{toAccount.beneficiaryName+" "+accountType.beneficiaryAccount}}</option>
+                            </select>
+                        </div>
+                      </div>
+                      
 
                   
 
                     <div class="row col-md-12">
                       <label for="amount" class="col-md-4 col-lg-3 col-form-label">Enter the Amount</label>
                       <div class="col-sm-3">
-                        <input type="number" name="amount" step="0.01"  class="form-control" id="amount">
+                        <input type="number" name="amount" step="0.01"  class="form-control" id="amount" ng-model="transferAmount">
                       </div>
                     </div>
 
 					  <div class="row col-md-12">
                       <label for="comments" class="col-md-4 col-lg-3 col-form-label">Enter the Comments</label>
                       <div class="col-sm-9">
-                        <input name="comments" type="text" class="form-control" id="comments">
+                        <input name="comments" type="text" class="form-control" id="comments" ng-model="transferComments">
                       </div>
                     </div>
 
                     <div class="text-center">
-                      <button type="button" onClick="validateAndProcessAddFunds()" class="btn btn-primary">Add Funds</button>
+                      <button type="button" ng-click="transferFunds()" class="btn btn-primary">Transfer Funds</button>
                     </div> 
                 </div>
 
