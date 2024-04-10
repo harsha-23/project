@@ -18,7 +18,11 @@
                     return false;
                 }
                 var request = {
-                   
+                   "fromDate":$scope.date,
+					"toDate":$scope.tdate,
+				   "account":$scope.lead,
+					"status":$scope.status,
+				   "transactionId":$scope.transactionId
                 };
                 $.blockUI({
                     message: 'Please wait... we are processing your request',

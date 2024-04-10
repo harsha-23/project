@@ -310,141 +310,8 @@ String.prototype.replaceAll = function (search, replacement) {
         });
     app.service('actions', function ($http, SETTINGS, app, api, $compile) {
         var that = this;
-        this.makeConferenceCall = function (request) {
-
-            var request = {
-                "fromNumber": app.user.identity.mobile,
-                "toNumber": request.mobile,
-                "postedBy": app.user.identity.email,
-                "appointmentId": "0",
-                "sessionId": "0",
-                "event": "Conference"
-            };
-
-            swal({
-                title: "Do you want to Make a Call?",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-success",
-                confirmButtonText: "Yes, make it!",
-                cancelButtonClass: "btn-danger",
-                cancelButtonText: "No, cancel please!",
-                closeOnConfirm: false,
-                closeOnCancel: true
-            },
-                function (isConfirm) {
-                    if (isConfirm) {
-                        App.blockUI({
-                            boxed: !0,
-                            zIndex: 20000
-                        })
-                        var promise = api.makeCall(request);
-                        promise.then(function mySuccess(r) {
-                            App.unblockUI();
-                            if (r.data.statusCode == 200) {
-                                swal("Success", r.data.message.messageDesc, "success");
-                            } else {
-                                swal("Error!", r.data.message.messageDesc, "error");
-                            }
-                        });
-                    }
-                });
-
-        };
-      
-        this.getMobileNumber = function (req) {
-       
-            var request={
-                "lead":req.lead,
-                "postedBy": app.user.identity.email
-      
-            }
-              
-              console.log(request);
-              App.blockUI({ boxed: !0, zIndex: 20000 })
-              var promise = api.getOTPForMobileNumber(request);
-              promise.then(function mySuccess(r) {
-                  App.unblockUI();
-                  console.log(r)
-              })
-              swal({
-                  title: "Verify OTP!",
-                  text: "Please enter the otp sent to  registered mobile number:",
-                  type: "input",
-                  showCancelButton: true,
-                  closeOnConfirm: false,
-                  animation: "slide-from-top",
-                  inputPlaceholder: "OTP"
-                },
-                function(inputValue){
-                  if(inputValue.length==6){
-                      var r={
-                       "lead":req.lead,
-                       "otp":inputValue
-                      }
-                      App.blockUI({ boxed: !0, zIndex: 20000 })
-                      var promise = api.getVerifyOTPForMobileNumber(r);
-                      promise.then(function mySuccess(r) {
-                          App.unblockUI();
-                          console.log(r)
-                          if (r.data.statusCode == 200) {  
-                              let msg="Mobile Number is "+r.data.data                                        
-                            swal("Success", msg, "success");
-                            } else{
-                              
-                              swal.showInputError(r.data.data);
-                              
-                          }
-                      })
-      
-                  }else{
-                      swal.showInputError("OTP should be 6 character!");
-                  }
-                  
-                });
-          };
-        this.makeConferenceCallByMobile = function (obj) {
-
-            var request = {
-                "fromNumber": app.user.identity.mobile,
-                "toNumber": obj.mobile,
-                leadId: obj.leadId,
-                "postedBy": app.user.identity.email,
-                "appointmentId": "0",
-                "sessionId": "0",
-                "event": "Conference"
-            };
-
-            swal({
-                title: "Do you want to Make a Call?",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-success",
-                confirmButtonText: "Yes, make it!",
-                cancelButtonClass: "btn-danger",
-                cancelButtonText: "No, cancel please!",
-                closeOnConfirm: false,
-                closeOnCancel: true
-            },
-                function (isConfirm) {
-                    if (isConfirm) {
-                        App.blockUI({
-                            boxed: !0,
-                            zIndex: 20000
-                        })
-                        var promise = api.makeCall(request);
-                        promise.then(function mySuccess(r) {
-                            App.unblockUI();
-                            if (r.data.statusCode == 200) {
-                                swal("Success", r.data.message.messageDesc, "success");
-                            } else {
-                                swal("Error!", r.data.message.messageDesc, "error");
-                            }
-                        });
-                    }
-                });
-
-        }
+        
+     
     });
     app.service('api', function ($http, SETTINGS, app,$cookieStore) {
 
@@ -796,23 +663,7 @@ String.prototype.replaceAll = function (search, replacement) {
             })
         };
 
-        this.getLeadFilterStatus = function () {
-            return $http({
-                method: 'GET',
-                url: SETTINGS.apiBasePath + '/user/status-list',
-
-                headers: {
-                    "x-correlation-id": app.uuidv4(),
-                    "x-component": 'ADMIN',
-                    "x-ip":this.getUserIp(),
-                    "Content-Type": "application/json; charset=utf-8",
-                    "Authorization": "Bearer " + app.getAuthToken(),
-                    "x-user-email": app.user.identity.email,
-                    "x-token": app.getAuthToken(),
-                    "x-user-id": app.user.identity.adminUserId
-                },
-            })
-        };
+       
         
         this.getAccountTypes = function () {
             return $http({
@@ -912,43 +763,7 @@ String.prototype.replaceAll = function (search, replacement) {
             })
         };
     
-        this.getOTPForMobileNumber = function (request) {
-            return $http({
-                method: 'POST',
-                url: SETTINGS.apiBasePath + '/lead/send-otp-view-customer-mobile',
-                dataType: 'json',
-                data: request,
-                headers: {
-                    "x-correlation-id": app.uuidv4(),
-                    "x-component": 'ADMIN',
-                    "x-ip":this.getUserIp(),
-                    "Content-Type": "application/json; charset=utf-8",
-                    "Authorization": "Bearer " + app.getAuthToken(),
-                    "x-user-email": app.user.identity.email,
-                    "x-token": app.getAuthToken(),
-                    "x-user-id": app.user.identity.adminUserId
-                },
-            })
-        };
-
-        this.getVerifyOTPForMobileNumber = function (request) {
-            return $http({
-                method: 'POST',
-                url: SETTINGS.apiBasePath + '/lead/validate-otp-view-customer-mobile',
-                dataType: 'json',
-                data: request,
-                headers: {
-                    "x-correlation-id": app.uuidv4(),
-                    "x-component": 'ADMIN',
-                    "x-ip":this.getUserIp(),
-                    "Content-Type": "application/json; charset=utf-8",
-                    "Authorization": "Bearer " + app.getAuthToken(),
-                    "x-user-email": app.user.identity.email,
-                    "x-token": app.getAuthToken(),
-                    "x-user-id": app.user.identity.adminUserId
-                },
-            })
-        };
+      
 
     })
 
@@ -1049,20 +864,7 @@ String.prototype.replaceAll = function (search, replacement) {
                 }
             })
 
-            .when("/insurance-estimate-filter", {
-                templateUrl: "views/admin/insuranceEstimateFilter.html",
-            controller: "insuranceEstimateFilterCtrl",
-                resolve: {
-                    'acl': ['$q', 'AclService', function ($q, AclService) {
-                        // if (AclService.can('menu.insuranace-estimate-filter')) {
-
-                        //     return true;
-                        // } else {
-                        //     return $q.reject('Unauthorized');
-                        // }
-                    }]
-                }
-            })
+            
             .when("/customer-registration", {
                 templateUrl: "views/customer/customerRegister.html",
             controller: "customerRegisterCtrl",
@@ -1105,35 +907,7 @@ String.prototype.replaceAll = function (search, replacement) {
                     }]
                 }
             })
-            .when("/emi-estimate-filter", {
-                templateUrl: "views/utilities/EMIEstimateFilter.html",
-                controller: "EMIEstimateFilterCtrl",
-                resolve: {
-                    'acl': ['$q', 'AclService', function ($q, AclService) {
-
-                        console.log(AclService);
-                        if (AclService.can('menu.emi-estimate-filter')) {
-
-                            return true;
-                        } else {
-                            return $q.reject('Unauthorized');
-                        }
-
-                    }]
-                }
-            })
-
-            .when("/utilities/lead-filter", {
-                templateUrl: "views/utilities/createLeadFilter.html",
-                controller: "createLeadFilterCtrl",
-                resolve: {
-                    'acl': ['$q', 'AclService', function ($q, AclService) {
-                        return true;
-
-                    }]
-                }
-
-            }).when('/utilities/create-customer-info', {
+            .when('/utilities/create-customer-info', {
                 templateUrl: "views/utilities/patientDetail.html",
                 controller: "patientDetailCtrl",
                 resolve: {
@@ -1178,41 +952,11 @@ String.prototype.replaceAll = function (search, replacement) {
         var authKey = $cookieStore.get('medfinauthkey');
 
         if ((getPath[1] == 'lead' && getPath[2] == 'history') || getPath[1] == 'scan-list') {
-            // try {
-
-            //     // var visitUrl = $cookieStore.get('visitUrl') == undefined ? undefined : atob($cookieStore.get('visitUrl'));
-            //     var role = "admin";
-            //     // var authPerm = JSON.parse(atob($cookieStore.get('medfinperm')));
-            //     var authPerm = localStorage.getItem('medfinperm') != null ? JSON.parse(atob(localStorage.getItem('medfinperm'))) : '';
-            //     var authIdentity = JSON.parse(atob($cookieStore.get('medfinidentity')));
-
-            //     var aclData = {
-            //         admin: authPerm
-            //     };
-            //     console.log('aclData', aclData);
-            //     AclService.setAbilities(aclData);
-
-            //     app.setIdentity(authIdentity);
-
-            //     // Attach the member role to the current user
-            //     AclService.attachRole(role);
-            // } catch (err) {
-            //     // $cookieStore.remove('medfinidentity');
-            //     // $cookieStore.remove('medfinauthkey');
-            //     // $location.path('/site/login');
-            //     $location.path($location.path());
-            // }
+            
 
             $location.path($location.path());
         } else if (authKey == undefined) {
-            // var path = $location.path();
-            // $location.path('/site/login');
-            // document.cookie.split(";").forEach(function (c) {
-            //     document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-            // });
-            // if (path != '/site/login') {
-            //     $cookieStore.put('visitUrl', btoa(path));
-            // }
+          
 
         } else {
             try {
