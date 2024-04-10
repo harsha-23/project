@@ -442,6 +442,23 @@ String.prototype.replaceAll = function (search, replacement) {
                 headers: app.headers()
             })
         };
+        this.getTransactionStatusList = function () {
+            return $http({
+                method: 'GET',
+                url: SETTINGS.apiBasePath + '/master-info/transaction-status-list',
+                dataType: 'json',
+                headers: app.headers()
+            })
+        };
+        this.getCustomerStatusList = function () {
+            return $http({
+                method: 'GET',
+                url: SETTINGS.apiBasePath + '/master-info/customer-status-list',
+                dataType: 'json',
+                headers: app.headers()
+            })
+        };
+        
         this.getUsersByKeyword = function (request) {
             return $http({
                 method: 'POST',

@@ -30,7 +30,6 @@
        
                 $scope.roleList = r.data.data;
             
-
         });
         $scope.search = function (keyword, startIndex) {
 
@@ -64,12 +63,10 @@
 
         $scope.createUser = function () {
          
-
             if (!$('#createUserForm').valid()) {
                 return false;
             }
        
-
                 var requestData = {
                     "email": $scope.email,
                     "name": $scope.name,
