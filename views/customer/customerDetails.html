@@ -131,9 +131,9 @@
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-              <img src="plugins/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-              <h2>Kevin Anderson</h2>
-              <h3>Web Designer</h3>
+              <img src="https://png.pngitem.com/pimgs/s/78-786293_1240-x-1240-0-avatar-profile-icon-png.png" alt="Profile" class="rounded-circle">
+              <h2>{{req.firstName+" "+req.middleName+" "+req.lastName}}</h2>
+              <h3>{{req.email}}</h3>
              
             </div>
           </div>
@@ -158,6 +158,9 @@
                 <li class="nav-item">
                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-beneficiary-info"> Beneficiary Info</button>
                   </li>
+                  <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-beneficiary-list"> Beneficiary List</button>
+                  </li>
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Address</button>
                 </li>
@@ -180,37 +183,19 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                    <div class="col-lg-9 col-md-8">Kevin Anderson</div>
+                    <div class="col-lg-9 col-md-8">{{req.firstName+" "+req.middleName+" "+req.lastName}}</div>
                   </div>
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Company</div>
-                    <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
-                  </div>
+
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Job</div>
-                    <div class="col-lg-9 col-md-8">Web Designer</div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Country</div>
-                    <div class="col-lg-9 col-md-8">USA</div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Address</div>
-                    <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Phone</div>
-                    <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>
+                    <div class="col-lg-3 col-md-4 label">mobile</div>
+                    <div class="col-lg-9 col-md-8">{{req.mobile}}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Email</div>
-                    <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
+                    <div class="col-lg-9 col-md-8">{{req.email}}</div>
                   </div>
 
                 </div>
@@ -226,9 +211,8 @@
                         <!-- <input name="company" type="text" class="form-control" id="company" value=" account type"> -->
                         <label for="inputZip" class="form-label">Account Type</label>
                         <select name="accountType" id="" ng-model="accountType"  class="form-control" >
-                          <option value="">Please Select</option>
-                          <option value="Saving">Saving</option>
-                          <option value="Checking">Checking</option>
+                            <option value="">Please Select</option>
+                            <option value="{{accountType.id}}" ng-repeat="accountType in accountTypeList">{{accountType.name}}</option>
                         </select>
                       </div>
                     </div>
@@ -380,6 +364,10 @@
                     </form><!-- End Change Password Form -->
   
                   </div>
+                  <div class="tab-pane fade pt-3" id="profile-beneficiary-list">
+                   
+   
+                   </div>
 
 
 
@@ -398,7 +386,7 @@
                   <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false" tabindex="-1">Withdraw Funds</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false" tabindex="-1">Transfer Amount</button>
+                  <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false" tabindex="-1">Transfer Money</button>
                 </li>
 
 				<li class="nav-item" role="presentation">
@@ -411,6 +399,20 @@
                  
 
 				<form id="addFunds" class="row g-3">
+
+                    <div class="row col-md-12">
+                      
+                       
+                        <label for="amount" class="col-md-4 col-lg-3 col-form-label">source account</label>
+                        <div class="col-sm-3">
+                            <select name="accountType" id="" ng-model="accountType"  class="form-control" >
+                                <option value="">Please Select</option>
+                                <option value="{{accountType.id}}" ng-repeat="accountType in accountTypeList">{{accountType.name}}</option>
+                            </select>
+                        </div>
+                      </div>
+
+                  
 
                     <div class="row col-md-12">
                       <label for="amount" class="col-md-4 col-lg-3 col-form-label">Enter the Amount</label>
@@ -430,14 +432,76 @@
                       <button type="button" onClick="validateAndProcessAddFunds()" class="btn btn-primary">Add Funds</button>
                     </div>
                   </form>
+                  
 
 
                 </div>
                 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="profile-tab">
-                  Nesciunt totam et. Consequuntur magnam aliquid eos nulla dolor iure eos quia. Accusantium distinctio omnis et atque fugiat. Itaque doloremque aliquid sint quasi quia distinctio similique. Voluptate nihil recusandae mollitia dolores. Ut laboriosam voluptatum dicta.
+                
+                    <div class="row col-md-12">
+                      
+                       
+                        <label for="amount" class="col-md-4 col-lg-3 col-form-label">source account</label>
+                        <div class="col-sm-3">
+                            <select name="accountType" id="" ng-model="accountType"  class="form-control" >
+                                <option value="">Please Select</option>
+                                <option value="{{accountType.id}}" ng-repeat="accountType in accountTypeList">{{accountType.name}}</option>
+                            </select>
+                        </div>
+                      </div>
+
+                  
+
+                    <div class="row col-md-12">
+                      <label for="amount" class="col-md-4 col-lg-3 col-form-label">Enter the Amount</label>
+                      <div class="col-sm-3">
+                        <input type="number" name="amount" step="0.01"  class="form-control" id="amount">
+                      </div>
+                    </div>
+
+					  <div class="row col-md-12">
+                      <label for="comments" class="col-md-4 col-lg-3 col-form-label">Enter the Comments</label>
+                      <div class="col-sm-9">
+                        <input name="comments" type="text" class="form-control" id="comments">
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="button" onClick="validateAndProcessAddFunds()" class="btn btn-primary">Add Funds</button>
+                    </div> 
                 </div>
                 <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="contact-tab">
-                  Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum veniam. Qui amet ipsum iure. Dignissimos fuga tempore dolor.
+                    <div class="row col-md-12">
+                      
+                       
+                        <label for="amount" class="col-md-4 col-lg-3 col-form-label">source account</label>
+                        <div class="col-sm-3">
+                            <select name="accountType" id="" ng-model="accountType"  class="form-control" >
+                                <option value="">Please Select</option>
+                                <option value="{{accountType.id}}" ng-repeat="accountType in accountTypeList">{{accountType.name}}</option>
+                            </select>
+                        </div>
+                      </div>
+
+                  
+
+                    <div class="row col-md-12">
+                      <label for="amount" class="col-md-4 col-lg-3 col-form-label">Enter the Amount</label>
+                      <div class="col-sm-3">
+                        <input type="number" name="amount" step="0.01"  class="form-control" id="amount">
+                      </div>
+                    </div>
+
+					  <div class="row col-md-12">
+                      <label for="comments" class="col-md-4 col-lg-3 col-form-label">Enter the Comments</label>
+                      <div class="col-sm-9">
+                        <input name="comments" type="text" class="form-control" id="comments">
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="button" onClick="validateAndProcessAddFunds()" class="btn btn-primary">Add Funds</button>
+                    </div> 
                 </div>
 
 				<div class="tab-pane fade" id="pills-transaction-history" role="tabpanel" aria-labelledby="transaction-history-tab">

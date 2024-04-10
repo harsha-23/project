@@ -61,6 +61,8 @@
               promise.then(function mySucces(r) {
                   App.unblockUI();
                   if (r.data.statusCode == 200) {
+                    localStorage.setItem('customerInfo',  JSON.stringify(r.data.data));
+
                      window.open("/customer-details")
                   } else {
                     swal.showInputError("please enter Valid OTP!");

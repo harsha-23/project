@@ -1,14 +1,32 @@
 (function () {
     app.controller("customerDetailsCtrl", function (AclService,$scope, $location, $cookies, $cookieStore, app, api) {
-        var lgc = this;
-        lgc.email = null;
-        lgc.password = null;
-        lgc.resetemail = null;
-        lgc.otp = null;
-        lgc.token = null;
-
+        
         app.setTitle("Customer Details");
 
+    //   setTimeout(()=>{
+        var customer=localStorage.getItem('customerInfo');
+     
+        $scope.req= JSON.parse(customer)
+    
+    // })
+  
+    
+       
+    $scope.accountTypeList=[]
+
+  
+    var promise = api.getAccountTypes();
+    promise.then(function mySucces(r) {
+        console.log(r)
+        App.unblockUI();
+        if (r.data.statusCode == 200) {
+           $scope.accountTypeList=r.data.data;
+          
+        } else {
+            swal("Info!", r.data.message, "info");
+        }
+        $.unblockUI();
+    });
         $scope.submit=function(){
     
             var req={

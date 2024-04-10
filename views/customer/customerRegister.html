@@ -103,7 +103,7 @@
                       <label for="inputZip" class="form-label">Zip</label>
                       <input type="text" class="form-control" id="inputZip" ng-model="zip"  name="zip" >
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label for="inputZip" class="form-label">Account Type</label>
                     
                       <select class="form-control" name="accountType" id="accountType" ng-model="accountType">
@@ -111,7 +111,15 @@
                         <option value="{{accountType.id}}" ng-repeat="accountType in accountTypeList">{{accountType.name}}</option>
                     </select>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                      <label for="inputZip" class="form-label">User Type</label>
+                  
+                    <select class="form-control" name="userType" id="userType" ng-model="userType">
+                      <option value="">Please Select</option>
+                      <option value="{{userType.id}}" ng-repeat="userType in userTypeList">{{userType.name}}</option>
+                  </select>
+                  </div>
+                    <div class="col-md-4">
                         <label for="inputZip" class="form-label">Address Type</label>
                       <select name="adressType" id="" ng-model="adressType"  class="form-control">
                         <option value="">Please Select</option>
