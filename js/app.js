@@ -633,6 +633,24 @@ String.prototype.replaceAll = function (search, replacement) {
             })
         };
 
+        this.getUserTypes = function () {
+            return $http({
+                method: 'GET',
+                url: SETTINGS.apiBasePath + '/master-info/user-types',
+
+                headers: {
+                    // "x-correlation-id": app.uuidv4(),
+                    // "x-component": 'ADMIN',
+                    // "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    // "Authorization": "Bearer " + app.getAuthToken(),
+                    // "x-user-email": app.user.identity.email,
+                    // "x-token": app.getAuthToken(),
+                    // "x-user-id": app.user.identity.adminUserId
+                },
+            })
+        };
+
         this.changePassword = function (request) {
             return $http({
                 method: 'PUT',

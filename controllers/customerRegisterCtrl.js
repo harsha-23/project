@@ -7,6 +7,7 @@
         lgc.otp = null;
         lgc.token = null;
         $scope.accountTypeList=[]
+        $scope.userTypeList=[]
 
         app.setTitle("Customer Registration");
         var promise = api.getAccountTypes();
@@ -15,6 +16,18 @@
             App.unblockUI();
             if (r.data.statusCode == 200) {
                $scope.accountTypeList=r.data.data;
+              
+            } else {
+                swal("Info!", r.data.message, "info");
+            }
+            $.unblockUI();
+        });
+        var promise = api.getUserTypes();
+        promise.then(function mySucces(r) {
+            console.log(r)
+            App.unblockUI();
+            if (r.data.statusCode == 200) {
+               $scope.userTypeList=r.data.data;
               
             } else {
                 swal("Info!", r.data.message, "info");
@@ -33,7 +46,7 @@
                 "lastName":$scope.lastName,
                 "accountType":$scope.accountType,
                 "mobile":$scope.mobile,
-                "userType":"1",
+                "userType":$scope.userType,
                 "email":$scope.email,
                 "password":$scope.password,
                 "address":[{                    
