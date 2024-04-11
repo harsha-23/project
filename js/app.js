@@ -481,7 +481,23 @@ String.prototype.replaceAll = function (search, replacement) {
         this.updateUser = function (request) {
             return $http({
                 method: 'PUT',
-                url: SETTINGS.apiBasePath + '/admin/admin-user',
+                url: SETTINGS.apiBasePath + '/crud/admin-user',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
+        this.approveTransaction = function (request) {
+            return $http({
+                method: 'PUT',
+                url: SETTINGS.apiBasePath + '/transaction/update-transaction',
                 dataType: 'json',
                 data: request,
                 headers: {
@@ -1012,14 +1028,7 @@ String.prototype.replaceAll = function (search, replacement) {
             
             $location.path($location.path());
         } else if (medfinidentity == undefined || medfinidentity == null) {
-            var url = $location.absUrl().split('?')[0]
-            console.log(url)
-            alert("hi ssssss",url)
-            if($location.path == '/user-list'){
-                alert("hi")
-                $location.path('/site/login');
-            }
-           
+
         } else {
             try {
 

@@ -74,6 +74,7 @@
              
                 app.setIdentity(identity);
                 localStorage.setItem('nameAdd',  r.data.data.name);
+                localStorage.setItem('getEmail',  r.data.data.email);
                 localStorage.setItem('medfinperm', btoa(JSON.stringify(abilities)));
 
                 //$cookieStore.put('medfinperm', btoa(JSON.stringify(abilities)));
@@ -98,7 +99,6 @@
                 // }
                 $location.path('/');     
                 
-
             } else {
                 swal("Error!", r.data.message.messageDesc, "error");
             }

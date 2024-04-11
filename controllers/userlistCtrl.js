@@ -60,7 +60,7 @@
             // }
 
         }
-
+        $scope.userId = '';
         $scope.createUser = function () {
          
             if (!$('#createUserForm').valid()) {
@@ -103,7 +103,7 @@
         $scope.updateUser = function () {
          
                 var requestData = {
-                    "id": 9,
+                    "id": $scope.userId,
                     "email": $scope.email,
                     "name": $scope.name,
                     "password": $scope.password,                 
@@ -151,7 +151,7 @@
             promise.then(function mySucces(r) {
                 App.unblockUI();
                 if (r.data.statusCode == 200) {
-                    
+                    $scope.userId = r.data.info.id;
                     $scope.id = r.data.info.id;
                     $scope.email = r.data.info.email;
                      $scope.password = "";

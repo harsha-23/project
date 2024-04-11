@@ -104,10 +104,10 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">{{id !='' ? 'Update User' :'Add User'}}</h4>
+                <h4 class="modal-title" id="myModalLabel">{{userId !='' ? 'Update User' :'Add User'}}</h4>
             </div>
             <form class="form form-horizontal" id="createUserForm">
-                <input type="hidden" id="id" name="id" value="9" ng-model="id" />
+                <input type="hidden" id="id" name="id" value="{{userId}}" ng-model="id" />
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-12">

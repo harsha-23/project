@@ -155,7 +155,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="list in TransactionList">
+                                                <tr ng-repeat="list in TransactionList" approve-switch-for-transaction >
                                                     <td>{{list.balance}}</td>  
                                                     <td>{{list.fromAccount}}</td>
                                                     <td>{{list.toAccount}}</td>
@@ -165,7 +165,7 @@
                                                     <td>{{list.transactionStatus}}</td>
                                                     <td>{{list.comments}}</td>
                                                     <td>{{list.transactionDate}}</td>
-                                                    <td ng-if="list.transactionStatus !== 'cleared'"><button class="btn btn-succes">Approve</button></td>
+                                                    <td ng-if="list.transactionStatus !== 'cleared'"><button class="btn btn-succes" ng-click="approveTransaction(list.transactionId , list.comments)">Approve</button></td>
                                                 </tr>
                                             </tbody>
                                         </table>

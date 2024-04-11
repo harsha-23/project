@@ -44,6 +44,30 @@
                 // }
     
             }
+
+            $scope.approveTransaction = function(transactionId,comment){
+                var request ={
+                    postedBy : localStorage.getItem('getEmail'),
+                transactionId : transactionId,
+                 status : "cleared",
+                 comments : comment  
+                }
+                $.blockUI({
+                    message: 'Please wait... we are processing your request',
+                    baseZ: 15000
+                });
+                var promise = api.approveTransaction(request);
+                promise.then(function mySucces(r) {
+                    App.unblockUI();
+                    if (r.data.statusCode === 200) {
+                        swal("Done!", r.data.message, "success")
+                    } else {
+                        $scope.TransactionList = [];
+                        swal("Error!", "No data found..!", "error");
+                    }
+                    $.unblockUI();
+                });
+            }
             $('#date,#tdate').datepicker({
                 format: "yyyy-mm-dd",
                 autoclose: true,
