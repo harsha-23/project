@@ -478,6 +478,22 @@ String.prototype.replaceAll = function (search, replacement) {
                 },
             })
         };
+        this.updateUser = function (request) {
+            return $http({
+                method: 'PUT',
+                url: SETTINGS.apiBasePath + '/admin/admin-user',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
         this.saveCustomer = function (request) {
             return $http({
                 method: 'POST',
@@ -990,6 +1006,7 @@ String.prototype.replaceAll = function (search, replacement) {
    }
         var getPath = $location.path().split('/');
         var authKey = $cookieStore.get('medfinauthkey');
+        var medfinidentity = $cookieStore.get('medfinidentity');
 
         if ((getPath[1] == 'lead' && getPath[2] == 'history') || getPath[1] == 'scan-list') {
             

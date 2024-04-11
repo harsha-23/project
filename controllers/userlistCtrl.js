@@ -77,7 +77,9 @@
                             
                 };
                 console.log(requestData)
-              
+                if ($scope.id != "") {
+                    requestData.id = $scope.id;
+                }
                 App.blockUI({
                     boxed: !0,
                     zIndex: 20000
@@ -97,7 +99,40 @@
                 });
             
         };
+        
+        $scope.updateUser = function () {
+         
+                var requestData = {
+                    "id": 9,
+                    "email": $scope.email,
+                    "name": $scope.name,
+                    "password": $scope.password,                 
+                    "mobile": $scope.mobile,
+                    "altMobile": $scope.altmobile,
+                    "roleId": $scope.roles,
+                            
+                };
+                console.log(requestData)
 
+                App.blockUI({
+                    boxed: !0,
+                    zIndex: 20000
+                });
+                var promise = api.updateUser(requestData);
+
+                promise.then(function mySucces(r) {
+                    App.unblockUI();
+                    if (r.data.statusCode == 200) {
+                        $('.modal').modal('hide');
+                        swal("Success", r.data.message, "success");
+                    } else {
+                        swal("Error!", r.data.message, "error");
+                    }
+
+                    // $scope.search($scope.keyword, 0);
+                });
+            
+        };
         $scope.getUserById = function (id) {
             $scope.id = '';
             $scope.email = '';
@@ -119,7 +154,6 @@
                     
                     $scope.id = r.data.info.id;
                     $scope.email = r.data.info.email;
-                
                      $scope.password = "";
                     $scope.name = r.data.info.name;
                     $scope.mobile = r.data.info.mobile;
