@@ -425,7 +425,7 @@
             var req={
                     "token": $scope.req.token,
                     "comments":$scope.commentService,
-                    "type-value":$scope.serviceType,
+                    "type":$scope.serviceType,
                    
                     }
                
