@@ -996,6 +996,19 @@ String.prototype.replaceAll = function (search, replacement) {
             $location.path($location.path());
         } else if (authKey == undefined) {
           
+       
+            const absoluteUrl = $location.absUrl();
+const urlObject = new URL(absoluteUrl);
+const pathWithoutDomain = urlObject.pathname;
+
+if(pathWithoutDomain == "/customer-details" || pathWithoutDomain == "/customer-login" || pathWithoutDomain == "/customer-registration" ){
+
+}else{
+            $cookieStore.remove('medfinidentity');
+            $cookieStore.remove('medfinauthkey');
+            $location.path('/site/login');
+        }
+
         } else {
             try {
 
