@@ -104,10 +104,10 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">{{userId !='' ? 'Update User' :'Add User'}}</h4>
+                <h4 class="modal-title" id="myModalLabel">{{id !='' ? 'Update User' :'Add User'}}</h4>
             </div>
             <form class="form form-horizontal" id="createUserForm">
-                <input type="hidden" id="userId" value="{{userId}}" />
+                <input type="hidden" id="id" name="id" value="9" ng-model="id" />
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-12">
@@ -127,7 +127,7 @@
                                 <label class="col-md-3 control-label">Email</label>
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" placeholder="example@gmail.com" name="email"
-                                        ng-model="email" ng-disabled="emailExist">
+                                        ng-model="email">
                                 </div>
                             </div>
                         </div>
@@ -190,8 +190,11 @@
                 <div class=" modal-footer">
                     <button type="button" class="btn btn-default"
                         data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary"
-                        ng-click="createUser(userId)">{{userId !='' ? 'Save' :'Add'}}</button>
+                    <button type="button" class="btn btn-primary" ng-if="id=''"
+                        ng-click="createUser()">Add</button>
+
+                        <button type="button" class="btn btn-primary"
+                        ng-click="updateUser(id)">Save</button>
                  </div>
             </form>
         </div>
