@@ -30,7 +30,7 @@
            $scope.accountTypeList=r.data.data;
           
         } else {
-            swal("Info!", r.data.message, "info");
+            // swal("Info!", r.data.message, "info");
         }
         $.unblockUI();
     });
@@ -46,7 +46,7 @@
            $scope.getBenficiarylist=r.data.data;
           
         } else {
-            swal("Info!", r.data.message, "info");
+            // swal("Info!", r.data.message, "info");
         }
         $.unblockUI();
     });
@@ -65,7 +65,7 @@
 
         } else {
 
-            swal("Info!", r.data.message, "info");
+            // swal("Info!", r.data.message, "info");
         }
         $.unblockUI();
     });
@@ -83,7 +83,7 @@
 
         } else {
 
-            swal("Info!", r.data.message, "info");
+            // swal("Info!", r.data.message, "info");
         }
         $.unblockUI();
     });
@@ -126,6 +126,7 @@
             }, function (inputValue) {
               if (inputValue === false) return false;
               if (inputValue === "") {
+
                 swal.showInputError("please enter OTP!");
                 return false
               }
