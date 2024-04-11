@@ -158,6 +158,15 @@
                     $scope.name = r.data.info.name;
                     $scope.mobile = r.data.info.mobile;
                     $scope.altmobile = r.data.info.altMobile;
+
+                    $scope.roleIds = r.data.info.roles;
+                 // Assuming $scope is an object
+$scope.roles = $scope.roleIds?.map(role => role.id) || [];
+                  
+
+                    // for (index in $scope.roleIds) {
+                    //     $scope.roles[index] = $scope.roleIds[index].id;
+                    // }
                  
                     setTimeout(function () {
                         $('.s2m1').select2($scope.roles);
