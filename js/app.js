@@ -598,6 +598,22 @@ String.prototype.replaceAll = function (search, replacement) {
                 },
             })
         };  
+        this.saveCustomerServiceReq = function (request) {
+            return $http({
+                method: 'POST',
+                url: SETTINGS.apiBasePath + '/master-info/service-requests',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };  
         this.customerAddAccount = function (request) {
             return $http({
                 method: 'POST',
@@ -835,6 +851,42 @@ String.prototype.replaceAll = function (search, replacement) {
             return $http({
                 method: 'GET',
                 url: SETTINGS.apiBasePath + '/admin/find-by-param?param='+token,
+
+                headers: {
+                    // "x-correlation-id": app.uuidv4(),
+                    // "x-component": 'ADMIN',
+                    // "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    // "Authorization": "Bearer " + app.getAuthToken(),
+                    // "x-user-email": app.user.identity.email,
+                    // "x-token": app.getAuthToken(),
+                    // "x-user-id": app.user.identity.adminUserId
+                },
+            })
+        };
+        
+        this.getserviceRequestlist = function (token) {
+            return $http({
+                method: 'GET',
+                url: SETTINGS.apiBasePath + '/master-info/service-requests?token='+token,
+
+                headers: {
+                    // "x-correlation-id": app.uuidv4(),
+                    // "x-component": 'ADMIN',
+                    // "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    // "Authorization": "Bearer " + app.getAuthToken(),
+                    // "x-user-email": app.user.identity.email,
+                    // "x-token": app.getAuthToken(),
+                    // "x-user-id": app.user.identity.adminUserId
+                },
+            })
+        };
+        
+        this.getserviceRequestTypes = function () {
+            return $http({
+                method: 'GET',
+                url: SETTINGS.apiBasePath + '/master-info/service-request-types',
 
                 headers: {
                     // "x-correlation-id": app.uuidv4(),
