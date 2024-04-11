@@ -140,7 +140,7 @@
                                                     <td>{{list.comments}}</td>
                                                     <td>{{list.transactionStatus}}</td>
                                                     <td>{{list.transactionDate}}</td>
-                                                    <td><input type="checkbox" data-toggle='toggle' data-uid='{{list.transactionId}}' class="toggle-button" ng-checked="tr.status == '1' ? '1' : ''"  ></td>
+                                                    <td ng-if="list.transactionStatus !== 'Closed'"><input type="checkbox" data-toggle='toggle' data-uid='{{list.transactionId}}' data-cmt='{{list.comments}}' data-nstatus='{{list.nextStatus}}' class="toggle-button" ng-checked="list.transactionStatus == 'list.nextStatus' ? 'list.nextStatus' : ''"  ></td>
                                                 </tr>
                                             </tbody>
                                         </table>

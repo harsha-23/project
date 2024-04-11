@@ -89,9 +89,10 @@ app.directive('approveSwitchForTask', function (api, $location) {
 
                 $(".toggle-button").change(function () {
                     var that = this;
-                    var id = $(this).data('uid');
-                    var status = $(this).prop('checked');
-                    var ustatus = status == true ? '1' : '2';
+                    var tid = $(this).data('uid');
+                    var comment = $(this).data('cmt');
+                    var nstatus = $(this).data('nstatus');
+                     var status = $(this).prop('checked');
                     swal({
                         title: "Do you want to change status?",
                         type: "warning",
@@ -108,17 +109,19 @@ app.directive('approveSwitchForTask', function (api, $location) {
                                 App.blockUI({
                                     boxed: !0
                                 });
-                                // var promise = api.setServiceRequest({
-                                //     id: id,
-                                //     status: ustatus
-                                // });
+                                var promise = api.setServiceRequest({
+                                    transactionId: tid,
+                                    comment:comment,
+                                    status: nstatus
+                                });
                                 promise.then(function mySucces(r) {
+                                    location.reload(true);
                                     App.unblockUI()
                                     if (r.data.statusCode == 200) {
                                         $(that).prop('checked', status).change();
                                         swal("Success", r.data.message.messageDesc, "success");
                                     } else {
-                                        $(that).prop('checked', !status).change();
+                                        // $(that).prop('checked', !status).change();
                                         swal("Error!", r.data.message.messageDesc, "error");
                                     }
                                 });
@@ -131,7 +134,64 @@ app.directive('approveSwitchForTask', function (api, $location) {
         }
     };
 });
+app.directive('approveSwitchForTransaction', function (api, $location) {
+    return function (scope, element, attrs) {
+        if (scope.$last) {
+            setTimeout(function () {
+                $("input[data-toggle='toggle']").bootstrapToggle({
+                    on: 'Active',
+                    off: 'Inactive',
+                    onstyle: 'success',
+                    offstyle: 'danger'
+                })
 
+                $(".toggle-button").change(function () {
+                    var that = this;
+                    var tid = $(this).data('uid');
+                    var comment = $(this).data('cmt');
+                     var status = $(this).prop('checked');
+                    swal({
+                        title: "Do you want to change status?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-success",
+                        confirmButtonText: "Yes, change it!",
+                        cancelButtonClass: "btn-danger",
+                        cancelButtonText: "No, cancel please!",
+                        closeOnConfirm: false,
+                        closeOnCancel: true
+                    },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                App.blockUI({
+                                    boxed: !0
+                                });
+                                var promise = api.approveTransaction({
+                                    transactionId: tid,
+                                    comment:comment,
+                                    status : "cleared",
+                                });
+                                promise.then(function mySucces(r) {
+                                   
+                                    App.unblockUI()
+                                    if (r.data.statusCode == 200) {
+                                        // $(that).prop('checked', status).change();
+                                        swal("Success", r.data.message.messageDesc, "success");
+                                      
+                                    } else {
+                                        // $(that).prop('checked', !status).change();
+                                        swal("Error!", r.data.message.messageDesc, "error");
+                                    }
+                                });
+                            } else {
+                                $(that).prop('checked', !status).change();
+                            }
+                        });
+                })
+            }, 100)
+        }
+    };
+});
 app.directive('applySwitchForCustomer', function (api, $location) {
     return function (scope, element, attrs) {
         if (scope.$last) {
