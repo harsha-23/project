@@ -190,11 +190,11 @@
                 <div class=" modal-footer">
                     <button type="button" class="btn btn-default"
                         data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" ng-if="id=''"
+                    <button type="button" class="btn btn-primary" ng-if="userId==''"
                         ng-click="createUser()">Add</button>
 
-                        <button type="button" class="btn btn-primary"
-                        ng-click="updateUser(id)">Save</button>
+                        <button type="button" class="btn btn-primary" ng-if="userId!=''"
+                        ng-click="updateUser(userId)">Save</button>
                  </div>
             </form>
         </div>
