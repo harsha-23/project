@@ -108,10 +108,10 @@ app.directive('approveSwitchForTask', function (api, $location) {
                                 App.blockUI({
                                     boxed: !0
                                 });
-                                var promise = api.setUserStatus({
-                                    id: id,
-                                    status: ustatus
-                                });
+                                // var promise = api.setServiceRequest({
+                                //     id: id,
+                                //     status: ustatus
+                                // });
                                 promise.then(function mySucces(r) {
                                     App.unblockUI()
                                     if (r.data.statusCode == 200) {
@@ -145,7 +145,7 @@ app.directive('applySwitchForCustomer', function (api, $location) {
 
                 $(".toggle-button").change(function () {
                     var that = this;
-                    var transactionId = $(this).data('transactionId');
+                    var userId = $(this).data('uid');
                     var status = $(this).prop('checked');
                     var ustatus = status == true ? '1' : '2';
                     swal({
@@ -164,10 +164,9 @@ app.directive('applySwitchForCustomer', function (api, $location) {
                                 App.blockUI({
                                     boxed: !0
                                 });
-                                var promise = api.setServiceRequest({
-                                    transactionId:transactionId,
-                                    status: status,
-                                    comments:
+                                var promise = api.setCustomerStatusss({
+                                    token: userId,
+                                    status: "Approved"
                                 });
                                 promise.then(function mySucces(r) {
                                     App.unblockUI()
@@ -768,21 +767,21 @@ String.prototype.replaceAll = function (search, replacement) {
             }
         })
     };
-        this.setServiceRequest = function (request) {
-            return $http({
-                method: 'PUT',
-                url: SETTINGS.apiBasePath + '/master-info/service-requests',
-                dataType: 'json',
-                data: request,
-                headers: {
-                    "x-correlation-id": app.uuidv4(),
-                    "x-component": 'ADMIN',
-                    "x-ip":this.getUserIp(),
-                    "Content-Type": "application/json; charset=utf-8",
-                    "x-token": app.getAuthToken()
-                }
-            })
-        };
+    this.setServiceRequest = function (request) {
+        return $http({
+            method: 'PUT',
+            url: SETTINGS.apiBasePath + '/master-info/service-requests',
+            dataType: 'json',
+            data: request,
+            headers: {
+                "x-correlation-id": app.uuidv4(),
+                "x-component": 'ADMIN',
+                "x-ip":this.getUserIp(),
+                "Content-Type": "application/json; charset=utf-8",
+                "x-token": app.getAuthToken()
+            }
+        })
+    };
         this.setUserStatus = function (request) {
             return $http({
                 method: 'PUT',
