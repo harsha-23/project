@@ -34,6 +34,24 @@
         }
         $.unblockUI();
     });
+        
+    $scope.accountServiceTypes=[]
+
+  
+    var promise = api.getserviceRequestTypes();
+    promise.then(function mySucces(r) {
+        console.log(r)
+        App.unblockUI();
+        if (r.data.statusCode == 200) {
+           $scope.accountServiceTypes=r.data.data;
+          
+        } else {
+            // swal("Info!", r.data.message, "info");
+        }
+        $.unblockUI();
+    });
+
+    
 
     $scope.getBenficiarylist=[]
 
@@ -44,6 +62,23 @@
         App.unblockUI();
         if (r.data.statusCode == 200) {
            $scope.getBenficiarylist=r.data.data;
+          
+        } else {
+            // swal("Info!", r.data.message, "info");
+        }
+        $.unblockUI();
+    });
+
+    
+    $scope.getserviceRequestlist=[]
+
+  
+    var promise = api.getserviceRequestlist($scope.req.token);
+    promise.then(function mySucces(r) {
+        console.log(r)
+        App.unblockUI();
+        if (r.data.statusCode == 200) {
+           $scope.getserviceRequestlist=r.data.data;
           
         } else {
             // swal("Info!", r.data.message, "info");
@@ -381,6 +416,47 @@
             $.unblockUI();
         });
         }
+
+        
+
+
+        $scope.addServiceRequest=function(){
+    
+            var req={
+                    "token": $scope.req.token,
+                    "comments":$scope.commentService,
+                    "type-value":$scope.serviceType,
+                   
+                    }
+               
+            console.log(JSON.stringify(req))
+            App.blockUI({
+                boxed: !0,
+                zIndex: 20000
+            })
+            $.blockUI({
+                message: 'Please wait... we are processing your request',
+                baseZ: 15000
+            });
+            var promise = api.saveCustomerServiceReq(req);
+            promise.then(function mySucces(r) {
+
+                App.unblockUI();
+
+                if (r.data.statusCode == 200) {
+
+                    swal("Success!", "Service added successfully", "success");
+
+                } else {
+
+                    swal("Info!", r.data.message, "info");
+                }
+                $.unblockUI();
+            });
+    
+        }
+
+
         $scope.addBenificiary=function(){
     
             var req={

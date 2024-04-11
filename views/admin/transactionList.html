@@ -155,17 +155,17 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="list in TransactionList" approve-switch-for-transaction >
+                                                <tr ng-repeat="list in TransactionList" approve-Switch-For-Transaction >
                                                     <td>{{list.balance}}</td>  
                                                     <td>{{list.fromAccount}}</td>
                                                     <td>{{list.toAccount}}</td>
                                                     <!-- <td>{{list.transactionId}}</td> -->
                                                     <td>{{list.debit}}</td>
                                                     <td>{{list.credit}}</td>
-                                                    <td>{{list.transactionStatus}}</td>
+                                                    <td><span class="badge" ng-class="{'badge-success': list.transactionStatus === 'cleared', 'badge-warning': list.transactionStatus == 'otp_pendng','badge-danger': list.transactionStatus == 'failed'}">{{list.transactionStatus}}</span></td>
                                                     <td>{{list.comments}}</td>
                                                     <td>{{list.transactionDate}}</td>
-                                                    <td ng-if="list.transactionStatus !== 'cleared'"><button class="btn btn-succes" ng-click="approveTransaction(list.transactionId , list.comments)">Approve</button></td>
+                                                    <td ng-if="list.transactionStatus !== 'cleared'"><input type="checkbox" data-toggle='toggle' data-uid='{{list.transactionId}}' data-cmt='{{list.comments}}' class="toggle-button" ng-checked="list.transactionStatus == 'list.transactionStatus' ? 'list.transactionStatus' : ''"  ></td>
                                                 </tr>
                                             </tbody>
                                         </table>

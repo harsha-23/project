@@ -131,15 +131,16 @@
                                                     <th>Comments</th>
                                                     <th>Status</th>
                                                     <th>T Date</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="list in TransactionList">
+                                                <tr ng-repeat="list in TransactionList" approve-switch-for-task>
                                                     <td>{{list.transactionId}}</td>  
                                                     <td>{{list.comments}}</td>
                                                     <td>{{list.transactionStatus}}</td>
                                                     <td>{{list.transactionDate}}</td>
-                                                    
+                                                    <td ng-if="list.transactionStatus !== 'Closed'"><input type="checkbox" data-toggle='toggle' data-uid='{{list.transactionId}}' data-cmt='{{list.comments}}' data-nstatus='{{list.nextStatus}}' class="toggle-button" ng-checked="list.transactionStatus == 'list.nextStatus' ? 'list.nextStatus' : ''"  ></td>
                                                 </tr>
                                             </tbody>
                                         </table>
