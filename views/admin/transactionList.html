@@ -155,7 +155,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="list in TransactionList" approve-Switch-For-Transaction >
+                                                <tr ng-repeat="list in TransactionList" approve-switch-for-transaction >
                                                     <td>{{list.balance}}</td>  
                                                     <td>{{list.fromAccount}}</td>
                                                     <td>{{list.toAccount}}</td>
@@ -165,7 +165,7 @@
                                                     <td><span class="badge" ng-class="{'badge-success': list.transactionStatus === 'cleared', 'badge-warning': list.transactionStatus == 'otp_pendng','badge-danger': list.transactionStatus == 'failed'}">{{list.transactionStatus}}</span></td>
                                                     <td>{{list.comments}}</td>
                                                     <td>{{list.transactionDate}}</td>
-                                                    <td ng-if="list.transactionStatus !== 'cleared'"><input type="checkbox" data-toggle='toggle' data-uid='{{list.transactionId}}' data-cmt='{{list.comments}}' class="toggle-button" ng-checked="list.transactionStatus == 'list.transactionStatus' ? 'list.transactionStatus' : ''"  ></td>
+                                                    <td ng-if="list.transactionStatus !== 'cleared'"><button class="btn btn-succes" ng-click="openTransactionUpdateModal(list.transactionId)">Update</button></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -203,8 +203,107 @@
 </div>
 </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Update Transaction</h4>
+            </div>
+            <form class="form form-horizontal" id="approveForm">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Transaction ID</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" readonly name="tId"
+                                        ng-model="tId">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Update Status</label>
+                                <div class="col-md-9">
+                                    <select class="form-control" name="updateStatus" id="updateStatus" required ng-model="updateStatus">
+                                        <option value="">please Select</option>
+                                        <option value="cleared">Cleared</option>
+                                        <option value="failed">Failed</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Comments</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" id="updatecomments" name="updatecomments" required ng-model="updatecomments">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" modal-footer">
+                    <button type="button" class="btn btn-default"
+                        data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"
+                        ng-click="approveTransaction()">Update</button>
+                 </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
 <script>
     $('#transactionForm').validate({
+          errorElement: 'span', //default input error message container
+          errorClass: 'help-block help-block-error', // default input error message class
+          focusInvalid: false, // do not focus the last invalid input
+          ignore: "", // validate all fields including form hidden input
+          rules: {
+            updatecomments: {
+                  required: true
+              },
+              updateStatus: {
+                  required: true,
+                 
+              }
+          },
+          messages: {
+                    
+                 },
+          errorPlacement: function (error, element) { // render error placement for each input type
+              if (element.attr("name") == "mobile") {
+                  error.insertAfter(element.parent());
+              } else {
+                  error.insertAfter(element); // for other inputs, just perform default behavior
+              }
+          },
+          highlight: function (element) { // hightlight error inputs
+              $(element)
+                  .closest('.form-group').addClass(
+                      'has-error'); // set error class to the control group
+          },
+          unhighlight: function (element) { // revert the change done by hightlight
+              $(element)
+                  .closest('.form-group').removeClass(
+                      'has-error'); // set error class to the control group
+          },
+          success: function (label) {
+              label
+                  .closest('.form-group').removeClass(
+                      'has-error'); // set success class to the control group
+          }
+      });
+      $('#approveForm').validate({
           errorElement: 'span', //default input error message container
           errorClass: 'help-block help-block-error', // default input error message class
           focusInvalid: false, // do not focus the last invalid input
@@ -217,10 +316,6 @@
                   required: true,
                  
               }
-           
-             
-
-
           },
           messages: {
                     
@@ -266,5 +361,4 @@
                       'has-error'); // set success class to the control group
           }
       });
-   
 </script>

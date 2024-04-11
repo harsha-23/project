@@ -43,8 +43,9 @@
                 format: "yyyy-mm-dd",
                 autoclose: true,
             });
-            // $("#date").datepicker("setDate", new Date());
-            // $("#tdate").datepicker("setDate", new Date());
+            $scope.resetFilter = function () {
+                location.reload(true);
+            }
 
         }, 100);
 

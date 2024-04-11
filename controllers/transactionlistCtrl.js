@@ -45,12 +45,20 @@
     
             }
 
+            $scope.openTransactionUpdateModal= function(transactionId){
+                $scope.tId = transactionId;
+                $('#approveModal').modal('show');
+            }
             $scope.approveTransaction = function(transactionId,comment){
+
+                if (!$('#approveForm').valid()) {
+                    return false;
+                }
                 var request ={
                     postedBy : localStorage.getItem('getEmail'),
-                transactionId : transactionId,
-                 status : "cleared",
-                 comments : comment  
+                transactionId : $scope.tId,
+                 status : $scope.updateStatus,
+                 comments : $scope.updatecomments  
                 }
                 $.blockUI({
                     message: 'Please wait... we are processing your request',
@@ -68,10 +76,15 @@
                     $.unblockUI();
                 });
             }
+
+          
             $('#date,#tdate').datepicker({
                 format: "yyyy-mm-dd",
                 autoclose: true,
             });
+            $scope.resetFilter = function () {
+                location.reload(true);
+            }
             // $("#date").datepicker("setDate", new Date());
             // $("#tdate").datepicker("setDate", new Date());
 

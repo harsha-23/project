@@ -40,11 +40,45 @@
                 // }
     
             }
+
+            $scope.openTaskUpdateModal= function(transactionId , nextStatus){
+                $scope.tId = transactionId,
+                $scope.nextStatus = nextStatus
+                $('#approveModal').modal('show');
+            }
+            $scope.approveTask = function(transactionId,comment){
+
+                if (!$('#approveForm').valid()) {
+                    return false;
+                }
+                var request ={
+                transactionId : $scope.tId,
+                 status : $scope.updateStatus,
+                 comments : $scope.updatetaskcomments  
+                }
+                $.blockUI({
+                    message: 'Please wait... we are processing your request',
+                    baseZ: 15000
+                });
+                var promise = api.setServiceRequest(request);
+                promise.then(function mySucces(r) {
+                    App.unblockUI();
+                    if (r.data.statusCode === 200) {
+                        swal("Done!", r.data.message, "success")
+                    } else {
+                        $scope.TransactionList = [];
+                        swal("Error!", "No data found..!", "error");
+                    }
+                    $.unblockUI();
+                });
+            }
             $('#date,#tdate').datepicker({
                 format: "yyyy-mm-dd",
                 autoclose: true,
             });
-    
+            $scope.resetFilter = function () {
+                location.reload(true);
+            }
         }, 100);
     })
 

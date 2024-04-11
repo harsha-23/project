@@ -163,7 +163,6 @@
                  // Assuming $scope is an object
 $scope.roles = $scope.roleIds?.map(role => role.id) || [];
                   
-
                     // for (index in $scope.roleIds) {
                     //     $scope.roles[index] = $scope.roleIds[index].id;
                     // }
@@ -184,6 +183,9 @@ $scope.roles = $scope.roleIds?.map(role => role.id) || [];
         $scope.pagination = function (a, page) {
             var startIndex = ($scope.pageSize * (page - 1));
             $scope.search($scope.keyword, startIndex);
+        }
+        $scope.resetFilter = function () {
+            location.reload(true);
         }
 
     })
