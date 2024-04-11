@@ -50,8 +50,9 @@
                                                     <th>Name</th>
                                                     <th>Mobile</th>
                                                     <th>Email</th>
-                                                    <th>Alt Mobile</th>
+                                                    <th>Roles</th>
                                                     <th>Enabled/Disabled</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -60,12 +61,16 @@
                                                     <td ng-bind="tr.name"></td>
                                                     <td ng-bind="tr.mobile"></td>
                                                     <td ng-bind="tr.email"></td>
-                                                    <td ng-bind="tr.altMobile"></td>
+                                                    <td> <span ng-repeat="role in tr.roles">{{role.role}} | </span>
+                                                        <!-- <ul  ng-repeat="role in tr.roles">
+                                                            <li>{{role.role}}</li>
+                                                        </ul> -->
+                                                    </td>
                                                     <td ><input type="checkbox" data-toggle='toggle' data-uid='{{tr.id}}' class="toggle-button" ng-checked="tr.status == '1' ? '1' : ''"  ></td>
-                                                     <!-- <td >
+                                                     <td >
                                                     <a data-toggle="modal" ng-click="getUserById(tr.userId)" class="btn btn-outline btn-circle btn-sm yellow">
                                                       <i class="fa fa-edit"></i> Edit
-                                                    </td> -->
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>

@@ -1,8 +1,6 @@
 (function () {
     app.controller("customerlistCtrl", function (AclService,$scope, $location, $cookies, $cookieStore, app, api) {
-       
-        $scope.statusList=["Pending","Approved","Rejected"];
-        app.setTitle("User List");
+        app.setTitle("Customer List");
 
         $scope.CustomerStatusList = api.getCustomerStatusList();
         $scope.CustomerStatusList.then(function mySucces(r) {

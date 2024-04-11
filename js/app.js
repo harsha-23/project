@@ -34,7 +34,7 @@ app.directive('applySwitchForUser', function (api, $location) {
 
                 $(".toggle-button").change(function () {
                     var that = this;
-                    var userId = $(this).data('uid');
+                    var id = $(this).data('id');
                     var status = $(this).prop('checked');
                     var ustatus = status == true ? '1' : '2';
                     swal({
@@ -53,10 +53,10 @@ app.directive('applySwitchForUser', function (api, $location) {
                                 App.blockUI({
                                     boxed: !0
                                 });
-                                // var promise = api.setUserStatus({
-                                //     id: userId,
-                                //     status: ustatus
-                                // });
+                                var promise = api.setUserStatus({
+                                    id: id,
+                                    status: ustatus
+                                });
                                 promise.then(function mySucces(r) {
                                     App.unblockUI()
                                     if (r.data.statusCode == 200) {
@@ -89,7 +89,7 @@ app.directive('applySwitchForCustomer', function (api, $location) {
 
                 $(".toggle-button").change(function () {
                     var that = this;
-                    var userId = $(this).data('uid');
+                    var userId = $(this).data('token');
                     var status = $(this).prop('checked');
                     var ustatus = status == true ? '1' : '2';
                     swal({
@@ -108,8 +108,8 @@ app.directive('applySwitchForCustomer', function (api, $location) {
                                 App.blockUI({
                                     boxed: !0
                                 });
-                                var promise = api.setUserStatus({
-                                    id: userId,
+                                var promise = api.setCustomerStatusss({
+                                    token: userId,
                                     status: ustatus
                                 });
                                 promise.then(function mySucces(r) {
@@ -311,7 +311,6 @@ String.prototype.replaceAll = function (search, replacement) {
     app.service('actions', function ($http, SETTINGS, app, api, $compile) {
         var that = this;
         
-     
     });
     app.service('api', function ($http, SETTINGS, app,$cookieStore) {
 
@@ -656,15 +655,30 @@ String.prototype.replaceAll = function (search, replacement) {
                 },
             })
         };
-        this.setUserStatusss = function (data) {
-            var url = data.uid + '/' + data.status;
-            return $http({
-                method: 'PUT',
-                url: SETTINGS.apiBasePath + '/user/user/' + url,
-                dataType: 'json',
-                headers: app.headers(),
-            })
-        };
+        // this.setUserStatusss = function (data) {
+        //     var url = data.uid + '/' + data.status;
+        //     return $http({
+        //         method: 'PUT',
+        //         url: SETTINGS.apiBasePath + '/user/user/' + url,
+        //         dataType: 'json',
+        //         headers: app.headers(),
+        //     })
+        // };
+        this.setCustomerStatusss = function (request) {
+        return $http({
+            method: 'PUT',
+            url: SETTINGS.apiBasePath + '/customer/customer-status-update',
+            dataType: 'json',
+            data: request,
+            headers: {
+                "x-correlation-id": app.uuidv4(),
+                "x-component": 'ADMIN',
+                "x-ip":this.getUserIp(),
+                "Content-Type": "application/json; charset=utf-8",
+                "x-token": app.getAuthToken()
+            }
+        })
+    };
         this.setUserStatus = function (request) {
             return $http({
                 method: 'PUT',
@@ -696,8 +710,6 @@ String.prototype.replaceAll = function (search, replacement) {
             })
         };
 
-       
-        
         this.getAccountTypes = function () {
             return $http({
                 method: 'GET',
@@ -796,8 +808,6 @@ String.prototype.replaceAll = function (search, replacement) {
             })
         };
     
-      
-
     })
 
     /*  define routes for the app */
@@ -895,7 +905,6 @@ String.prototype.replaceAll = function (search, replacement) {
                 }
             })
 
-            
             .when("/customer-registration", {
                 templateUrl: "views/customer/customerRegister.html",
             controller: "customerRegisterCtrl",
@@ -966,11 +975,9 @@ String.prototype.replaceAll = function (search, replacement) {
 
         if ((getPath[1] == 'lead' && getPath[2] == 'history') || getPath[1] == 'scan-list') {
             
-
             $location.path($location.path());
         } else if (authKey == undefined) {
           
-
         } else {
             try {
 

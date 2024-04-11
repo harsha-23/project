@@ -154,7 +154,7 @@
                                                     <td>{{custList.mobile}}</td>
                                                     <td>{{custList.userType}}</td>
 													<td>{{custList.approvalStatus}}</td>
-                                                    <td><input type="checkbox" data-toggle='toggle' data-uid='{{custList.status}}' class="toggle-button" ng-checked="custList.status == '1' ? '1' : ''"  ></td>
+                                                    <td ng-if="list.transactionStatus !== 'Approved'"><input type="checkbox" data-toggle='toggle' data-uid='{{custList.status}}' class="toggle-button" ng-checked="custList.status == '1' ? '1' : ''"  ></td>
                                                 </tr>
                                             </tbody>
                                         </table>
