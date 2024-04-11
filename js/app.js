@@ -34,7 +34,7 @@ app.directive('applySwitchForUser', function (api, $location) {
 
                 $(".toggle-button").change(function () {
                     var that = this;
-                    var id = $(this).data('id');
+                    var id = $(this).data('uid');
                     var status = $(this).prop('checked');
                     var ustatus = status == true ? '1' : '2';
                     swal({
@@ -89,7 +89,7 @@ app.directive('applySwitchForCustomer', function (api, $location) {
 
                 $(".toggle-button").change(function () {
                     var that = this;
-                    var userId = $(this).data('token');
+                    var userId = $(this).data('uid');
                     var status = $(this).prop('checked');
                     var ustatus = status == true ? '1' : '2';
                     swal({
@@ -110,7 +110,7 @@ app.directive('applySwitchForCustomer', function (api, $location) {
                                 });
                                 var promise = api.setCustomerStatusss({
                                     token: userId,
-                                    status: ustatus
+                                    status: "Approved"
                                 });
                                 promise.then(function mySucces(r) {
                                     App.unblockUI()
@@ -714,6 +714,24 @@ String.prototype.replaceAll = function (search, replacement) {
             return $http({
                 method: 'GET',
                 url: SETTINGS.apiBasePath + '/master-info/account-types',
+
+                headers: {
+                    // "x-correlation-id": app.uuidv4(),
+                    // "x-component": 'ADMIN',
+                    // "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    // "Authorization": "Bearer " + app.getAuthToken(),
+                    // "x-user-email": app.user.identity.email,
+                    // "x-token": app.getAuthToken(),
+                    // "x-user-id": app.user.identity.adminUserId
+                },
+            })
+        };
+        
+        this.getUserById = function (token) {
+            return $http({
+                method: 'GET',
+                url: SETTINGS.apiBasePath + '/admin/find-by-param?param='+token,
 
                 headers: {
                     // "x-correlation-id": app.uuidv4(),
