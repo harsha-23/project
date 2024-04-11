@@ -19,9 +19,9 @@
     .error {
         color: #e73d4a;
     }
-    .sweet-alert .form-group .sa-input-error {
-      display: block !important;
-  }
+    /* .sweet-alert .form-group .sa-input-error {
+      display: block ;
+  } */
     
     .select2-container .select2-choice .select2-arrow {
         background-image: none;
@@ -140,12 +140,13 @@
               <hr class="dropdown-divider">
             </li>
 
+            -->
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
-            </li> -->
+                <a class="dropdown-item d-flex align-items-center" href="#" ng-click="logOut()">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Sign Out</span>
+                </a>
+              </li>
 
           </ul><!-- End Profile Dropdown Items -->
         </li><!-- End Profile Nav -->
@@ -193,11 +194,9 @@
                 </li>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Account Info</button>
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#account-info-edit">Account Info</button>
                 </li>
-                <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-account-list"> Account List</button>
-                  </li>
+             
                   <li class="nav-item">
                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-balance-list"> Balance</button>
                   </li>
@@ -205,9 +204,9 @@
                 <li class="nav-item">
                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-beneficiary-info"> Beneficiary Info</button>
                   </li>
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-beneficiary-list"> Beneficiary List</button>
-                  </li>
+                  </li> -->
                 <!-- <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Address</button>
                 </li> -->
@@ -249,9 +248,37 @@
 
                 </div>
 
-                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                <div class="tab-pane fade account-info-edit pt-3" id="account-info-edit">
+
 
                   <!-- Profile Edit Form -->
+
+                  <table class="table table-bordered" ng-hide="userList.length == 0">
+                    <thead>
+                        <tr>
+                            <th>Sr</th>
+                           
+                            <th>Account Number</th>
+                            <th>Account Type</th>
+                            <!-- <th>Approva lStatus</th> -->
+                            <!-- <th>Enabled/Disabled</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="tr in getAccountlist" >
+                            <td ng-bind="begin + $index + 1"></td>
+                            <td ng-bind="tr.accountNumber"></td>
+                            <td ng-bind="tr.accountType"></td>
+                            <!-- <td ng-bind="tr.routingNumber"></td>
+                            <td ng-bind="tr.approvalStatus"></td> -->
+                            <!-- <td ><input type="checkbox" data-toggle='toggle' data-uid='{{tr.id}}' class="toggle-button" ng-checked="tr.status == '1' ? '1' : ''"  ></td> -->
+                             <!-- <td >
+                            <a data-toggle="modal" ng-click="getUserById(tr.userId)" class="btn btn-outline btn-circle btn-sm yellow">
+                              <i class="fa fa-edit"></i> Edit
+                            </td> -->
+                        </tr>
+                    </tbody>
+                </table>
                   <form>
                
                     <div class="row mb-3">
@@ -362,35 +389,7 @@
 
                 </div>
 
-                <div class="tab-pane fade pt-3" id="profile-account-list">
-                    <table class="table table-bordered" ng-hide="userList.length == 0">
-                        <thead>
-                            <tr>
-                                <th>Sr</th>
-                               
-                                <th>Account Number</th>
-                                <th>Account Type</th>
-                                <!-- <th>Approva lStatus</th> -->
-                                <!-- <th>Enabled/Disabled</th> -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="tr in getAccountlist" >
-                                <td ng-bind="begin + $index + 1"></td>
-                                <td ng-bind="tr.accountNumber"></td>
-                                <td ng-bind="tr.accountType"></td>
-                                <!-- <td ng-bind="tr.routingNumber"></td>
-                                <td ng-bind="tr.approvalStatus"></td> -->
-                                <!-- <td ><input type="checkbox" data-toggle='toggle' data-uid='{{tr.id}}' class="toggle-button" ng-checked="tr.status == '1' ? '1' : ''"  ></td> -->
-                                 <!-- <td >
-                                <a data-toggle="modal" ng-click="getUserById(tr.userId)" class="btn btn-outline btn-circle btn-sm yellow">
-                                  <i class="fa fa-edit"></i> Edit
-                                </td> -->
-                            </tr>
-                        </tbody>
-                    </table>
-   
-                   </div>
+            
                    <div class="tab-pane fade pt-3" id="profile-balance-list">
                     <table class="table table-bordered" >
                         <thead>
@@ -423,6 +422,34 @@
                    </div>
 
                 <div class="tab-pane fade pt-3" id="profile-beneficiary-info">
+
+                    <table class="table table-bordered" ng-hide="userList.length == 0">
+                        <thead>
+                            <tr>
+                                <th>Sr</th>
+                                <th>Name</th>
+                                <th>Account</th>
+                                <th>Routing Number</th>
+                                <th>Approva lStatus</th>
+                                <!-- <th>Enabled/Disabled</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="tr in getBenficiarylist" apply-switch-for-user >
+                                <td ng-bind="begin + $index + 1"></td>
+                                <td ng-bind="tr.beneficiaryName"></td>
+                                <td ng-bind="tr.beneficiaryAccount"></td>
+                                <td ng-bind="tr.routingNumber"></td>
+                                <td ng-bind="tr.approvalStatus"></td>
+                                <!-- <td ><input type="checkbox" data-toggle='toggle' data-uid='{{tr.id}}' class="toggle-button" ng-checked="tr.status == '1' ? '1' : ''"  ></td> -->
+                                 <!-- <td >
+                                <a data-toggle="modal" ng-click="getUserById(tr.userId)" class="btn btn-outline btn-circle btn-sm yellow">
+                                  <i class="fa fa-edit"></i> Edit
+                                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                    
                    <div> <button  class="btn btn-primary">Add Beneficiary</button></div>
                     <form>
   
@@ -522,7 +549,7 @@
 
 				<form id="addFunds" class="row g-3">
 
-                    <div class="row col-md-12">
+                    <div class="row col-md-12 ">
                       
                        
                         <label for="amount" class="col-md-4 col-lg-3 col-form-label">Source Account</label>
@@ -536,14 +563,14 @@
 
                   
 
-                    <div class="row col-md-12">
+                    <div class="row col-md-12 mt-2">
                       <label for="amount" class="col-md-4 col-lg-3 col-form-label">Enter the Amount</label>
                       <div class="col-sm-3">
                         <input type="number" name="amount" step="0.01"  class="form-control" id="amount" ng-model="amount">
                       </div>
                     </div>
 
-					  <div class="row col-md-12">
+					  <div class="row col-md-12 mt-2">
                       <label for="comments" class="col-md-4 col-lg-3 col-form-label">Enter the Comments</label>
                       <div class="col-sm-9">
                         <input name="comments" type="text" class="form-control" id="comments"  ng-model="comments">
@@ -574,14 +601,14 @@
 
                   
 
-                    <div class="row col-md-12">
+                    <div class="row col-md-12 mt-2" >
                       <label for="amount" class="col-md-4 col-lg-3 col-form-label">Enter the Amount</label>
                       <div class="col-sm-3">
                         <input type="number" name="amount" step="0.01"  class="form-control" id="withdrawAmount" ng-model="withdrawAmount">
                       </div>
                     </div>
 
-					  <div class="row col-md-12">
+					  <div class="row col-md-12 mt-2">
                       <label for="comments" class="col-md-4 col-lg-3 col-form-label">Enter the Comments</label>
                       <div class="col-sm-9">
                         <input name="withdrawComments" type="text" class="form-control" id="withdrawComments" ng-model="withdrawComments">
@@ -604,7 +631,7 @@
                             </select>
                         </div>
                       </div>
-                      <div class="row col-md-12">
+                      <div class="row col-md-12 mt-2">
                       
                        
                         <label for="amount" class="col-md-4 col-lg-3 col-form-label">Beneficiary Account </label>
@@ -619,14 +646,14 @@
 
                   
 
-                    <div class="row col-md-12">
+                    <div class="row col-md-12 mt-2">
                       <label for="amount" class="col-md-4 col-lg-3 col-form-label">Enter the Amount</label>
                       <div class="col-sm-3">
                         <input type="number" name="amount" step="0.01"  class="form-control" id="amount" ng-model="transferAmount">
                       </div>
                     </div>
 
-					  <div class="row col-md-12">
+					  <div class="row col-md-12 mt-2">
                       <label for="comments" class="col-md-4 col-lg-3 col-form-label">Enter the Comments</label>
                       <div class="col-sm-9">
                         <input name="comments" type="text" class="form-control" id="comments" ng-model="transferComments">

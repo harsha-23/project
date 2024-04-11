@@ -11,6 +11,12 @@
     
     // })
   
+        
+    $scope.logOut=function(){
+        localStorage.removeItem('customerInfo')
+        window.location.href="/customer-login"
+
+    }
     
        
     $scope.accountTypeList=[]
