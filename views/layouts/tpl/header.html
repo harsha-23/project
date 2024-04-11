@@ -88,14 +88,17 @@
                     </a>
                     <ul class="dropdown-menu pull-left">                        
                         <li aria-haspopup="true">                
-                                <a href="/transaction-details" class="nav-link"> Transaction Details</a>
+                                <a href="/transaction-details" class="nav-link">Transaction Details</a>
                         </li>
-                        <!-- <li aria-haspopup="true">                                                      
-                            <a href="" class="nav-link">Add Customer</a>
+
+						 <li aria-haspopup="true">                
+                                <a href="/task-details" class="nav-link">Task History</a>
                         </li>
-                        <li aria-haspopup="true">                                                      
-                                <a href="" class="nav-link">Test</a>
-                        </li>                         -->
+						
+						 <li aria-haspopup="true">                
+                                <a href="/logs" class="nav-link">Logs</a>
+                        </li>
+                                      
 
                     </ul>
                 </li>                
@@ -106,50 +109,6 @@
         <!-- END MEGA MENU -->
     </div>
 </div>
-
-<div class="page-mobile-menu" style="display: none;">
-    <ul class="metismenu level_one" id="metismenu" >
-        <li class="" ng-repeat="menu in mnc.menus">
-            <a href="{{menu.url}}" > {{menu.parentMenuName}} <i class="fa fa-angle-down"></i></a>                    
-       
-            <ul class="level_two" ng-if="menu.childMenuName.length > 0">
-                 <li ng-if="submenu.childMenuName!='Call Recording' && submenu.childMenuName!='Revenue Reports'" ng-repeat="submenu in menu.adminMenuItems" >                                                      
-                            <a href="{{submenu.url}}" ng-bind="submenu.childMenuName"></a>
-                </li>
-                 <li  ng-if="submenu.childMenuName=='Call Recording' && can('view.recording.filter')" ng-repeat="submenu in menu.adminMenuItems" >                                                      
-                            <a href="{{submenu.url}}" ng-bind="submenu.childMenuName"></a>
-                </li>
-                <li  ng-if="submenu.childMenuName=='Revenue Reports' && can('view.revenu.filter')" ng-repeat="submenu in menu.adminMenuItems" >                                                      
-                        <a href="{{submenu.url}}" ng-bind="submenu.childMenuName"></a>
-                </li>  
-            </ul>
-        </li> 
-        <li class="">
-            <a href="/account/change-password" > User Profile <i class="fa fa-angle-down"></i></a>                    
-       
-            <ul class="level_two">
-                 <li>                                                      
-                        <a href="/account/change-password"><i class="icon-user"></i> Change Password </a>
-                </li>
-                 <li>
-                    <a href="#" onclick="return false;" class="{{mnc.isOnline}}" ng-click="mnc.toggleStatus()">                               
-                        <i class="fa fa-circle" ></i> {{mnc.isOnline}} 
-                    </a>
-                </li>
-                <li >
-
-                    <a href="#">Logout<i class="icon-logout" ng-click="mnc.logOut()"></i></a>
-                </li>
-                
-            </ul>
-        </li>  
-           
-
-        
-    </ul>
-
-</div>
-
 
 <!-- END HEADER MENU -->
 

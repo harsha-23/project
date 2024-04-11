@@ -413,6 +413,39 @@ String.prototype.replaceAll = function (search, replacement) {
                 },
             })
         };
+		
+		this.getLogs = function (request) {
+            return $http({
+                method: 'POST',
+                url: SETTINGS.apiBasePath + '/master-info/logs',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
+		this.getTaskList = function (request) {
+            return $http({
+                method: 'POST',
+                url: SETTINGS.apiBasePath + '/master-info/task/filter',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
         this.getCustomerList = function (request) {
             return $http({
                 method: 'POST',
@@ -822,13 +855,7 @@ String.prototype.replaceAll = function (search, replacement) {
                 controller: "userlistCtrl",
                 resolve: {
                     'acl': ['$q', 'AclService', function ($q, AclService) {
-                        // if (AclService.can('menu.insurance-estimate')) {
-
-                        //     return true;
-                        // } else {
-                        //     return $q.reject('Unauthorized');
-                        // }
-
+  
                     }]
                 }
             })
@@ -837,13 +864,6 @@ String.prototype.replaceAll = function (search, replacement) {
                 controller: "customerlistCtrl",
                 resolve: {
                     'acl': ['$q', 'AclService', function ($q, AclService) {
-                        // if (AclService.can('menu.insurance-estimate')) {
-
-                        //     return true;
-                        // } else {
-                        //     return $q.reject('Unauthorized');
-                        // }
-
                     }]
                 }
             })
@@ -853,13 +873,24 @@ String.prototype.replaceAll = function (search, replacement) {
                 controller: "transactionlistCtrl",
                 resolve: {
                     'acl': ['$q', 'AclService', function ($q, AclService) {
-                        // if (AclService.can('menu.insurance-estimate')) {
+                    }]
+                }
+            })
 
-                        //     return true;
-                        // } else {
-                        //     return $q.reject('Unauthorized');
-                        // }
+			  .when("/task-details", {
+                templateUrl: "views/admin/taskList.html",
+                controller: "tasklistCtrl",
+                resolve: {
+                    'acl': ['$q', 'AclService', function ($q, AclService) {
+                    }]
+                }
+            })
 
+			.when("/logs", {
+                templateUrl: "views/admin/historyList.html",
+                controller: "taskHistoryCtrl",
+                resolve: {
+                    'acl': ['$q', 'AclService', function ($q, AclService) {
                     }]
                 }
             })
@@ -870,12 +901,6 @@ String.prototype.replaceAll = function (search, replacement) {
             controller: "customerRegisterCtrl",
                 resolve: {
                     'acl': ['$q', 'AclService', function ($q, AclService) {
-                        // if (AclService.can('menu.insuranace-estimate-filter')) {
-
-                        //     return true;
-                        // } else {
-                        //     return $q.reject('Unauthorized');
-                        // }
                     }]
                 }
             })
@@ -884,12 +909,6 @@ String.prototype.replaceAll = function (search, replacement) {
             controller: "customerLoginCtrl",
                 resolve: {
                     'acl': ['$q', 'AclService', function ($q, AclService) {
-                        // if (AclService.can('menu.insuranace-estimate-filter')) {
-
-                        //     return true;
-                        // } else {
-                        //     return $q.reject('Unauthorized');
-                        // }
                     }]
                 }
             })
@@ -898,12 +917,6 @@ String.prototype.replaceAll = function (search, replacement) {
             controller: "customerDetailsCtrl",
                 resolve: {
                     'acl': ['$q', 'AclService', function ($q, AclService) {
-                        // if (AclService.can('menu.insuranace-estimate-filter')) {
-
-                        //     return true;
-                        // } else {
-                        //     return $q.reject('Unauthorized');
-                        // }
                     }]
                 }
             })

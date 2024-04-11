@@ -21,12 +21,12 @@
                                 <div class="portlet light ">
                                     <div class="portlet-title">
                                         <div class="caption caption-md">
-                                            <i class="icon-magnifier font-green"></i>
-                                            <span class="caption-subject font-green sbold uppercase">customer list</span>
+                                            <i class="icon-magnifier font-purple"></i>
+                                            <span class="caption-subject font-purple sbold uppercase">Task Details</span>
                                         </div>
                                     </div>
                                     <div class="portlet-body">
-                                        <form class="form-horizontal form-bordered" id="customerForm">
+                                        <form class="form-horizontal form-bordered" id="transactionForm">
                         
                         
                         
@@ -55,48 +55,41 @@
                         
                         
                         
-                                              
-                                                <div class="col-sm-3">
+                                               <div class="col-sm-3" >
                                                     <div class="form-group">
-                                                        <label class="control-label col-sm-12 text-left">Account Number </label>
+                                                        <label class="control-label col-sm-12 ">Transaction ID</label>
                                                         <div class="col-sm-12">
-                        
-                                                            <input type="text" class="form-control" id="lead" name="lead" ng-model="lead">
+                                                            <input type="number" class="form-control" id="transactionId" name="transactionId" ng-model="transactionId">
                                                         </div>
                                                     </div>
                                                 </div>
+                                               
+
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label col-sm-12 text-left">Status</label>
                                                         <div class="col-sm-12">
                                                             <select class="form-control" name="status" id="status" ng-model="status">
                                                                 <option value="">Please Select</option>
-                                                                <option value="{{cust}}" ng-repeat="cust in CustomerStatusList">{{cust}}</option>
+                                                                 <option value="{{cust}}" ng-repeat="cust in CustomerStatusList">{{cust}}</option>
                                                             </select>
-                        
-                                                          
                                                         </div>
                                                     </div>
                                                 </div>
+                        
                                             </div>
                         
                         
                         
                         
                                             <div class="row">
-                                                <div class="col-sm-3" >
-                                                    <div class="form-group">
-                                                        <label class="control-label col-sm-12 ">Mobile Number</label>
-                                                        <div class="col-sm-12">
-                                                            <input type="number" class="form-control" id="mobile" name="mobile" ng-model="mobile">
-                                                        </div>
-                                                    </div>
-                                                </div>
+                        
+											
 
 												 <div class="col-md-6" style="margin-top: 10px;">
                                                     <div class="col-md-4">
                                                         <input type="button" date-exportexcel="false" data-page="1"
-                                                            class="btn blue btn-block margin-top-20 green-haze" value="Submit"
+                                                            class="btn blue btn-block margin-top-20 purple-haze" value="Submit"
                                                             ng-click="submit(0);">
                                                     </div>
                                                     <div class="col-md-4">
@@ -109,7 +102,7 @@
                         
                                             </div>
                         
-                                          
+                        
                                         </form>
                         
                                     </div>
@@ -119,14 +112,14 @@
                         
                         
                         
-                        <div class="row" ng-show="customerList.length > 0">
+                        <div class="row" ng-show="TransactionList.length > 0">
                             <div class="col-md-12 col-sm-12">
                                 <div class="portlet light ">
                                     <div class="portlet-title">
                                         <div class="caption caption-md">
-                                            <i class="icon-list font-green"></i>
-                                            <span class="caption-subject font-green sbold uppercase">CUSTOMER LIST  -
-                                                {{customerList.length}}</span>
+                                            <i class="icon-list font-purple"></i>
+                                            <span class="caption-subject font-purple sbold uppercase"> Total COUNT -
+                                                {{TransactionList.length}}</span>
                                         </div>
                                     </div>
                                     <div class="portlet-body">
@@ -134,46 +127,38 @@
                                             <thead>
                                                 <tr>
                         
-                        
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Mobile</th>
-                                                     <th>User Type</th>
-													<th>Approval Status</th>
-                                                    <th>status</th>
-                        
-                        
-                        
+                                                    <th>Transaction Id</th>
+                                                    <th>Comments</th>
+                                                    <th>Status</th>
+                                                    <th>T Date</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="custList in customerList" apply-switch-for-customer>
-                        
-                                                    <td>{{custList.firstName+" "+custList.middleName+" "+custList.lastName }}</td>
-                                                    <td>{{custList.email}}</td>
-                                                    <td>{{custList.mobile}}</td>
-                                                    <td>{{custList.userType}}</td>
-													<td>{{custList.approvalStatus}}</td>
-                                                    <td><input type="checkbox" data-toggle='toggle' data-uid='{{custList.status}}' class="toggle-button" ng-checked="custList.status == '1' ? '1' : ''"  ></td>
+                                                <tr ng-repeat="list in TransactionList">
+                                                    <td>{{list.transactionId}}</td>  
+                                                    <td>{{list.comments}}</td>
+                                                    <td>{{list.transactionStatus}}</td>
+                                                    <td>{{list.transactionDate}}</td>
+                                                    
                                                 </tr>
                                             </tbody>
                                         </table>
                         
                         
-                                        <!-- <div class="row " ng-show="userList.length > 0">
+                                        <div class="row " ng-show="userList.length > 0">
                                             <div class="col-sm-12 text-right">
+                                                <!-- pagination -->
                                                 <div paging page="currentPage" page-size="pageSize" total="total" show-prev-next="true"
                                                     text-next="next" text-prev="prev" paging-action="pagination('Paging Clicked', page)">
                                                 </div>
                         
                                             </div>
-                                        </div> -->
+                                        </div>
                         
                                     </div>
                                 </div>
                             </div>
                         </div>
-                     
                         <!-- Common Include end -->
                      </div>
                 </div>
@@ -193,7 +178,7 @@
 </div>
 </div>
 <script>
-    $('#customerForm').validate({
+    $('#transactionForm').validate({
           errorElement: 'span', //default input error message container
           errorClass: 'help-block help-block-error', // default input error message class
           focusInvalid: false, // do not focus the last invalid input
