@@ -343,7 +343,7 @@
                             <td ng-bind="tr.toAccount"></td>
                             <td>{{tr.credit}} / {{tr.debit}}</td>
                             <td ng-bind="tr.transactionDate"></td>
-                            <td ng-bind="tr.transactionStatus"></td>
+                            <td><span class="badge badge-danger"  ng-style="{'background-color': tr.transactionStatus === 'cleared' ? 'green' : 'red'}" >{{tr.transactionStatus}}</span></td>
                             <td ng-bind="tr.comments"></td>
                         </tr>
                     
