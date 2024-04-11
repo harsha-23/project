@@ -1023,7 +1023,7 @@ String.prototype.replaceAll = function (search, replacement) {
         var getPath = $location.path().split('/');
         var authKey = $cookieStore.get('medfinauthkey');
         var medfinidentity = $cookieStore.get('medfinidentity');
-
+        var customerInfo = localStorage.getItem('customerInfo');
         if ((getPath[1] == 'lead' && getPath[2] == 'history') || getPath[1] == 'scan-list') {
             
             $location.path($location.path());
@@ -1033,10 +1033,17 @@ String.prototype.replaceAll = function (search, replacement) {
 const urlObject = new URL(absoluteUrl);
 const pathWithoutDomain = urlObject.pathname;
 
-if(pathWithoutDomain == "/customer-details" || pathWithoutDomain == "/customer-login" || pathWithoutDomain == "/customer-registration" ){
+if(pathWithoutDomain == "/customer-login" || pathWithoutDomain == "/customer-registration" ){
 
-}else{
-          
+}else if(pathWithoutDomain == "/customer-details"){
+    if(customerInfo){
+
+    }else{
+        $location.path('/customer-login');
+    }
+  
+}
+else{
             $location.path('/site/login');
         }
 
