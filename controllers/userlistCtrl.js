@@ -4,7 +4,7 @@
         $scope.userList = [];
         $scope.keyword = '';
         app.setTitle("User List");
-      
+        $scope.userPermissions=localStorage.getItem('permissions');
         $scope.openCreateUserModal = function () {
             $scope.userId = '';
             $scope.email = '';

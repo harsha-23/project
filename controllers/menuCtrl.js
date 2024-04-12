@@ -10,7 +10,8 @@
           
             return mnc.name =   localStorage.getItem('nameAdd');;
         }
-
+        $scope.userPermissions=localStorage.getItem('permissions');
+         console.log($scope.userPermissions)
         mnc.init = function () {
             console.log(app.user);
             $timeout(function () {
@@ -37,9 +38,6 @@
         //             var menus = [];
         //             localStorage.setItem('vendor', r.data.adminUser.vendor);
         //           localStorage.setItem('user', JSON.stringify(r.data));
-
-
-
 
         //             if(r.data.isTokenValid == "false"){
         //                 $cookieStore.remove("medfinauthkey");
@@ -83,16 +81,8 @@
         //             }
         //             mnc.menus = menus;
 
-
-                    
         //             var user=  localStorage.getItem('user');
                   
-                 
-                 
-  
-
-
-
         //             // $location.path('/');
         //             console.log(' mnc.menus',  mnc.menus);
         //             $scope.newLogin(user)
@@ -104,12 +94,7 @@
 
         // mnc.getMenus();
 
-       
-           
-    
-
         $scope.newLogin = function(info){
-           
            
             var user=JSON.parse(info);  
             console.log(user)   
@@ -138,8 +123,6 @@
 
                 });
                 
-
-
                 var aclData = {
                     admin: abilities
                 }
@@ -172,7 +155,6 @@
 
                 app.setIdentity(identity);
                 localStorage.setItem('medfinperm', btoa(JSON.stringify(abilities)));
-
 
                 //$cookieStore.put('medfinperm', btoa(JSON.stringify(abilities)));
                 $cookieStore.put('medfinidentity', btoa(JSON.stringify(identity)));
@@ -213,10 +195,8 @@
                     //       return;
                     //   });
             
-                    
                 }else{
 
-             
                     // location.reload();
                     //test
                    var url= $location.url()
@@ -226,18 +206,16 @@
                     $location.path("/");
                    }
                     
-
                 }
 
-
-
-
-         
         }
 
         mnc.logOut = function () {
             $cookieStore.remove("medfinauthkey");
             $cookieStore.remove("medfinidentity");
+            localStorage.removeItem('getEmail')
+            localStorage.removeItem('permissions')
+            localStorage.removeItem('nameAdd')
             // $cookieStore.remove("medfinperm");
             localStorage.setItem('medfinperm', null);
             document.cookie.split(";").forEach(function (c) {
@@ -277,7 +255,6 @@
                         });
                     }
                 });
-
 
         }
 
