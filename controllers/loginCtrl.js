@@ -7,7 +7,7 @@
         lgc.otp = null;
         lgc.token = null;
 
-        app.setTitle("Login | Medfin Clinic Admin");
+        app.setTitle("Login | Easy Bank");
        
         $scope.logOutFromAdmin = function () {
             swal({
@@ -17,18 +17,7 @@
             }, function() {
                 location.reload();
             });
-            // $cookieStore.remove("medfinauthkey");
-            // $cookieStore.remove("medfinidentity");
-            // $cookieStore.remove("crossDomainCookie");            
-            // $cookieStore.remove("showAdmin");
-            // $cookieStore.remove('superAdmin');
-			// document.cookie = "crossDomainCookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC;"
-
-            // localStorage.setItem('medfinperm', null);
-            // document.cookie.split(";").forEach(function (c) {
-            //     document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-            // });
-            // $location.path('/site/login');
+          
         }
 
         $scope.postOtpVerification = function(r){
@@ -83,20 +72,7 @@
 
                 let loginToken = $cookieStore.get('crossDomainCookie');
                 console.log(loginToken)
-                  // Attach the member role to the current user
-                // AclService.attachRole(role);
-                // if(loginToken){
-                //     $location.path('/');
-                //     return
-                // }
-
-                // for (var i = 0; i < r.data.adminUser.roles.length; i++) {
-                //     if (r.data.adminUser.roles[i].roleName == 'Doctor') {
-                //         $location.path('/appointment/upcoming');
-                //         location.reload();
-                //         return false;
-                //     }
-                // }
+                 
                 $location.path('/');     
                 
             } else {
