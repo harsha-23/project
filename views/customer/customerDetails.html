@@ -786,11 +786,12 @@
                     <button type="button" ng-click="transferFundsRequest()" class="btn btn-primary"> Funds Request</button>
                   </div> 
               </div>
-              <div class="tab-pane fade" id="pills-fund-transfer" role="tabpanel" aria-labelledby="pills-fund-transfer">
+              <div class="tab-pane fade" id="pills-fund-history" role="tabpanel" aria-labelledby="pills-fund-history">
 
                 <div class="row col-md-12 mt-2">
                   
-                  <table class="table table-bordered" ng-hide="userList.length == 0">
+                  
+                  <table class="table table-bordered" >
                     <thead>
                         <tr>
                             <th>Sr</th>
@@ -814,7 +815,7 @@
                             <td ng-bind="tr.transactionId"></td>
                             <td>
                               {{tr.transactionStatus}}
-                              <button ng-if="tr.transactionStatus === 'pending'" ng-click="approveTransaction(tr.transactionId)">Approve</button>
+                              <button ng-if="tr.transactionStatus === 'Pending'" ng-click="approveTransaction(tr.transactionId)" style="background-color: aqua;">Approve</button>
                           </td>
                           
 
