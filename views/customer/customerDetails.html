@@ -337,6 +337,7 @@
                         <th scope="col">Credit / Debit</th>
                      	<th scope="col">Date</th>
                         <th scope="col">Status</th>
+						<th scope="col">Event</th>
                         <th scope="col">Comments</th>
                       </tr>
                     </thead>
@@ -348,6 +349,7 @@
                             <td>{{tr.credit}} / {{tr.debit}}</td>
                             <td ng-bind="tr.transactionDate"></td>
                             <td><span class="badge badge-danger"  ng-style="{'background-color': tr.transactionStatus === 'cleared' ? 'green' : 'red'}" >{{tr.transactionStatus}}</span></td>
+							<td ng-bind="tr.event"></td>
                             <td ng-bind="tr.comments"></td>
                         </tr>
                     
