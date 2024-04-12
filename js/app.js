@@ -771,6 +771,23 @@ String.prototype.replaceAll = function (search, replacement) {
                 },
             })
         };
+
+		this.createFundRequest= function (request) {
+            return $http({
+                method: 'POST',
+                url: SETTINGS.apiBasePath + '/transaction/funds-request',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
         this.customerLogin = function (request) {
             return $http({
                 method: 'POST',

@@ -334,7 +334,7 @@
         message: 'Please wait... we are processing your request',
         baseZ: 15000
     });
-    var promise = api.transferAddFunds(req);
+    var promise = api.createFundRequest(req);
     promise.then(function mySucces(r) {
 
         App.unblockUI();

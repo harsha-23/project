@@ -697,7 +697,7 @@
                       
                        
                         <label for="amount" class="col-md-4 col-lg-3 col-form-label">Source Account</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-9">
                             <select name="transfer" id="" ng-model="transfer"  class="form-control" >
                                 <option value="">Please Select</option>
                                 <option value="{{transfer.accountNumber}}" ng-repeat="transfer in getAccountlist">{{transfer.accountNumber+" "+transfer.accountType}}</option>
@@ -708,10 +708,10 @@
                       
                        
                         <label for="amount" class="col-md-4 col-lg-3 col-form-label">Beneficiary Account </label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-9">
                             <select name="toAccount" id="" ng-model="toAccount"  class="form-control" >
                                 <option value="">Please Select</option>
-                                <option value="{{toAccount.beneficiaryAccount}}" ng-repeat="toAccount in getBenficiarylist">{{toAccount.beneficiaryName+" "+accountType.beneficiaryAccount}}</option>
+                                <option value="{{toAccount.beneficiaryAccount}}" ng-repeat="toAccount in getBenficiarylist">{{toAccount.beneficiaryName+" "+toAccount.beneficiaryAccount}}</option>
                             </select>
                         </div>
                       </div>
@@ -743,11 +743,11 @@
                   <div class="row col-md-12 mt-2">
                     
                      
-                    <label for="amount" class="col-md-4 col-lg-3 col-form-label">from Account </label>
-                    <div class="col-sm-3">
+                    <label for="amount" class="col-md-4 col-lg-3 col-form-label">Beneficiary Account </label>
+                    <div class="col-sm-9">
                         <select name="fundFromAccount" id="" ng-model="fundFromAccount"  class="form-control" >
                             <option value="">Please Select</option>
-                            <option value="{{toAccount.beneficiaryAccount}}" ng-repeat="toAccount in getBenficiarylist">{{toAccount.beneficiaryName+" "+accountType.beneficiaryAccount}}</option>
+                            <option value="{{toAccount.beneficiaryAccount}}" ng-repeat="toAccount in getBenficiarylist">{{toAccount.beneficiaryName}} - {{toAccount.beneficiaryAccount}}</option>
                         </select>
                     </div>
                   </div>
@@ -755,11 +755,11 @@
                   <div class="row col-md-12  mt-2">
                     
                      
-                      <label for="amount" class="col-md-4 col-lg-3 col-form-label">To Account</label>
-                      <div class="col-sm-3">
+                      <label for="amount" class="col-md-4 col-lg-3 col-form-label">My Account</label>
+                      <div class="col-sm-9">
                           <select name="fundToAccount" id="" ng-model="fundToAccount"  class="form-control" >
                               <option value="">Please Select</option>
-                              <option value="{{transfer.accountNumber}}" ng-repeat="transfer in getAccountlist">{{transfer.accountNumber+" "+transfer.accountType}}</option>
+                              <option value="{{transfer.accountNumber}}" ng-repeat="transfer in getAccountlist">{{transfer.accountNumber}} - {{transfer.accountType}}</option>
                           </select>
                       </div>
                     </div>
