@@ -187,7 +187,7 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Update Task</h4>
             </div>
-            <form class="form form-horizontal" id="approveForm">
+            <form class="form form-horizontal" id="approvetaskForm">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-12">
@@ -237,6 +237,64 @@
 </div>
 <!-- Modal -->
 <script>
+     $('#approvetaskForm').validate({
+          errorElement: 'span', //default input error message container
+          errorClass: 'help-block help-block-error', // default input error message class
+          focusInvalid: false, // do not focus the last invalid input
+          ignore: "", // validate all fields including form hidden input
+          rules: {
+            updateStatus: {
+                  required: true
+              },
+              updatetaskcomments: {
+                  required: true,
+                 
+              }
+          },
+          messages: {
+                    
+                     mobile: {
+                  required: "Enter valid Mobile Number.",
+                  minlength: "Mobile number should be 10 digit.",
+                  maxlength: "Mobile number should be 10 digit."
+              },
+              whatsAppNumber: {
+                  required: "Enter valid Mobile Number.",
+                  minlength: "Mobile number should be 10 digit.",
+                  maxlength: "Mobile number should be 10 digit."
+              },
+              exotelNumber: {
+                  required: "Enter valid Mobile Number.",
+                  minlength: "Mobile number should be 10 digit.",
+                  maxlength: "Mobile number should be 10 digit."
+              },
+                    
+                     
+     
+                 },
+          errorPlacement: function (error, element) { // render error placement for each input type
+              if (element.attr("name") == "mobile") {
+                  error.insertAfter(element.parent());
+              } else {
+                  error.insertAfter(element); // for other inputs, just perform default behavior
+              }
+          },
+          highlight: function (element) { // hightlight error inputs
+              $(element)
+                  .closest('.form-group').addClass(
+                      'has-error'); // set error class to the control group
+          },
+          unhighlight: function (element) { // revert the change done by hightlight
+              $(element)
+                  .closest('.form-group').removeClass(
+                      'has-error'); // set error class to the control group
+          },
+          success: function (label) {
+              label
+                  .closest('.form-group').removeClass(
+                      'has-error'); // set success class to the control group
+          }
+      });
     $('#transactionForm').validate({
           errorElement: 'span', //default input error message container
           errorClass: 'help-block help-block-error', // default input error message class

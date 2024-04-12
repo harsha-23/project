@@ -48,7 +48,7 @@
             }
             $scope.approveTask = function(transactionId,comment){
 
-                if (!$('#approveForm').valid()) {
+                if (!$('#approvetaskForm').valid()) {
                     return false;
                 }
                 var request ={
