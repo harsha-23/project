@@ -154,7 +154,7 @@
                                                     <td>{{custList.mobile}}</td>
                                                     <td>{{custList.userType}}</td>
 													<td>{{custList.approvalStatus}}</td>
-                                                    <td ng-if="custList.approvalStatus !== 'Approved'"><input type="checkbox" data-toggle='toggle' data-uid='{{custList.token}}' class="toggle-button" ng-checked="custList.status == '1' ? '1' : ''"  ></td>
+                                                    <td ng-if="custList.approvalStatus !== 'Approved'" ng-show="userPermissions.includes('customer.status.change')"><input type="checkbox" data-toggle='toggle' data-uid='{{custList.token}}' class="toggle-button" ng-checked="custList.status == '1' ? '1' : ''"  ></td>
                                                 </tr>
                                             </tbody>
                                         </table>

@@ -2,7 +2,7 @@
     app.controller("tasklistCtrl", function (AclService,$scope, $location, $cookies, $cookieStore, app, api) {
 
         app.setTitle("Task Deatils");
-
+        $scope.userPermissions=localStorage.getItem('permissions');
         setTimeout(function () {
 
             $scope.transactionStatus = api.getTransactionStatusList();

@@ -165,7 +165,7 @@
                                                     <td><span class="badge" ng-class="{'badge-success': list.transactionStatus === 'cleared', 'badge-warning': list.transactionStatus == 'otp_pendng','badge-danger': list.transactionStatus == 'failed'}">{{list.transactionStatus}}</span></td>
                                                     <td>{{list.comments}}</td>
                                                     <td>{{list.transactionDate}}</td>
-                                                    <td ng-if="list.transactionStatus !== 'cleared'"><button class="btn btn-succes" ng-click="openTransactionUpdateModal(list.transactionId)">Update</button></td>
+                                                    <td ng-if="list.transactionStatus !== 'cleared'" ng-show="userPermissions.includes('transaction.details.update')"><button class="btn btn-succes" ng-click="openTransactionUpdateModal(list.transactionId)">Update</button></td>
                                                 </tr>
                                             </tbody>
                                         </table>

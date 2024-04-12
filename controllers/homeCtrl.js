@@ -6,6 +6,8 @@ app.controller("homeCtrl", function (AclService,app) {
     hmc.name = "Welcome to dashboard.";
     
     app.setTitle("Dashboard | Medfin Clinic Admin");
+
+    
 })
     
 })();

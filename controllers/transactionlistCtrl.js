@@ -2,7 +2,7 @@
     app.controller("transactionlistCtrl", function (AclService,$scope, $location, $cookies, $cookieStore, app, api) {
 
         app.setTitle("Transaction Deatils");
-
+        $scope.userPermissions=localStorage.getItem('permissions');
         setTimeout(function () {
 
             $scope.transactionStatus = api.getTransactionStatusList();
@@ -77,7 +77,6 @@
                 });
             }
 
-          
             $('#date,#tdate').datepicker({
                 format: "yyyy-mm-dd",
                 autoclose: true,

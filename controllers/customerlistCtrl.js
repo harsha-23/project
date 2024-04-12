@@ -1,7 +1,7 @@
 (function () {
     app.controller("customerlistCtrl", function (AclService,$scope, $location, $cookies, $cookieStore, app, api) {
         app.setTitle("Customer List");
-
+        $scope.userPermissions=localStorage.getItem('permissions');
         $scope.CustomerStatusList = api.getCustomerStatusList();
         $scope.CustomerStatusList.then(function mySucces(r) {
             console.log(r.data)

@@ -62,6 +62,7 @@
                 }
              
                 app.setIdentity(identity);
+                localStorage.setItem('permissions',  r.data.data.permissions);
                 localStorage.setItem('nameAdd',  r.data.data.name);
                 localStorage.setItem('getEmail',  r.data.data.email);
                 localStorage.setItem('medfinperm', btoa(JSON.stringify(abilities)));

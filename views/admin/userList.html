@@ -24,7 +24,7 @@
                                             <i class="icon-magnifier font-blue"></i>
                                             <span class="caption-subject font-blue sbold uppercase">User List</span>
                                         </div>
-                                        <div class="actions">
+                                        <div class="actions" ng-show="userPermissions.includes('admin.new.user')">
                                             <button class="btn btn-mdm blue" ng-click="openCreateUserModal()"><i class="fa fa-plus-circle" ></i> Add new user</button>                    
                                         </div>
                                     </div>
@@ -66,8 +66,8 @@
                                                             <li>{{role.role}}</li>
                                                         </ul> -->
                                                     </td>
-                                                    <td ><input type="checkbox" data-toggle='toggle' data-uid='{{tr.id}}' class="toggle-button" ng-checked="tr.status == '1' ? '1' : ''"  ></td>
-                                                     <td >
+                                                    <td ng-show="userPermissions.includes('amin.user.status.change')"><input type="checkbox" data-toggle='toggle' data-uid='{{tr.id}}' class="toggle-button" ng-checked="tr.status == '1' ? '1' : ''"  ></td>
+                                                     <td ng-show="userPermissions.includes('amin.user.edit')">
                                                     <a data-toggle="modal" ng-click="getUserById(tr.email)" class="btn btn-outline btn-circle btn-sm yellow">
                                                       <i class="fa fa-edit"></i> Edit
                                                     </td>

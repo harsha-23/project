@@ -8,7 +8,7 @@
         </div>
         <!-- END LOGO -->
         <!-- BEGIN RESPONSIVE MENU TOGGLER -->
-        <a href="javascript:;" class="menu-toggler"></a>
+        <a href="javascript:void(0)" class="menu-toggler"></a>
         <!-- END RESPONSIVE MENU TOGGLER -->
         <!-- BEGIN TOP NAVIGATION MENU -->
         <div class="top-menu">
@@ -65,15 +65,15 @@
             <ul class="nav navbar-nav" id="">
 				<li aria-haspopup="true" class="menu-dropdown">
 
-                    <a href="" target="_blank" aria-expanded="true"> URM
+                    <a href="" target="_blank" aria-expanded="true" ng-show="userPermissions.includes('menu.urm')"> URM
                         <span class="arrow"></span>
                     </a>
                     <ul class="dropdown-menu pull-left">                        
-                        <li aria-haspopup="true">                
-                                <a href="/user-list" class="nav-link"> User List</a>
+                        <li aria-haspopup="true" >                
+                                <a href="/user-list" class="nav-link" > User List</a>
                         </li>
                         <li aria-haspopup="true">                                                      
-                            <a href="/customer-list" class="nav-link">Customer List</a>
+                            <a href="/customer-list" class="nav-link" ng-show="userPermissions.includes('menu.customer.list')">Customer List</a>
                         </li>
                         <!-- <li aria-haspopup="true">                                                      
                                 <a href="" class="nav-link">Test</a>
@@ -88,15 +88,15 @@
                     </a>
                     <ul class="dropdown-menu pull-left">                        
                         <li aria-haspopup="true">                
-                                <a href="/transaction-details" class="nav-link">Transaction Details</a>
+                                <a href="/transaction-details" class="nav-link" ng-show="userPermissions.includes('menu.transaction.details')">Transaction Details</a>
                         </li>
 
 						 <li aria-haspopup="true">                
-                                <a href="/task-details" class="nav-link">Task History</a>
+                                <a href="/task-details" class="nav-link" ng-show="userPermissions.includes('menu.task.history')">Task History</a>
                         </li>
 						
 						 <li aria-haspopup="true">                
-                                <a href="/logs" class="nav-link">Logs</a>
+                                <a href="/logs" class="nav-link" ng-show="userPermissions.includes('menu.logs')">Logs</a>
                         </li>
                                       
 

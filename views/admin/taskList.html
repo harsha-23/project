@@ -140,7 +140,7 @@
                                                     <td>{{list.comments}}</td>
                                                     <td>{{list.transactionStatus}}</td>
                                                     <td>{{list.transactionDate}}</td>
-                                                    <td ng-if="list.transactionStatus !== 'Closed'"><button class="btn btn-succes" ng-click="openTaskUpdateModal(list.transactionId,list.nextStatus)">Update</button></td>
+                                                    <td ng-if="list.transactionStatus !== 'Closed'" ng-show="userPermissions.includes('task.history.update')"><button class="btn btn-succes" ng-click="openTaskUpdateModal(list.transactionId,list.nextStatus)">Update</button></td>
                                                 </tr>
                                             </tbody>
                                         </table>
