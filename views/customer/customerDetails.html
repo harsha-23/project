@@ -602,6 +602,13 @@
                   <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false" tabindex="-1">Transfer Money</button>
                 </li>
 
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="pills-fund-tab" data-bs-toggle="pill" data-bs-target="#pills-fund" type="button" role="tab" aria-controls="pills-fund" aria-selected="false" tabindex="-1">Fund Transfer Requests</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="pills-fund-history-tab" data-bs-toggle="pill" data-bs-target="#pills-fund-history" type="button" role="tab" aria-controls="pills-fund-history" aria-selected="false" tabindex="-1">Fund Transfer History</button>
+                </li>
+
 				<!-- <li class="nav-item" role="presentation">
                   <button class="nav-link" id="pills-transaction-history-tab" data-bs-toggle="pill" data-bs-target="#pills-transaction-history" type="button" role="tab" aria-controls="pills-transaction-history" aria-selected="false" tabindex="-1">Transfer Amount</button>
                 </li> -->
@@ -728,6 +735,98 @@
                       <button type="button" ng-click="transferFunds()" class="btn btn-primary">Transfer Funds</button>
                     </div> 
                 </div>
+
+                <div class="tab-pane fade" id="pills-fund" role="tabpanel" aria-labelledby="pills-fund">
+
+                  <div class="row col-md-12 mt-2">
+                    
+                     
+                    <label for="amount" class="col-md-4 col-lg-3 col-form-label">from Account </label>
+                    <div class="col-sm-3">
+                        <select name="fundFromAccount" id="" ng-model="fundFromAccount"  class="form-control" >
+                            <option value="">Please Select</option>
+                            <option value="{{toAccount.beneficiaryAccount}}" ng-repeat="toAccount in getBenficiarylist">{{toAccount.beneficiaryName+" "+accountType.beneficiaryAccount}}</option>
+                        </select>
+                    </div>
+                  </div>
+
+                  <div class="row col-md-12  mt-2">
+                    
+                     
+                      <label for="amount" class="col-md-4 col-lg-3 col-form-label">To Account</label>
+                      <div class="col-sm-3">
+                          <select name="fundToAccount" id="" ng-model="fundToAccount"  class="form-control" >
+                              <option value="">Please Select</option>
+                              <option value="{{transfer.accountNumber}}" ng-repeat="transfer in getAccountlist">{{transfer.accountNumber+" "+transfer.accountType}}</option>
+                          </select>
+                      </div>
+                    </div>
+                   
+                    
+
+                
+
+                  <div class="row col-md-12 mt-2">
+                    <label for="amount" class="col-md-4 col-lg-3 col-form-label">Enter the Amount</label>
+                    <div class="col-sm-3">
+                      <input type="number" name="amount" step="0.01"  class="form-control" id="amount" ng-model="fundAmount">
+                    </div>
+                  </div>
+
+          <div class="row col-md-12 mt-2">
+                    <label for="comments" class="col-md-4 col-lg-3 col-form-label">Enter the Comments</label>
+                    <div class="col-sm-9">
+                      <input name="comments" type="text" class="form-control" id="comments" ng-model="fundComments">
+                    </div>
+                  </div>
+
+                  <div class="text-center">
+                    <button type="button" ng-click="transferFundsRequest()" class="btn btn-primary"> Funds Request</button>
+                  </div> 
+              </div>
+              <div class="tab-pane fade" id="pills-fund-transfer" role="tabpanel" aria-labelledby="pills-fund-transfer">
+
+                <div class="row col-md-12 mt-2">
+                  
+                  <table class="table table-bordered" ng-hide="userList.length == 0">
+                    <thead>
+                        <tr>
+                            <th>Sr</th>
+                           
+                            <th>From Account </th>
+                            <th>To Account</th>
+                            <th>Comments</th>
+                            <th>Amount</th>
+                            <th>Transaction Id</th>
+                            <th>Transaction Status</th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="tr in getfundRequestlist" >
+                            <td ng-bind="begin + $index + 1"></td>
+                            <td ng-bind="tr.fromAccount"></td>
+                            <td ng-bind="tr.toAccount"></td>
+                            <td ng-bind="tr.comments"></td>
+                            <td ng-bind="tr.amount"></td>
+                            <td ng-bind="tr.transactionId"></td>
+                            <td>
+                              {{tr.transactionStatus}}
+                              <button ng-if="tr.transactionStatus === 'pending'" ng-click="approveTransaction(tr.transactionId)">Approve</button>
+                          </td>
+                          
+
+                            <!-- <td ng-bind="tr.routingNumber"></td>
+                            <td ng-bind="tr.approvalStatus"></td> -->
+                            <!-- <td ><input type="checkbox" data-toggle='toggle' data-uid='{{tr.id}}' class="toggle-button" ng-checked="tr.status == '1' ? '1' : ''"  ></td> -->
+                             <!-- <td >
+                            <a data-toggle="modal" ng-click="getUserById(tr.userId)" class="btn btn-outline btn-circle btn-sm yellow">
+                              <i class="fa fa-edit"></i> Edit
+                            </td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
 				<div class="tab-pane fade" id="pills-transaction-history" role="tabpanel" aria-labelledby="transaction-history-tab">
                   List of transactions 

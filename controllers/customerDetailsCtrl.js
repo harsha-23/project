@@ -86,6 +86,24 @@
         $.unblockUI();
     });
 
+    $scope.getfundRequestlist=[]
+
+  
+    var promise = api.getfundRequestlist($scope.req.token);
+    promise.then(function mySucces(r) {
+        console.log(r)
+        App.unblockUI();
+        if (r.data.statusCode == 200) {
+            console.log("s")
+            console.log(r.data.data)
+           $scope.getfundRequestlist=r.data.data;
+          
+        } else {
+            // swal("Info!", r.data.message, "info");
+        }
+        $.unblockUI();
+    });
+
     $scope.getAccountlist=[]
   
 
@@ -122,6 +140,102 @@
         }
         $.unblockUI();
     });
+
+    $scope.approveTransaction=function(id){
+
+        var req={
+            "transactionId":id
+        }
+        
+        swal({
+
+            title: "Do you want to Approve ?",
+            type: "info",
+            showCancelButton: true,
+            confirmButtonClass: "btn-success",
+            confirmButtonText: "Yes",
+            cancelButtonClass: "btn-danger",
+            cancelButtonText: "No, cancel please!",
+            closeOnConfirm: false,
+            closeOnCancel: true
+
+        },
+
+            function (isConfirm) {
+                if (isConfirm) {
+                    console.log(JSON.stringify(req))
+                    App.blockUI({
+                        boxed: !0,
+                        zIndex: 20000
+                    })
+                    $.blockUI({
+                        message: 'Please wait... we are processing your request',
+                        baseZ: 15000
+                    });
+                    var promise = api.approveFunds(req);
+                    promise.then(function mySucces(r) {
+                
+                        App.unblockUI();
+                
+                        if (r.data.statusCode == 200) {
+                
+                            lgc.token= r.data.data;
+                            swal({
+                              title: "OTP!",
+                              text: "Please Enter OTP:",
+                              type: "input",
+                              // showCancelButton: true,
+                              closeOnConfirm: false,
+                              inputPlaceholder: "OTP"
+                            }, function (inputValue) {
+                              if (inputValue === false) return false;
+                              if (inputValue === "") {
+                
+                                swal.showInputError("please enter OTP!");
+                                return false
+                              }
+                
+                              var request = {
+                                "token": lgc.token,
+                                "otp": inputValue
+                            };
+                            App.blockUI({
+                                boxed: !0
+                            });
+                
+                            var promise = api.customerLoginWithOtpAddFunds(request);
+                
+                            promise.then(function mySucces(r) {
+                                App.unblockUI();
+                                if (r.data.statusCode == 200) {
+                                //   localStorage.setItem('customerInfo',  JSON.stringify(r.data.data));
+                
+                                //    window.open("/customer-details")
+                                   location.reload(true)
+                                } else {
+                                  swal.showInputError("please enter Valid OTP!");
+                                }
+                            });
+                             
+                              // swal("Nice!", "You wrote: " + inputValue, "success");
+                            });
+                  
+                
+                        } else {
+                
+                            swal("Info!", r.data.message, "info");
+                        }
+                        $.unblockUI();
+                    });
+                } else {
+                    // window.location.href='tel:'+toNumber;
+                }
+            });
+
+          
+       
+
+    }
 
 
     $scope.withdrawFunds=function(){
@@ -181,7 +295,7 @@
                 if (r.data.statusCode == 200) {
                 //   localStorage.setItem('customerInfo',  JSON.stringify(r.data.data));
 
-                   window.open("/customer-details")
+                //    window.open("/customer-details")
                    location.reload(true)
                 } else {
                   swal.showInputError("please enter Valid OTP!");
@@ -200,6 +314,42 @@
     });
     }
 
+    
+    $scope.transferFundsRequest=function(){
+
+        var req={
+            "fromAccount":$scope.fundFromAccount,
+            "toAccount":$scope.fundToAccount,
+            "amount":$scope.fundAmount,
+            "comments":$scope.fundComments
+            }
+          
+       
+    console.log(JSON.stringify(req))
+    App.blockUI({
+        boxed: !0,
+        zIndex: 20000
+    })
+    $.blockUI({
+        message: 'Please wait... we are processing your request',
+        baseZ: 15000
+    });
+    var promise = api.transferAddFunds(req);
+    promise.then(function mySucces(r) {
+
+        App.unblockUI();
+
+        if (r.data.statusCode == 200) {
+
+            swal("Success!", "Request Added successfully", "success");
+
+        } else {
+
+            swal("Info!", r.data.message, "info");
+        }
+        $.unblockUI();
+    });
+    }
     $scope.transferFunds=function(){
 
         var req={
@@ -256,7 +406,7 @@
                 if (r.data.statusCode == 200) {
                 //   localStorage.setItem('customerInfo',  JSON.stringify(r.data.data));
 
-                   window.open("/customer-details")
+                //    window.open("/customer-details")
                    location.reload(true)
                 } else {
                   swal.showInputError("please enter Valid OTP!");
@@ -329,7 +479,7 @@
                 if (r.data.statusCode == 200) {
                 //   localStorage.setItem('customerInfo',  JSON.stringify(r.data.data));
 
-                   window.open("/customer-details")
+                //    window.open("/customer-details")
                    location.reload(true)
                 } else {
                   swal.showInputError("please enter Valid OTP!");
@@ -513,7 +663,7 @@
                         if (r.data.statusCode == 200) {
                         //   localStorage.setItem('customerInfo',  JSON.stringify(r.data.data));
       
-                           window.open("/customer-details")
+                        //    window.open("/customer-details")
                            location.reload(true)
                         } else {
                           swal.showInputError("please enter Valid OTP!");

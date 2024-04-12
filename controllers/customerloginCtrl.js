@@ -64,6 +64,7 @@
                     localStorage.setItem('customerInfo',  JSON.stringify(r.data.data));
 
                      window.open("/customer-details")
+                     location.reload(true)
                   } else {
                     swal.showInputError("please enter Valid OTP!");
                   }

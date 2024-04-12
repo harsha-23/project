@@ -755,6 +755,22 @@ String.prototype.replaceAll = function (search, replacement) {
                 },
             })
         };
+        this.approveFunds = function (request) {
+            return $http({
+                method: 'POST',
+                url: SETTINGS.apiBasePath + '/transaction/funds-request-approve',
+                dataType: 'json',
+                data: request,
+                headers: {
+                    "x-correlation-id": app.uuidv4(),
+                    "x-component": 'ADMIN',
+                    "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    "x-token": app.getAuthToken()
+
+                },
+            })
+        };
         this.customerLogin = function (request) {
             return $http({
                 method: 'POST',
@@ -929,6 +945,24 @@ String.prototype.replaceAll = function (search, replacement) {
             return $http({
                 method: 'GET',
                 url: SETTINGS.apiBasePath + '/master-info/service-requests?token='+token,
+
+                headers: {
+                    // "x-correlation-id": app.uuidv4(),
+                    // "x-component": 'ADMIN',
+                    // "x-ip":this.getUserIp(),
+                    "Content-Type": "application/json; charset=utf-8",
+                    // "Authorization": "Bearer " + app.getAuthToken(),
+                    // "x-user-email": app.user.identity.email,
+                    // "x-token": app.getAuthToken(),
+                    // "x-user-id": app.user.identity.adminUserId
+                },
+            })
+        };
+        
+        this.getfundRequestlist = function (token) {
+            return $http({
+                method: 'GET',
+                url: SETTINGS.apiBasePath + '/transaction/funds-request-filter?token='+token,
 
                 headers: {
                     // "x-correlation-id": app.uuidv4(),
